@@ -16,6 +16,8 @@ const source = await walk("src");
 const referenced = new Set();
 for (const file of source) {
   const text = await readFile(file, "utf8");
+  if (/speechSynthesis\s*\.\s*speak\s*\(/.test(text))
+    throw Error("Unapproved system speech fallback in " + file);
   for (const match of text.matchAll(/["'`]\/assets\/([^"'`]+)["'`]/g)) {
     if (!match[1].includes("${")) referenced.add("public/assets/" + match[1]);
   }
@@ -27,9 +29,7 @@ for (const file of files)
 for (const file of referenced) await access(file);
 for (const name of ["red", "blue", "yellow"]) {
   await access(`public/assets/vehicles/truck-${name}.png`);
-  await access(`public/assets/audio/truck-${name}.wav`);
-  await access(`public/assets/audio/truck-try-${name}.wav`);
 }
 console.log(
-  `Verified ${referenced.size} direct asset paths, dynamic truck palettes/audio, and private-photo guard.`,
+  `Verified ${referenced.size} direct asset paths, dynamic truck palettes, and private-photo guard.`,
 );

@@ -13,7 +13,7 @@ export default defineConfig({
   webServer: {
     command: "npm run start -- --port 3100",
     url: "http://localhost:3100",
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: false,
     timeout: 60000,
   },
   projects: [

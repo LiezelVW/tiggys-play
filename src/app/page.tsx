@@ -3,12 +3,17 @@ import { useEffect, useState } from "react";
 
 import { Volume2, VolumeX, ShieldCheck, Sun, X, Check } from "lucide-react";
 import { useDialogFocus } from "../components/useDialogFocus";
+import { initialiseVoiceClips } from "../game/recordings";
+import { useVoiceCount } from "../components/useVoice";
+import VoiceRecorder from "../components/VoiceRecorder";
 import World, { type GameId } from "../components/World";
 import MonsterTruck from "../components/MonsterTruck";
 import Garden from "../components/Garden";
 import { setMuted, speak } from "../game/audio";
 type Progress = { completed: number; minutes: number; trucks?: number };
 export default function Page() {
+  const recordedVoices = useVoiceCount();
+  const [showRecorder, setShowRecorder] = useState(false);
   const [ready, setReady] = useState(false);
   const [game, setGame] = useState<GameId | null>(null);
   const [muted, updateMuted] = useState(false);
@@ -30,6 +35,7 @@ export default function Page() {
   );
   useEffect(() => {
     setReady(true);
+    void initialiseVoiceClips();
     try {
       const p = localStorage.getItem("tiggy-progress");
       if (p) {
@@ -104,13 +110,13 @@ export default function Page() {
           onClick={() => setGame(null)}
           aria-label="Tiggy’s Play home"
         >
-          <span>
-            TIGGY’S
-            <span className="brand-play">
-              Play<span className="brand-spark">✦</span>
-            </span>
-          </span>
-          <small>PLAY · LEARN · GROW</small>
+          <img
+            src="/assets/branding/tiggys-play-logo.svg"
+            className="brand-logo"
+            alt="Tiggy’s Play — Play, Learn, Grow"
+            width="324"
+            height="78"
+          />
         </button>
         <nav>
           <span className="nav-current">My adventure world</span>
@@ -157,7 +163,7 @@ export default function Page() {
         <button
           onClick={() => {
             setNotice(
-              "This app stores only completed garden and truck adventures, sound preferences and a time limit on this device. No account, microphone, advertising or analytics. Delete local progress in Grown-ups.",
+              "This app stores only completed garden and truck adventures, sound preferences and a time limit on this device. No account, advertising or analytics. Optional adult voice recordings stay on this device and can be deleted in Grown-ups. Delete local progress in Grown-ups.",
             );
           }}
         >
@@ -264,8 +270,24 @@ export default function Page() {
                   {muted ? <VolumeX size={18} /> : <Volume2 size={18} />} Sound{" "}
                   {muted ? "off" : "on"}
                 </button>
+                {recordedVoices === 0 && (
+                  <p className="small-print">
+                    Spoken voice is off until you save your own recordings.
+                    Gentle sound effects and visual prompts remain available.
+                  </p>
+                )}
+                <button
+                  className="pill"
+                  onClick={() => setShowRecorder((v) => !v)}
+                >
+                  {showRecorder
+                    ? "Close voice recorder"
+                    : "Record Tiggy’s voice"}
+                </button>
+                {showRecorder && <VoiceRecorder />}
                 <p className="small-print">
-                  Microphone is not used. Recommendation: Colour Garden, with
+                  Microphone access is optional and only starts when a grown-up
+                  presses Record. Recommendation: Colour Garden, with
                   tap-to-place controls for younger players.
                 </p>
                 <button

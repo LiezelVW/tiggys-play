@@ -113,7 +113,7 @@ test("parent gate and deletion", async ({ page }) => {
     .toBeNull();
 });
 
-test("mobile touch controls and muted bundled audio", async ({
+test("mobile touch controls keep working with speech disabled", async ({
   page,
   isMobile,
 }) => {
@@ -142,9 +142,11 @@ test("mobile touch controls and muted bundled audio", async ({
   await expect(
     page.getByRole("button", { name: "Turn sound on" }),
   ).toBeVisible();
-  const audio = await page.request.get("/assets/audio/intro.wav");
-  expect(audio.ok()).toBeTruthy();
-  expect((await audio.body()).length).toBeGreaterThan(1000);
+  await expect(
+    page.getByRole("button", {
+      name: "Spoken instructions awaiting voice approval",
+    }),
+  ).toBeDisabled();
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= innerWidth,

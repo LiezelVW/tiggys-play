@@ -1,9 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import { tiggyAsset, type TiggyState } from "../game/tiggyAnimations";
-import { speak } from "../game/audio";
+import { useVoiceAvailable } from "./useVoice";
+import { speak, chime } from "../game/audio";
 /** Real frame changes from a shared transparent sprite atlas; no CSS-translated stand-in. */
 export default function Tiggy() {
+  const hasNarration = useVoiceAvailable("tiggy-hello");
   const [state, setState] = useState<TiggyState>("wave");
   const [frame, setFrame] = useState(4);
   useEffect(() => {
@@ -40,7 +42,11 @@ export default function Tiggy() {
       aria-label="Say hello to Tiggy"
       data-animation={state}
       onClick={() => {
-        setState("talk");
+        setState(hasNarration ? "talk" : "wave");
+        if (!hasNarration) {
+          chime();
+          return;
+        }
         speak("Hello! I’m Tiggy. Ready for an adventure?", "tiggy-hello");
       }}
     >

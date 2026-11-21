@@ -17,3 +17,7 @@ Little Builders, Tiggy’s Railway, Science Lab, Ready, Set, Go! and Build & Sol
 - Capacitor packaging and offline asset management.
 
 No Supabase account, backend or child identity is needed for current play. Never place a child's photograph in public assets, commits or screenshots.
+
+## Follow-up: voice, truck and brand
+
+Added a parent-only local voice recorder with preview, save, delete, export and restore. Removed rejected system narration and browser TTS fallback. Replaced the sine-based truck path with tyre contact on a shared rendered ramp, queued tap input and a grounded shadow. Replaced the mixed-font wordmark with a licensed outlined SVG and matching icon.

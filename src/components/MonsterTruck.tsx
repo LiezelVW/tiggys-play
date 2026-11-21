@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import type { TruckScene, TruckStatus } from "../game/TruckScene";
 import { colours } from "../game/rules";
+import { useVoiceAvailable } from "./useVoice";
 import { speak, chime, stopAudio } from "../game/audio";
 import { useDialogFocus } from "./useDialogFocus";
 export default function MonsterTruck({
@@ -35,7 +36,9 @@ export default function MonsterTruck({
   });
   const [caption, setCaption] = useState("Find the red truck!");
   const [clip, setClip] = useState("truck-red");
+  const hasNarration = useVoiceAvailable(clip);
   const [loaded, setLoaded] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
   const [portrait, setPortrait] = useState(false);
   const [error, setError] = useState(false);
   const [replay, setReplay] = useState(0);
@@ -43,6 +46,7 @@ export default function MonsterTruck({
   useDialogFocus(finished);
   useEffect(() => {
     let disposed = false;
+    setReducedMotion(matchMedia("(prefers-reduced-motion: reduce)").matches);
     const resize = new ResizeObserver(() => runtime.current?.scale.refresh());
     if (host.current) resize.observe(host.current);
     Promise.all([import("phaser"), import("../game/TruckScene")])
@@ -104,7 +108,12 @@ export default function MonsterTruck({
         <h1>Monster Truck Mayhem</h1>
         <button
           className="round-button"
-          aria-label="Replay instruction"
+          aria-label={
+            hasNarration
+              ? "Replay instruction"
+              : "Spoken instructions awaiting voice approval"
+          }
+          disabled={!hasNarration}
           onClick={() => speak(caption, clip)}
         >
           <Volume2 />
@@ -164,7 +173,7 @@ export default function MonsterTruck({
             </button>
             <button
               className="jump-button"
-              disabled={status.phase !== "drive" || suspended}
+              disabled={status.phase !== "drive" || suspended || reducedMotion}
               onClick={() => scene.current?.jump()}
             >
               <ArrowUp />

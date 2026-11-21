@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Volume2, RotateCcw, Home, Flower2 } from "lucide-react";
+import { useVoiceAvailable } from "./useVoice";
 import { speak, chime, stopAudio } from "../game/audio";
 import { useDialogFocus } from "./useDialogFocus";
 import { colours, type Colour } from "../game/rules";
@@ -22,6 +23,7 @@ export default function Garden({
   const [round, setRound] = useState(1);
   const [finished, setFinished] = useState(false);
   const [clip, setClip] = useState("intro");
+  const hasNarration = useVoiceAvailable(clip);
   const [caption, setCaption] = useState(
     "Let’s match the flowers to their colour baskets.",
   );
@@ -97,7 +99,12 @@ export default function Garden({
         <span className="eyebrow">COLOUR GARDEN</span>
         <button
           className="icon-button"
-          aria-label="Replay instruction"
+          aria-label={
+            hasNarration
+              ? "Replay instruction"
+              : "Spoken instructions awaiting voice approval"
+          }
+          disabled={!hasNarration}
           onClick={() => speak(caption, clip)}
         >
           <Volume2 />

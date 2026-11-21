@@ -145,3 +145,25 @@ test("reduced motion keeps play available and disables ambient animation", async
     page.getByRole("progressbar", { name: "Distance to finish" }),
   ).toHaveAttribute("value", "0.25");
 });
+
+test("quick repeated drive taps are queued through the ramp", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await activate(
+    page.getByRole("button", {
+      name: "Play Monster Truck Mayhem",
+      exact: true,
+    }),
+  );
+  await expect(page.locator(".game-canvas")).toHaveAttribute(
+    "data-ready",
+    "true",
+  );
+  await activate(page.getByRole("button", { name: "Choose red truck" }));
+  for (let i = 0; i < 4; i++)
+    await activate(page.getByRole("button", { name: "GO!", exact: true }));
+  await expect(
+    page.getByRole("button", { name: "Choose blue truck" }),
+  ).toBeVisible({ timeout: 10000 });
+});

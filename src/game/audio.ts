@@ -1,3 +1,4 @@
+import { voiceUrl } from "./recordings";
 let muted = false;
 let current: HTMLAudioElement | null = null;
 let ctx: AudioContext | null = null;
@@ -32,32 +33,21 @@ export function chime(success = true) {
     /* Captions and visuals always remain available. */
   }
 }
-export function speak(text: string, clip?: string) {
-  if (muted) return;
+export function speak(_text: string, clip?: string) {
   stopAudio();
+  if (muted || !clip) return;
+  const src = voiceUrl(clip);
+  if (!src) return;
   const request = revision;
-  let usedFallback = false;
-  const fallback = () => {
-    if (usedFallback || muted || request !== revision) return;
-    usedFallback = true;
-    try {
-      if ("speechSynthesis" in window) {
-        const s = new SpeechSynthesisUtterance(text);
-        s.rate = 0.82;
-        s.pitch = 1.1;
-        s.lang = "en-GB";
-        speechSynthesis.speak(s);
-      }
-    } catch {
-      /* Speech is optional. */
-    }
+  current ??= new Audio();
+  current.volume = 0.7;
+  current.src = src;
+  current.onerror = () => {
+    if (request === revision) current?.pause();
   };
-  if (clip) {
-    current ??= new Audio();
-    current.src = `/assets/audio/${clip}.wav`;
-    current.onerror = fallback;
-    void current.play().catch(fallback);
-  } else fallback();
+  void current.play().catch(() => {
+    /* Captions remain visible; no frightening system-voice fallback. */
+  });
 }
 export function stopAudio() {
   revision++;

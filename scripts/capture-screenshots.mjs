@@ -27,7 +27,8 @@ try {
     });
     await page.getByRole("button", { name: "Choose red truck" }).click();
     await page.getByRole("button", { name: "GO!", exact: true }).click();
-    await page.waitForTimeout(1200);
+    await page.getByRole("button", { name: "GO!", exact: true }).click();
+    await page.waitForTimeout(1100);
     await page.screenshot({
       path: `docs/screenshots/driving-${name}.png`,
       fullPage: true,
@@ -41,8 +42,20 @@ try {
       path: `docs/screenshots/garden-${name}.png`,
       fullPage: true,
     });
+    await page.getByRole("button", { name: "My world", exact: true }).click();
+    await page.getByRole("button", { name: "Grown-ups" }).click();
+    await page.getByLabel("Your answer").fill("42");
+    await page.getByRole("button", { name: "Open parent area" }).click();
+    await page
+      .getByRole("button", { name: "Record Tiggy’s voice", exact: true })
+      .click();
+    await page.locator(".voice-recorder").scrollIntoViewIfNeeded();
+    await page.screenshot({
+      path: `docs/screenshots/recorder-${name}.png`,
+      fullPage: true,
+    });
     if (errors.length) throw Error(`${name}: ${errors.join(", ")}`);
-    console.log(`${name}: four rendered screenshots, no page errors`);
+    console.log(`${name}: five rendered screenshots, no page errors`);
     await page.close();
   }
 } finally {

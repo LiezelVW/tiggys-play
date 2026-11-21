@@ -8,6 +8,7 @@ import {
   Volume2,
   Sparkles,
 } from "lucide-react";
+import { useVoiceAvailable } from "./useVoice";
 import Tiggy from "./Tiggy";
 import { speak, chime } from "../game/audio";
 export type GameId = "garden" | "trucks";
@@ -27,6 +28,7 @@ export default function World({
   onPlay: (game: GameId) => void;
   ready: boolean;
 }) {
+  const hasNarration = useVoiceAvailable("world-welcome");
   const view = useRef<HTMLDivElement>(null);
   const artwork = useRef<HTMLImageElement>(null);
   const [loaded, setLoaded] = useState(false);
@@ -129,7 +131,7 @@ export default function World({
           </div>
           <button
             className="world-welcome"
-            disabled={!ready}
+            disabled={!ready || !hasNarration}
             onClick={() =>
               speak(
                 "Welcome to Tiggy’s Play! Tap the truck to drive, or pick flowers in Colour Garden.",
@@ -139,7 +141,12 @@ export default function World({
           >
             <Volume2 size={22} />
             <span>
-              Let’s explore!<small>Tap to hear Tiggy’s welcome</small>
+              Let’s explore!
+              <small>
+                {hasNarration
+                  ? "Tap to hear Tiggy’s welcome"
+                  : "Pick an adventure to play"}
+              </small>
             </span>
           </button>
         </div>

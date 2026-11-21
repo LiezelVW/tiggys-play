@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "identity": "Thiago is Tiggy, the human main character",
   "references": {
     "cartoons": "User-supplied approved character and game-world references in docs/art",
@@ -28,7 +28,7 @@
   },
   "worlds": {
     "adventure": "/assets/world/adventure-world.webp",
-    "arena": "/assets/world/truck-arena.webp",
+    "arena": "/assets/world/truck-arena-clear.webp",
     "garden": "/assets/world/colour-garden.webp",
     "provenance": "Original generated raster illustrations, not Lingokids assets."
   },
@@ -38,21 +38,24 @@
       "/assets/vehicles/truck-blue.png",
       "/assets/vehicles/truck-yellow.png"
     ],
-    "provenance": "Original generated chassis; paint-only palette swaps; separately articulated procedural treaded wheels."
+    "provenance": "Original generated chassis; paint-only palette swaps; separately articulated procedural treaded wheels.",
+    "track": "Runtime-rendered ramp and circular tyre contacts share src/game/truckTrack.ts; no separate sine path."
   },
   "audio": {
-    "format": "PCM WAV",
-    "provenance": "Local macOS Samantha narration; original Web Audio chimes. No external music.",
-    "review": "Voice performances and a music/ambience pass remain future production work."
+    "source": "Parent-supplied adult recordings, saved only on the user device",
+    "format": "Browser-native audio via MediaRecorder",
+    "storage": "Local IndexedDB; explicit export/restore; no upload",
+    "previousNarration": "Rejected system voice assets and automatic browser speech fallback removed",
+    "soundEffects": "Original quiet Web Audio chimes"
   },
   "interface": {
     "icons": "lucide-react, ISC licence",
-    "wordmark": "Text-based Tiggy’s Play wordmark; Tiggy’s Café logo source was not supplied."
+    "wordmark": "Outlined Outfit wordmark with custom T/play monogram; OFL licence and font source in docs/art/brand-font"
   },
   "playable": ["Colour Garden", "Monster Truck Mayhem"],
   "unavailable": [
     "Little Builders",
-    "Tiggy’s Railway",
+    "Tiggy\u2019s Railway",
     "Science Lab",
     "Ready, Set, Go!",
     "Build & Solve"
