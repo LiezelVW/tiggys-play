@@ -32,6 +32,8 @@ export default function Garden({
   useDialogFocus(finished);
   useEffect(() => {
     let disposed = false;
+    const resize = new ResizeObserver(() => runtime.current?.scale.refresh());
+    if (host.current) resize.observe(host.current);
 
     Promise.all([import("phaser"), import("../game/GardenScene")])
       .then(([Phaser, { GardenScene }]) => {
@@ -72,6 +74,7 @@ export default function Garden({
       .catch(() => setError(true));
     return () => {
       disposed = true;
+      resize.disconnect();
       scene.current = null;
       runtime.current?.destroy(true);
       runtime.current = null;

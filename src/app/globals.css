@@ -1161,3 +1161,11 @@ footer button {
   min-height: 48px;
   padding-block: 14px;
 }
+/* Size the host before Phaser boots; changing its aspect after boot shifts touch targets. */
+@media (max-width: 600px) {
+  .game-canvas {
+    aspect-ratio: 600/650;
+    max-width: 600px;
+    margin-inline: auto;
+  }
+}

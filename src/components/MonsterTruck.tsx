@@ -43,6 +43,8 @@ export default function MonsterTruck({
   useDialogFocus(finished);
   useEffect(() => {
     let disposed = false;
+    const resize = new ResizeObserver(() => runtime.current?.scale.refresh());
+    if (host.current) resize.observe(host.current);
     Promise.all([import("phaser"), import("../game/TruckScene")])
       .then(([Phaser, { TruckScene }]) => {
         if (disposed || !host.current) return;
@@ -79,6 +81,7 @@ export default function MonsterTruck({
       .catch(() => setError(true));
     return () => {
       disposed = true;
+      resize.disconnect();
       runtime.current?.destroy(true);
       runtime.current = null;
       scene.current = null;
