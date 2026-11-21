@@ -137,169 +137,22 @@ export default function Page() {
       {game ? (
         <Garden onHome={() => setGame(false)} onComplete={completed} />
       ) : (
-        <main className="home-page">
-          <section className="hero">
-            <div className="hero-copy">
-              <div className="welcome">
-                <span /> LITTLE ADVENTURES. BIG DISCOVERIES.
-              </div>
-              <h1>
-                A little world.
-                <br />A whole lot of <em>wonder.</em>
-              </h1>
-              <p>
-                Come play with Thiago! Discover colours,
-                <br className="desktop-break" /> find new words and grow a
-                little every day.
-              </p>
-              <button className="primary" disabled={!ready} onClick={start}>
-                <Play size={19} fill="currentColor" /> Let’s play together
-              </button>
-              <div className="hero-note">
-                <Heart size={15} /> Made for little minds, ages 2–6
-              </div>
-            </div>
-            <div className="hero-art">
-              <div className="sun">
-                <Sun size={68} strokeWidth={1.4} />
-              </div>
-              <span className="cloud cloud-one" />
-              <span className="cloud cloud-two" />
-              <div className="hill hill-back" />
-              <div className="hill hill-front" />
-              <div className="hero-flower flower-one">✿</div>
-              <div className="hero-flower flower-two">✿</div>
-              <div className="hero-flower flower-three">✿</div>
-              <button
-                className="hello-bubble"
-                onClick={() =>
-                  speak("Hello! I’m Thiago. Let’s play together!", "welcome")
-                }
-              >
-                Hi, I’m Thiago! <span>Let’s explore.</span>
-                <Volume2 size={17} />
-              </button>
-              <Thiago />
-              <span className="art-note">
-                Temporary character study · approved artwork pending
-              </span>
-              <div className="little-leaf">
-                <Leaf size={42} />
-              </div>
+        <main className="adventure-home">
+          <section className="adventure-stage" aria-label="Tiggy's Play adventure world">
+            <div className="adventure-picture" role="img" aria-label="Tiggy waves beside a monster truck, with six colourful game worlds, trains and construction vehicles." />
+            <div className="adventure-controls">
+              <button className="adventure-hit monster" onClick={() => setNotice("Monster Truck Mayhem is being built. Try Colour Garden while we get the trucks ready!")} aria-label="Monster Truck Mayhem — coming soon" />
+              <button className="adventure-hit builders" onClick={() => setNotice("Little Builders is being built. Try Colour Garden while we get the diggers ready!")} aria-label="Little Builders — coming soon" />
+              <button className="adventure-hit railway" onClick={() => setNotice("Tiggy's Railway is being built. Try Colour Garden while we lay the tracks!")} aria-label="Tiggy's Railway — coming soon" />
+              <button className="adventure-hit science" onClick={() => setNotice("Science Lab is being built. Try Colour Garden while we prepare the experiments!")} aria-label="Science Lab — coming soon" />
+              <button className="adventure-hit blocks" onClick={() => setNotice("Build and Solve is being built. Try Colour Garden while we prepare the puzzles!")} aria-label="Build and Solve — coming soon" />
+              <button className="adventure-hit racing" onClick={() => setNotice("Ready, Set, Go! is being built. Try Colour Garden while we prepare the race!")} aria-label="Ready, Set, Go! — coming soon" />
             </div>
           </section>
-          <section className="worlds">
-            <div className="section-heading">
-              <div>
-                <span className="eyebrow">FOLLOW YOUR CURIOSITY</span>
-                <h2>Where shall we play today?</h2>
-              </div>
-              <span className="gentle-label">
-                <Sun size={18} /> A little learning. A lot of fun.
-              </span>
-            </div>
-            <div className="world-grid">
-              <motion.button
-                whileHover={{ y: -5 }}
-                className="world-card featured"
-                disabled={!ready}
-                onClick={start}
-              >
-                <div className="card-art garden-art">
-                  <span className="card-sun" />
-                  <span className="illustrated-flower f1">✿</span>
-                  <span className="illustrated-flower f2">✿</span>
-                  <span className="illustrated-flower f3">✿</span>
-                  <span className="leaf-one">❧</span>
-                  <span className="play-badge">
-                    <Play size={24} fill="currentColor" />
-                  </span>
-                  <span className="ready-label">LET’S PLAY</span>
-                </div>
-                <div className="card-copy">
-                  <div>
-                    <span className="card-category">COLOURS & MATCHING</span>
-                    <h3>Colour Garden</h3>
-                    <p>A blooming lovely colour adventure.</p>
-                  </div>
-                  <span className="circle-link">
-                    <Play size={18} fill="currentColor" />
-                  </span>
-                </div>
-                <div className="card-footer">
-                  <span>
-                    <Flower2 size={15} /> 3 playful rounds
-                  </span>
-                  <span>2–6 years</span>
-                </div>
-              </motion.button>
-              {[
-                {
-                  title: "Word Wonderland",
-                  category: "WORDS & COMMUNICATION",
-                  text: "Little words. Wonderful discoveries.",
-                  icon: BookOpen,
-                  cls: "words",
-                  symbol: "Aa",
-                },
-                {
-                  title: "Number Jungle",
-                  category: "NUMBERS & COUNTING",
-                  text: "Every little number counts.",
-                  icon: Blocks,
-                  cls: "numbers",
-                  symbol: "1 2 3",
-                },
-                {
-                  title: "Shape Safari",
-                  category: "SHAPES & PROBLEM-SOLVING",
-                  text: "A world of shapes to discover.",
-                  icon: Shapes,
-                  cls: "shapes",
-                  symbol: "● ▲ ■",
-                },
-              ].map((w) => (
-                <article className={`world-card future ${w.cls}`} key={w.title}>
-                  <div className="card-art">
-                    <w.icon
-                      className="world-icon"
-                      size={84}
-                      strokeWidth={1.3}
-                    />
-                    <span className="card-symbol">{w.symbol}</span>
-                    <span className="coming">GROWING SOON</span>
-                  </div>
-                  <div className="card-copy">
-                    <div>
-                      <span className="card-category">{w.category}</span>
-                      <h3>{w.title}</h3>
-                      <p>{w.text}</p>
-                    </div>
-                  </div>
-                  <div className="card-footer">
-                    <span>In our next chapter</span>
-                    <Leaf size={15} />
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
-          <section className="bottom-note">
-            <div className="note-icon">
-              <Heart size={24} />
-            </div>
-            <div>
-              <h3>Small steps. Happy discoveries.</h3>
-              <p>
-                No scores to chase. No rush to grow. Just a safe space to try,
-                play and be curious.
-              </p>
-            </div>
-            <span className="note-decoration">
-              <Leaf size={28} />
-              <Music2 size={26} />
-            </span>
-          </section>
+          <div className="adventure-playbar">
+            <button className="adventure-play" disabled={!ready} onClick={start}><Play size={25} fill="currentColor" /> Play Colour Garden <span>AVAILABLE NOW</span></button>
+            <button className="adventure-hello" onClick={() => speak("Hello! I'm Tiggy! Let's play!", "welcome")}><Volume2 size={24}/> Say hello to Tiggy</button>
+          </div>
         </main>
       )}
       <footer>
