@@ -1152,3 +1152,67 @@ progress {
     scroll-behavior: auto !important;
   }
 }
+
+
+/* Playful World v1: kid-first visual layer. Existing game logic remains intact. */
+:root { --cream:#fff8ed; --brown:#28345b; --teal:#6643df; --ochre:#ffb93e; --muted:#59617c; }
+body { background:#fff8ed; color:#28345b; font-family:"Trebuchet MS","Avenir Next",Arial,sans-serif; }
+header { height:94px; max-width:none; padding:15px clamp(18px,5vw,86px); background:#fff; border-bottom:5px solid #ffe6aa; position:relative; z-index:5; }
+.brand > span { font-size:30px; color:#6643df; letter-spacing:-1.8px; }
+.brand-play { font-family:inherit; font-style:normal; font-weight:1000; color:#ff6b82; font-size:33px; letter-spacing:-1.5px; }
+.brand small { letter-spacing:2px; color:#7282b3; }
+.nav-current { color:#6545d8; font-weight:800; }
+.icon-button { background:#f0eaff; border:2px solid #e0d4ff; color:#6643df; width:49px; height:49px; }
+.parent-button { background:#fff1c9; border:2px solid #ffdf83; font-weight:900; font-size:14px; }
+.home-page { max-width:1600px; padding:0 clamp(16px,5vw,84px) 65px; }
+.hero { grid-template-columns:.9fr 1.1fr; gap:0; min-height:570px; margin:26px 0 38px; background:linear-gradient(120deg,#fff1ca 0%,#fff9e9 48%,#c9edff 100%); border:6px solid #fff; border-radius:48px; box-shadow:0 12px 0 #f7e5bf,0 25px 55px #9c7b4820; overflow:hidden; }
+.hero-copy { padding:55px 0 55px clamp(26px,5vw,75px); position:relative; z-index:2; }
+.welcome { display:inline-flex; background:#fff; padding:12px 16px; border-radius:50px; color:#7b47d7; letter-spacing:1px; font-size:12px; box-shadow:0 5px 0 #ead6ff; }
+.welcome > span { width:11px; height:11px; background:#ffbd3d; }
+h1, .section-heading h2, .card-copy h3, .bottom-note h3, .game-heading h1 { font-family:"Trebuchet MS","Avenir Next",Arial,sans-serif; font-weight:1000; }
+.hero h1 { font-size:clamp(47px,5vw,79px); line-height:1.07; letter-spacing:-3.4px; color:#42318c; text-wrap:balance; }
+.hero h1 em { color:#ff6481; font-style:normal; font-weight:1000; text-decoration:underline; text-decoration-color:#ffc84e; text-decoration-thickness:7px; text-underline-offset:9px; }
+.hero-copy > p { color:#46517c; font-size:19px; font-weight:700; line-height:1.6; }
+.primary { background:#ff6b53; color:#fff; border-radius:25px; border:3px solid #fff; min-height:70px; padding:17px 32px; font-size:20px; font-weight:1000; box-shadow:0 8px 0 #d84a43,0 12px 18px #d84a4330; transition:transform .16s,box-shadow .16s; }
+.primary:hover { background:#f65c49; transform:translateY(-3px); box-shadow:0 11px 0 #d84a43,0 15px 22px #d84a4330; }
+.primary:active { transform:translateY(5px); box-shadow:0 3px 0 #d84a43; }
+.hero-note { font-size:13px; color:#675b85; font-weight:800; margin-top:25px; }
+.hero-art { height:100%; min-height:550px; border-radius:0; background:linear-gradient(#8cd9ff 0%,#c5edff 62%,#a9df8d 62%); }
+.hero-art .hill-back { background:#b1e17f; }
+.hero-art .hill-front { background:#76c96f; }
+.hero-art .sun { color:#ffbf38; animation:floaty 4s ease-in-out infinite; }
+.hero-art .thiago { height:min(440px,80%); bottom:4px; filter:drop-shadow(0 14px 8px #366c4838); }
+.hello-bubble { top:100px; left:20px; background:#fff; border:4px solid #9e83ff; border-radius:27px 27px 27px 5px; color:#5932bf; font-size:17px; box-shadow:0 7px 0 #b4a0eb; padding:17px; animation:floaty 3.5s ease-in-out infinite; }
+.hero-flower { filter:drop-shadow(0 4px 1px #559f69); }
+.worlds { padding-top:16px; }
+.section-heading { margin-bottom:28px; }
+.section-heading h2 { color:#49329d; font-size:clamp(30px,3vw,45px); letter-spacing:-1.4px; }
+.eyebrow { color:#8352d8; font-weight:1000; }
+.gentle-label { color:#7048bd; font-weight:800; }
+.world-grid { gap:24px; }
+.world-card { border:5px solid #fff !important; border-radius:32px !important; overflow:hidden; box-shadow:0 9px 0 #e6dff6,0 15px 28px #594aa11a; transition:transform .2s,box-shadow .2s; }
+.world-card.featured:hover { transform:translateY(-7px); box-shadow:0 15px 0 #e6dff6,0 22px 30px #594aa12b; }
+.card-art { height:215px; }
+.garden-art { background:linear-gradient(160deg,#80d9ff,#a6ed9c 65%,#66c67e); }
+.world-card.words .card-art { background:#ffbed6; }
+.world-card.numbers .card-art { background:#ffda7b; }
+.world-card.shapes .card-art { background:#b6a4ff; }
+.illustrated-flower { filter:drop-shadow(0 7px 2px #559f6670); }
+.play-badge { background:#ff6b53; color:white; border:4px solid #fff; box-shadow:0 5px 0 #c94737; }
+.ready-label { background:#fff; color:#ed4b5c; font-size:12px; font-weight:1000; }
+.coming { background:#fff9e6; color:#7656b0; font-weight:900; }
+.card-copy { background:#fff; padding:23px 21px; }
+.card-copy h3 { color:#41308c; font-size:25px; letter-spacing:-.7px; }
+.card-copy p { color:#58617d; font-size:14px; font-weight:650; }
+.card-category { color:#8c51d5; font-weight:1000; }
+.card-footer { color:#65638b; font-weight:800; }
+.bottom-note { border-radius:32px; background:#e7dcff; color:#49318d; }
+.bottom-note p { color:#65528f; }
+.game-page { background:#fff8ed; }
+.game-heading h1 { color:#48329b; }
+.instruction { background:#fff0b6; color:#50378b; border:3px solid #ffda73; border-radius:22px; font-weight:900; }
+.game-canvas { border:6px solid white; border-radius:28px; box-shadow:0 8px 0 #e5d8fb; overflow:hidden; }
+@keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+@media(max-width:900px){ .hero { grid-template-columns:1fr; } .hero-copy { padding:36px 30px 18px; } .hero-art { min-height:360px; height:360px; } .hero h1 { font-size:clamp(43px,8vw,65px); } }
+@media(max-width:600px){ header { height:78px; padding:10px 16px; } .brand > span { font-size:23px; } .brand-play { font-size:25px; } .brand small { font-size:7px; } nav { gap:9px; } .nav-current { display:none; } .parent-button { font-size:11px; padding:10px; } .home-page { padding:0 12px 45px; } .hero { border-radius:28px; margin:15px 0 28px; } .hero-copy { padding:25px 21px 16px; } .welcome { font-size:9px; padding:10px; } .hero h1 { font-size:42px; letter-spacing:-2px; } .hero-copy > p { font-size:15px; } .primary { min-height:58px; font-size:16px; } .hero-art { height:320px; min-height:320px; } .hero-art .thiago { height:285px; } .hello-bubble { font-size:12px; top:70px; } .world-grid { gap:15px; } .card-art { height:155px; } .card-copy h3 { font-size:20px; } .card-copy p { font-size:12px; } }
+@media(prefers-reduced-motion:reduce){.hello-bubble,.hero-art .sun{animation:none}}
