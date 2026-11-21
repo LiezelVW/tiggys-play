@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "status": "temporary-foundation-assets",
+  "missingReferences": ["Tiggy’s Café approved logo", "Thiago approved cartoon reference"],
+  "characters": {
+    "thiago": {
+      "identity": "Human toddler. Thiago and Tiggy are the same person.",
+      "homeSource": "src/components/Thiago.tsx",
+      "gameRigSource": "src/game/Character.ts",
+      "approvedLikeness": false,
+      "implementedStates": ["idle breathing", "blinking", "waving", "thinking", "celebrating"],
+      "replacementRequired": ["approved model sheet", "consistent final human rig", "walking", "running", "jumping", "pointing", "talking", "laughing", "dancing", "sitting", "object reactions"]
+    },
+    "companions": {"status":"not implemented", "planned":["Milo the Monkey","Lulu the Bunny","Ollie the Elephant","Pip the Penguin"]}
+  },
+  "backgrounds": {"colourGarden":"Original temporary Phaser vector landscape in GardenScene.ts"},
+  "objects": {"flowersAndBaskets":"Original procedural Phaser graphics in GardenScene.ts"},
+  "interface": {"wordmark":"Provisional text wordmark; Café reference missing", "icons":"lucide-react ISC licensed"},
+  "audio": {"source":"Temporary macOS Samantha generated narration", "format":"PCM WAV", "files":["intro.wav","red.wav","blue.wav","yellow.wav","retry.wav","match.wav","complete.wav","welcome.wav"],"replacement":"Approved licensed voice performances; final music and ambience"},
+  "privatePhotos": "None included. Never store reference photographs in public assets."
+}
