@@ -9,7 +9,7 @@ async function parent(page: import("@playwright/test").Page) {
     page.getByRole("button", { name: "Record Tiggy’s voice", exact: true }),
   );
 }
-test("parent records, previews, saves, reuses and deletes an on-device voice", async ({
+test("parent records or imports, previews, persists, exports and restores a voice", async ({
   page,
 }) => {
   await page.addInitScript(() => {
@@ -72,8 +72,47 @@ test("parent records, previews, saves, reuses and deletes an on-device voice", a
   await activate(
     page.getByRole("button", { name: "Record this line", exact: true }),
   );
-  await page.waitForTimeout(700);
-  await activate(page.getByRole("button", { name: /Stop recording/ }));
+  const canRecord = await page.evaluate(
+    () => typeof MediaRecorder !== "undefined",
+  );
+  if (canRecord) {
+    await expect(
+      page.getByRole("button", { name: /Stop recording/ }),
+    ).toBeVisible();
+    await page.waitForTimeout(700);
+    await activate(page.getByRole("button", { name: /Stop recording/ }));
+  } else {
+    // Linux WebKit can lack MediaRecorder entirely. Verify the real import fallback.
+    await expect(page.getByRole("status")).toContainText(
+      "import an audio recording",
+    );
+    const samples = 5600,
+      wav = Buffer.alloc(44 + samples * 2);
+    wav.write("RIFF", 0);
+    wav.writeUInt32LE(wav.length - 8, 4);
+    wav.write("WAVEfmt ", 8);
+    wav.writeUInt32LE(16, 16);
+    wav.writeUInt16LE(1, 20);
+    wav.writeUInt16LE(1, 22);
+    wav.writeUInt32LE(8000, 24);
+    wav.writeUInt32LE(16000, 28);
+    wav.writeUInt16LE(2, 32);
+    wav.writeUInt16LE(16, 34);
+    wav.write("data", 36);
+    wav.writeUInt32LE(samples * 2, 40);
+    for (let i = 0; i < samples; i++)
+      wav.writeInt16LE(
+        Math.round(Math.sin((i * 2 * Math.PI * 220) / 8000) * 2000),
+        44 + i * 2,
+      );
+    await page
+      .getByLabel("Or import an audio recording")
+      .setInputFiles({
+        name: "test-tone.wav",
+        mimeType: "audio/wav",
+        buffer: wav,
+      });
+  }
   await expect(
     page.getByRole("button", { name: "Use this recording" }),
   ).toBeVisible();
@@ -94,7 +133,7 @@ test("parent records, previews, saves, reuses and deletes an on-device voice", a
     await page.evaluate(
       () => (window as unknown as { micRequests: number }).micRequests,
     ),
-  ).toBe(1);
+  ).toBe(canRecord ? 1 : 0);
   await activate(page.getByRole("button", { name: "Use this recording" }));
   await expect(page.getByText("1 of 18 lines saved")).toBeVisible();
   await page.reload();
