@@ -7,13 +7,17 @@ import { colours, type Colour } from "../game/rules";
 export default function Garden({
   onHome,
   onComplete,
+  suspended,
 }: {
   onHome: () => void;
   onComplete: () => void;
+  suspended: boolean;
 }) {
+  const runtime = useRef<import("phaser").Game | null>(null);
   const host = useRef<HTMLDivElement>(null);
   const scene = useRef<{ accessibleMatch: (c: Colour) => void } | null>(null);
   const [score, setScore] = useState(0);
+  const [portrait, setPortrait] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [round, setRound] = useState(1);
   const [finished, setFinished] = useState(false);
@@ -28,7 +32,7 @@ export default function Garden({
   useDialogFocus(finished);
   useEffect(() => {
     let disposed = false;
-    let game: { destroy: (remove: boolean) => void } | undefined;
+
     Promise.all([import("phaser"), import("../game/GardenScene")])
       .then(([Phaser, { GardenScene }]) => {
         if (disposed || !host.current) return;
@@ -48,11 +52,13 @@ export default function Garden({
           chime,
         );
         scene.current = level;
-        game = new Phaser.Game({
-          type: Phaser.AUTO,
+        const phone = window.innerWidth <= 600;
+        setPortrait(phone);
+        runtime.current = new Phaser.Game({
+          type: Phaser.CANVAS,
           parent: host.current,
-          width: 1000,
-          height: 600,
+          width: phone ? 600 : 1000,
+          height: phone ? 650 : 600,
           backgroundColor: "#e9f3e7",
           scene: level,
           scale: {
@@ -67,10 +73,18 @@ export default function Garden({
     return () => {
       disposed = true;
       scene.current = null;
-      game?.destroy(true);
+      runtime.current?.destroy(true);
+      runtime.current = null;
       stopAudio();
     };
   }, [replay]);
+  useEffect(() => {
+    if (!loaded) return;
+    if (suspended) {
+      runtime.current?.scene.pause("garden");
+      stopAudio();
+    } else runtime.current?.scene.resume("garden");
+  }, [loaded, suspended]);
   return (
     <main className="game-page">
       <div className="game-top">
@@ -100,7 +114,8 @@ export default function Garden({
         {caption}
       </div>
       <div
-        className="game-canvas"
+        className={`game-canvas ${portrait ? "portrait-canvas" : ""}`}
+        data-layout={portrait ? "portrait" : "landscape"}
         data-ready={loaded}
         ref={host}
         aria-label="Drag a flower to its matching colour basket, or tap a flower then a basket."
@@ -144,7 +159,7 @@ export default function Garden({
               className="primary"
               onClick={() => {
                 setLoaded(false);
-                  setScore(0);
+                setScore(0);
                 setFinished(false);
                 setReplay((x) => x + 1);
               }}

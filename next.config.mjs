@@ -1,3 +1,10 @@
 /** @type {import('next').NextConfig} */
-const config={reactStrictMode:true,turbopack:{root:process.cwd()}};
+const config = {
+  reactStrictMode: true,
+  turbopack: { root: process.cwd() },
+  webpack(config, { dev }) {
+    if (!dev) config.cache = false;
+    return config;
+  },
+};
 export default config;

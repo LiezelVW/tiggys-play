@@ -7,3 +7,7 @@ playwright-report/
 test-results/
 *.tsbuildinfo
 .DS_Store
+# Private reference photos must never be committed.
+references/
+*photo-private*
+*do-not-publish*

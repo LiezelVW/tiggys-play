@@ -1,0 +1,50 @@
+import { chromium } from "@playwright/test";
+import { mkdir } from "node:fs/promises";
+await mkdir("docs/screenshots", { recursive: true });
+const browser = await chromium.launch();
+try {
+  for (const [name, width, height] of [
+    ["desktop", 1440, 1000],
+    ["tablet", 1024, 1366],
+    ["mobile", 390, 844],
+  ]) {
+    const page = await browser.newPage({ viewport: { width, height } });
+    const errors = [];
+    page.on("pageerror", (e) => errors.push(e.message));
+    await page.goto("http://localhost:3100");
+    await page.locator(".world-loading").waitFor({ state: "hidden" });
+    await page.screenshot({
+      path: `docs/screenshots/world-${name}.png`,
+      fullPage: true,
+    });
+    await page
+      .getByRole("button", { name: "Play Monster Truck Mayhem", exact: true })
+      .click();
+    await page.locator('.game-canvas[data-ready="true"]').waitFor();
+    await page.screenshot({
+      path: `docs/screenshots/trucks-${name}.png`,
+      fullPage: true,
+    });
+    await page.getByRole("button", { name: "Choose red truck" }).click();
+    await page.getByRole("button", { name: "GO!", exact: true }).click();
+    await page.waitForTimeout(1200);
+    await page.screenshot({
+      path: `docs/screenshots/driving-${name}.png`,
+      fullPage: true,
+    });
+    await page.getByRole("button", { name: "My world", exact: true }).click();
+    await page
+      .getByRole("button", { name: "Play Colour Garden", exact: true })
+      .click();
+    await page.locator('.game-canvas[data-ready="true"]').waitFor();
+    await page.screenshot({
+      path: `docs/screenshots/garden-${name}.png`,
+      fullPage: true,
+    });
+    if (errors.length) throw Error(`${name}: ${errors.join(", ")}`);
+    console.log(`${name}: four rendered screenshots, no page errors`);
+    await page.close();
+  }
+} finally {
+  await browser.close();
+}

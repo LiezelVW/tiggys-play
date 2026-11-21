@@ -1,32 +1,16 @@
 "use client";
 import { useEffect, useState } from "react";
-import { motion } from "motion/react";
-import {
-  ArrowUpRight,
-  Volume2,
-  VolumeX,
-  ShieldCheck,
-  Flower2,
-  BookOpen,
-  Shapes,
-  Music2,
-  Blocks,
-  Heart,
-  Sun,
-  Leaf,
-  Play,
-  Home,
-  X,
-  Check,
-} from "lucide-react";
+
+import { Volume2, VolumeX, ShieldCheck, Sun, X, Check } from "lucide-react";
 import { useDialogFocus } from "../components/useDialogFocus";
-import Thiago from "../components/Thiago";
+import World, { type GameId } from "../components/World";
+import MonsterTruck from "../components/MonsterTruck";
 import Garden from "../components/Garden";
 import { setMuted, speak } from "../game/audio";
-type Progress = { completed: number; minutes: number };
+type Progress = { completed: number; minutes: number; trucks?: number };
 export default function Page() {
   const [ready, setReady] = useState(false);
-  const [game, setGame] = useState(false);
+  const [game, setGame] = useState<GameId | null>(null);
   const [muted, updateMuted] = useState(false);
   const [parent, setParent] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
@@ -40,7 +24,10 @@ export default function Page() {
   const [session, setSession] = useState(0);
   const [paused, setPaused] = useState(false);
   const [notice, setNotice] = useState("");
-  useDialogFocus(parent || !!notice || paused);
+  useDialogFocus(
+    parent || !!notice || paused,
+    parent ? "parent" : notice ? "privacy" : "break",
+  );
   useEffect(() => {
     setReady(true);
     try {
@@ -48,7 +35,14 @@ export default function Page() {
       if (p) {
         const saved = JSON.parse(p);
         if (Number.isSafeInteger(saved.completed) && saved.completed >= 0)
-          setProgress({ completed: saved.completed, minutes: 0 });
+          setProgress({
+            completed: saved.completed,
+            minutes: 0,
+            trucks:
+              Number.isSafeInteger(saved.trucks) && saved.trucks >= 0
+                ? saved.trucks
+                : 0,
+          });
       }
       const m = localStorage.getItem("tiggy-muted") === "true";
       updateMuted(m);
@@ -60,15 +54,18 @@ export default function Page() {
     }
   }, []);
   useEffect(() => {
-    if (!game || paused) return;
+    if (!ready || paused || parent) return;
+    let last = Date.now();
     const t = setInterval(() => {
+      const elapsed = (Date.now() - last) / 1000;
+      last = Date.now();
       setSession((s) => {
-        if (s + 1 >= limit * 60) setPaused(true);
-        return s + 1;
+        if (s + elapsed >= limit * 60) setPaused(true);
+        return s + elapsed;
       });
     }, 1000);
     return () => clearInterval(t);
-  }, [game, paused, limit]);
+  }, [ready, parent, paused, limit]);
   function sound() {
     const m = !muted;
     updateMuted(m);
@@ -77,10 +74,11 @@ export default function Page() {
       localStorage.setItem("tiggy-muted", String(m));
     } catch {}
   }
-  function completed() {
+  function completed(id: GameId) {
     setProgress((p) => {
       const value = {
-        completed: p.completed + 1,
+        completed: p.completed + (id === "garden" ? 1 : 0),
+        trucks: (p.trucks || 0) + (id === "trucks" ? 1 : 0),
         minutes: Math.ceil(session / 60),
       };
       try {
@@ -89,16 +87,21 @@ export default function Page() {
       return value;
     });
   }
-  function start() {
-    setGame(true);
-    speak("Let’s match the flowers to their colour baskets.", "intro");
+  function start(id: GameId) {
+    setGame(id);
+    speak(
+      id === "garden"
+        ? "Let’s match the flowers to their colour baskets."
+        : "Find the red truck!",
+      id === "garden" ? "intro" : "truck-red",
+    );
   }
   return (
     <>
       <header>
         <button
           className="brand"
-          onClick={() => setGame(false)}
+          onClick={() => setGame(null)}
           aria-label="Tiggy’s Play home"
         >
           <span>
@@ -110,11 +113,10 @@ export default function Page() {
           <small>PLAY · LEARN · GROW</small>
         </button>
         <nav>
-          <span className="nav-current">
-            <Home size={17} /> My little world
-          </span>
+          <span className="nav-current">My adventure world</span>
           <button
             className="icon-button"
+            disabled={!ready}
             onClick={sound}
             aria-label={muted ? "Turn sound on" : "Mute sound"}
           >
@@ -134,26 +136,20 @@ export default function Page() {
           </button>
         </nav>
       </header>
-      {game ? (
-        <Garden onHome={() => setGame(false)} onComplete={completed} />
+      {game === "garden" ? (
+        <Garden
+          onHome={() => setGame(null)}
+          onComplete={() => completed("garden")}
+          suspended={parent || paused || !!notice}
+        />
+      ) : game === "trucks" ? (
+        <MonsterTruck
+          onHome={() => setGame(null)}
+          onComplete={() => completed("trucks")}
+          suspended={parent || paused || !!notice}
+        />
       ) : (
-        <main className="adventure-home">
-          <section className="adventure-stage" aria-label="Tiggy's Play adventure world">
-            <div className="adventure-picture" role="img" aria-label="Tiggy waves beside a monster truck, with six colourful game worlds, trains and construction vehicles." />
-            <div className="adventure-controls">
-              <button className="adventure-hit monster" onClick={() => setNotice("Monster Truck Mayhem is being built. Try Colour Garden while we get the trucks ready!")} aria-label="Monster Truck Mayhem — coming soon" />
-              <button className="adventure-hit builders" onClick={() => setNotice("Little Builders is being built. Try Colour Garden while we get the diggers ready!")} aria-label="Little Builders — coming soon" />
-              <button className="adventure-hit railway" onClick={() => setNotice("Tiggy's Railway is being built. Try Colour Garden while we lay the tracks!")} aria-label="Tiggy's Railway — coming soon" />
-              <button className="adventure-hit science" onClick={() => setNotice("Science Lab is being built. Try Colour Garden while we prepare the experiments!")} aria-label="Science Lab — coming soon" />
-              <button className="adventure-hit blocks" onClick={() => setNotice("Build and Solve is being built. Try Colour Garden while we prepare the puzzles!")} aria-label="Build and Solve — coming soon" />
-              <button className="adventure-hit racing" onClick={() => setNotice("Ready, Set, Go! is being built. Try Colour Garden while we prepare the race!")} aria-label="Ready, Set, Go! — coming soon" />
-            </div>
-          </section>
-          <div className="adventure-playbar">
-            <button className="adventure-play" disabled={!ready} onClick={start}><Play size={25} fill="currentColor" /> Play Colour Garden <span>AVAILABLE NOW</span></button>
-            <button className="adventure-hello" onClick={() => speak("Hello! I'm Tiggy! Let's play!", "welcome")}><Volume2 size={24}/> Say hello to Tiggy</button>
-          </div>
-        </main>
+        <World onPlay={start} ready={ready} />
       )}
       <footer>
         <span>© {new Date().getFullYear()} Tiggy’s Play</span>
@@ -161,7 +157,7 @@ export default function Page() {
         <button
           onClick={() => {
             setNotice(
-              "This foundation stores only completed Colour Garden sessions, sound preferences and a time limit on this device. No account, microphone, advertising or analytics. Delete local progress in Grown-ups.",
+              "This app stores only completed garden and truck adventures, sound preferences and a time limit on this device. No account, microphone, advertising or analytics. Delete local progress in Grown-ups.",
             );
           }}
         >
@@ -242,7 +238,7 @@ export default function Page() {
                   </strong>
                   <strong>
                     <Check />
-                    <small>Colours & matching</small>
+                    <small>{progress.trucks || 0} truck adventures</small>
                   </strong>
                 </div>
                 <label>
@@ -315,7 +311,7 @@ export default function Page() {
               autoFocus
               className="primary"
               onClick={() => {
-                setGame(false);
+                setGame(null);
                 setParent(true);
                 setUnlocked(false);
                 setAnswer("");
