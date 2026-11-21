@@ -1216,3 +1216,13 @@ h1, .section-heading h2, .card-copy h3, .bottom-note h3, .game-heading h1 { font
 @media(max-width:900px){ .hero { grid-template-columns:1fr; } .hero-copy { padding:36px 30px 18px; } .hero-art { min-height:360px; height:360px; } .hero h1 { font-size:clamp(43px,8vw,65px); } }
 @media(max-width:600px){ header { height:78px; padding:10px 16px; } .brand > span { font-size:23px; } .brand-play { font-size:25px; } .brand small { font-size:7px; } nav { gap:9px; } .nav-current { display:none; } .parent-button { font-size:11px; padding:10px; } .home-page { padding:0 12px 45px; } .hero { border-radius:28px; margin:15px 0 28px; } .hero-copy { padding:25px 21px 16px; } .welcome { font-size:9px; padding:10px; } .hero h1 { font-size:42px; letter-spacing:-2px; } .hero-copy > p { font-size:15px; } .primary { min-height:58px; font-size:16px; } .hero-art { height:320px; min-height:320px; } .hero-art .thiago { height:285px; } .hello-bubble { font-size:12px; top:70px; } .world-grid { gap:15px; } .card-art { height:155px; } .card-copy h3 { font-size:20px; } .card-copy p { font-size:12px; } }
 @media(prefers-reduced-motion:reduce){.hello-bubble,.hero-art .sun{animation:none}}
+
+
+/* Tiggy 2D character rig: gentle, independent animation layers */
+.thiago .tiggy-bounce { transform-origin:160px 370px; animation:tiggy-bob 2.8s ease-in-out infinite; }
+.thiago .tiggy-wave { transform-origin:222px 230px; animation:tiggy-hello 2.7s ease-in-out infinite; }
+.thiago .tiggy-eyes { transform-origin:162px 140px; animation:tiggy-blink 5s infinite; }
+@keyframes tiggy-bob {0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)}}
+@keyframes tiggy-hello {0%,15%,80%,100%{transform:rotate(0)} 30%,55%{transform:rotate(-9deg)} 42%,68%{transform:rotate(7deg)}}
+@keyframes tiggy-blink {0%,44%,48%,100%{transform:scaleY(1)} 46%{transform:scaleY(.12)}}
+@media(prefers-reduced-motion:reduce){.thiago .tiggy-bounce,.thiago .tiggy-wave,.thiago .tiggy-eyes{animation:none}}
