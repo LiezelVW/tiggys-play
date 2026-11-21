@@ -63,4 +63,6 @@ Phaser is lazy-loaded in browser effects and destroyed on navigation. No browser
 
 This branch is intended for a pull request. **Do not merge or promote production before review.** In Vercel, use the repository root, Next.js framework preset, `npm ci` and `npm run build`; leave the output directory at the framework default. No environment variables are needed for these two games. A GitHub PR may create a preview through an existing Vercel integration; this change does not modify production settings.
 
+To refresh screenshots, run `npm run start -- --port 3100` in one terminal and `node scripts/capture-screenshots.mjs` in another.
+
 See [verification evidence](docs/VERIFICATION.md) for build/test results and screenshots. Parent accounts, Supabase progress across devices, the five unavailable worlds, native Capacitor builds, background music and final licensed voice performances remain future work. Local macOS-generated narration is included for reliable playback and should be reviewed alongside the new artwork before public release.
