@@ -4,8 +4,26 @@ test("original music ducks during approved speech; independent audio levels pers
   page,
 }) => {
   await page.addInitScript(() => {
-    const win = window as unknown as { gains: number[] };
+    const win = window as unknown as {
+      gains: number[];
+      mediaEvents: string[];
+    };
     win.gains = [];
+    win.mediaEvents = [];
+    const nativePlay = HTMLMediaElement.prototype.play;
+    HTMLMediaElement.prototype.play = function () {
+      const src = this.src;
+      win.mediaEvents.push(`play ${src}`);
+      return nativePlay.call(this).then(
+        () => {
+          win.mediaEvents.push(`playing ${src}`);
+        },
+        (error) => {
+          win.mediaEvents.push(`${error.name}: ${error.message} ${src}`);
+          throw error;
+        },
+      );
+    };
     const sourceFactory = AudioContext.prototype.createMediaElementSource;
     AudioContext.prototype.createMediaElementSource = function (element) {
       const source = sourceFactory.call(this, element),
@@ -50,13 +68,20 @@ test("original music ducks during approved speech; independent audio levels pers
   // Observe the real rendered overlap during playback, rather than afterward.
   await expect
     .poll(() =>
-      page.evaluate(
-        () =>
-          (window as unknown as { spokeWhileWaving?: boolean })
-            .spokeWhileWaving === true,
-      ),
+      page.evaluate(() => {
+        const win = window as unknown as {
+          spokeWhileWaving?: boolean;
+          voicePeak?: number;
+          mediaEvents: string[];
+        };
+        return {
+          overlap: !!win.spokeWhileWaving,
+          peak: win.voicePeak,
+          events: win.mediaEvents,
+        };
+      }),
     )
-    .toBe(true);
+    .toMatchObject({ overlap: true });
   await expect
     .poll(() =>
       page.evaluate(

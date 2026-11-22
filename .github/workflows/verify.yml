@@ -18,6 +18,8 @@ jobs:
       - run: npx playwright install --with-deps chromium webkit
       - run: npm run test:voice-provider
       - run: npm run build
+      - name: Verify real audio playback first
+        run: npm test -- tests/audio-mix.spec.ts
       - run: npm test
       - uses: actions/upload-artifact@v4
         if: always()
