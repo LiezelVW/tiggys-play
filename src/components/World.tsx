@@ -29,7 +29,7 @@ const activityThumbnails: Record<ActivityId, number> = {
 const areas = [
   { name: "Ferris Wheel", x: 68, y: 21, game: "ferris" },
   { name: "Benny Bear’s Breakfast", x: 45, y: 76, game: "breakfast" },
-  { name: "Potty Time", x: 68, y: 84, game: "potty" },
+  { name: "Potty Time", x: 88, y: 84, game: "potty" },
   { name: "Monster Truck Mayhem", x: 16, y: 31, game: "trucks" },
   { name: "Little Builders", x: 51, y: 29, game: "builders" },
   { name: "Tiggy’s Railway", x: 84, y: 31, game: "railway" },
