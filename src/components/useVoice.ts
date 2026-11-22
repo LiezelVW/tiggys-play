@@ -1,6 +1,11 @@
 "use client";
 import { useSyncExternalStore } from "react";
-import { subscribeVoice, voiceCount, voiceRevision } from "../game/recordings";
+import {
+  subscribeVoice,
+  voiceCount,
+  voiceRevision,
+  voiceAvailable,
+} from "../game/recordings";
 import {
   subscribeCandidates,
   resolvedVoiceUrl,
@@ -27,4 +32,13 @@ export function useVoiceCount() {
 
 export function useVoiceRevision() {
   return useSyncExternalStore(subscribeVoice, voiceRevision, () => 0);
+}
+
+/** The recorder edits personal clips, independently of the selected character pack. */
+export function useRecordedVoiceAvailable(id: string) {
+  return useSyncExternalStore(
+    subscribeVoice,
+    () => voiceAvailable(id),
+    () => false,
+  );
 }

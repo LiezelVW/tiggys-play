@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Mic, Square, Save, Trash2, Download, Volume2 } from "lucide-react";
+import { activeCandidate } from "../game/voiceCandidates";
 import { stopAudio } from "../game/audio";
 import { voicePrompts } from "../game/voicePrompts";
 import {
@@ -10,7 +11,11 @@ import {
   exportVoicePack,
   restoreVoicePack,
 } from "../game/recordings";
-import { useVoiceAvailable, useVoiceCount, useVoiceRevision } from "./useVoice";
+import {
+  useRecordedVoiceAvailable,
+  useVoiceCount,
+  useVoiceRevision,
+} from "./useVoice";
 export default function VoiceRecorder() {
   const [id, setId] = useState<string>(voicePrompts[0][0]),
     [recording, setRecording] = useState(false),
@@ -21,7 +26,7 @@ export default function VoiceRecorder() {
     [elapsed, setElapsed] = useState(0),
     [saving, setSaving] = useState(false);
   const version = useVoiceRevision();
-  const available = useVoiceAvailable(id),
+  const available = useRecordedVoiceAvailable(id),
     count = useVoiceCount();
   const media = useRef<MediaRecorder | null>(null),
     stream = useRef<MediaStream | null>(null),
@@ -150,7 +155,9 @@ export default function VoiceRecorder() {
       await saveVoice(id, preview);
       setPreview(null);
       setMessage(
-        "Saved on this device. Tiggy will use this recording for this line.",
+        activeCandidate()
+          ? "Personal recording saved. Your approved character pack stays selected; restore the previous voice in the studio to use personal recordings."
+          : "Saved on this device. Tiggy will use this recording for this line.",
       );
     } catch {
       setMessage(

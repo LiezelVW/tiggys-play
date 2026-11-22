@@ -125,6 +125,20 @@ test("audition is separate from approval, complete packs persist, character voic
   await expect(page.getByRole("status")).toContainText(
     "Approved on this device",
   );
+  await activate(
+    page.getByRole("button", { name: "Record Tiggy’s voice", exact: true }),
+  );
+  await expect(page.locator(".voice-recorder")).toContainText(
+    `0 of ${voicePrompts.length} lines saved`,
+  );
+  await expect(
+    page
+      .locator(".voice-recorder")
+      .getByRole("button", { name: "Delete this line" }),
+  ).toHaveCount(0);
+  await activate(
+    page.getByRole("button", { name: "Close voice recorder", exact: true }),
+  );
   const approved = await page.evaluate(() =>
     localStorage.getItem("tiggy-approved-voice-tiggy"),
   );
