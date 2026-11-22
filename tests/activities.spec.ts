@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { activities, activityIds } from "../src/game/activities";
+import { approvedVoiceUrl } from "../src/game/approvedVoice";
 import { activate } from "./input";
 for (const id of activityIds) {
   test(`${id}: complete the activity, replay and persist progress`, async ({
@@ -19,9 +20,18 @@ for (const id of activityIds) {
       exact: true,
     });
     await expect(main.locator('.game-canvas[data-ready="true"]')).toBeVisible();
-    await expect(
-      page.getByRole("button", { name: "Dialogue shown in speech bubble" }),
-    ).toBeDisabled();
+    if (
+      activities[id].character === "tiggy" &&
+      approvedVoiceUrl(activities[id].steps[0].clip)
+    ) {
+      await expect(
+        page.getByRole("button", { name: "Hear instructions again" }),
+      ).toBeEnabled();
+    } else {
+      await expect(
+        page.getByRole("button", { name: "Dialogue shown in speech bubble" }),
+      ).toBeDisabled();
+    }
     const first = activities[id].steps[0];
     const incorrect = first.choices.find((c) => !first.correct.includes(c.id));
     if (incorrect) {

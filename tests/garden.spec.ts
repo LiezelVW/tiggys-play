@@ -144,11 +144,10 @@ test("mobile touch controls keep working with speech disabled", async ({
   await expect(
     page.getByRole("button", { name: "Turn sound on" }),
   ).toBeVisible();
+  // The approved celebration exists even while sound is muted; mute controls playback, not asset availability.
   await expect(
-    page.getByRole("button", {
-      name: "Spoken instructions awaiting voice approval",
-    }),
-  ).toBeDisabled();
+    page.getByRole("button", { name: "Replay instruction", exact: true }),
+  ).toBeEnabled();
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= innerWidth,
