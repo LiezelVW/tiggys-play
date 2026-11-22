@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { useVoiceAvailable } from "./useVoice";
 import { activities, activityIds, type ActivityId } from "../game/activities";
+import WorldAmbience from "./WorldAmbience";
 import Tiggy from "./Tiggy";
 import { speak, chime } from "../game/audio";
 export type GameId = "garden" | "trucks" | ActivityId;
@@ -26,6 +27,9 @@ const activityThumbnails: Record<ActivityId, number> = {
   potty: 11,
 };
 const areas = [
+  { name: "Ferris Wheel", x: 68, y: 21, game: "ferris" },
+  { name: "Benny Bear’s Breakfast", x: 45, y: 76, game: "breakfast" },
+  { name: "Potty Time", x: 68, y: 84, game: "potty" },
   { name: "Monster Truck Mayhem", x: 16, y: 31, game: "trucks" },
   { name: "Little Builders", x: 51, y: 29, game: "builders" },
   { name: "Tiggy’s Railway", x: 84, y: 31, game: "railway" },
@@ -37,11 +41,14 @@ const areas = [
 export default function World({
   onPlay,
   ready,
+  paused = false,
 }: {
   onPlay: (game: GameId) => void;
   ready: boolean;
+  paused?: boolean;
 }) {
   const hasNarration = useVoiceAvailable("world-welcome");
+  const hasPlayVoice = useVoiceAvailable("lets-play");
   const view = useRef<HTMLDivElement>(null);
   const artwork = useRef<HTMLImageElement>(null);
   const [loaded, setLoaded] = useState(false);
@@ -62,7 +69,11 @@ export default function World({
     });
   }
   return (
-    <main className="world-home" aria-label="Tiggy’s adventure playground">
+    <main
+      className="world-home"
+      data-paused={paused}
+      aria-label="Tiggy’s adventure playground"
+    >
       <div
         className="world-camera"
         ref={view}
@@ -122,7 +133,8 @@ export default function World({
               </button>
             </div>
           ))}
-          <Tiggy />
+          <WorldAmbience />
+          <Tiggy paused={paused} />
           <div className="world-truck" aria-hidden="true">
             <img
               src="/assets/vehicles/truck-red.png"
@@ -134,12 +146,16 @@ export default function World({
           </div>
           <button
             className="world-welcome"
-            disabled={!ready || !hasNarration}
+            disabled={!ready}
             onClick={() =>
-              speak(
-                "Welcome to Tiggy’s Play! Tap the truck to drive, or pick flowers in Colour Garden.",
-                "world-welcome",
-              )
+              hasNarration
+                ? speak(
+                    "Welcome to Tiggy’s Play! Tap the truck to drive, or pick flowers in Colour Garden.",
+                    "world-welcome",
+                  )
+                : hasPlayVoice
+                  ? speak("Let’s play!", "lets-play")
+                  : chime()
             }
           >
             <Volume2 size={22} />

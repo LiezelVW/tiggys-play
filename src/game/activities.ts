@@ -115,7 +115,7 @@ export const activities: Record<
   },
   science: {
     name: "Science Lab",
-    subtitle: "Tap two paints. Discover a new colour.",
+    subtitle: "Pour two paints. Discover a new colour.",
     character: "tiggy",
     steps: [
       { clip: "mix-orange", choices: paints, correct: ["red", "yellow"] },
@@ -184,7 +184,7 @@ export const activities: Record<
   },
   ferris: {
     name: "Ferris Wheel",
-    subtitle: "Find a cabin. Count your rides.",
+    subtitle: "Carry friends to matching cabins. Count your rides.",
     character: "tiggy",
     steps: [
       { clip: "ferris-red", choices: cabins, correct: ["red"] },
@@ -194,26 +194,32 @@ export const activities: Record<
   },
   breakfast: {
     name: "Benny Bear’s Breakfast",
-    subtitle: "Wash, choose a spoon, eat and drink.",
+    subtitle: "Scoop, feed, wipe and offer a drink. Pretend play is welcome.",
     character: "benny",
     steps: [
       {
         clip: "breakfast-wash",
         choices: [props.soap, props.apple, props.spoon],
         correct: ["soap"],
-        hint: 10,
+        hint: 14,
       },
       {
-        clip: "breakfast-spoon",
-        choices: [props.water, props.spoon, props.toast],
+        clip: "breakfast-scoop",
+        choices: [props.spoon, props.water, props.toast],
+        correct: ["spoon"],
+        hint: 4,
+      },
+      {
+        clip: "breakfast-feed",
+        choices: [props.spoon, props.apple, props.water],
         correct: ["spoon"],
         hint: 5,
       },
       {
-        clip: "breakfast-bowl",
-        choices: [props.banana, props.towel, props.bowl],
-        correct: ["bowl"],
-        hint: 4,
+        clip: "breakfast-wipe",
+        choices: [props.towel, props.spoon, props.apple],
+        correct: ["towel"],
+        hint: 12,
       },
       {
         clip: "breakfast-water",
@@ -221,11 +227,17 @@ export const activities: Record<
         correct: ["water"],
         hint: 8,
       },
+      {
+        clip: "breakfast-done",
+        choices: [props.hands, props.soap, props.toast],
+        correct: ["hands"],
+        hint: 14,
+      },
     ],
   },
   potty: {
     name: "Potty Time",
-    subtitle: "A gentle routine, at your own pace.",
+    subtitle: "Notice, ask, get ready, sit, flush and wash. No hurry.",
     character: "tiggy",
     steps: [
       {
@@ -235,22 +247,46 @@ export const activities: Record<
         hint: 11,
       },
       {
-        clip: "potty-pants",
-        choices: [props.towel, props.pants, props.apple],
+        clip: "potty-ask",
+        choices: [props.hands, props.apple, props.toast],
+        correct: ["hands"],
+        hint: 14,
+      },
+      {
+        clip: "potty-bathroom",
+        choices: [props.sink, props.carriage, props.bowl],
+        correct: ["sink"],
+        hint: 15,
+      },
+      {
+        clip: "potty-clothes",
+        choices: [props.pants, props.water, props.toast],
         correct: ["pants"],
         hint: 13,
       },
       {
+        clip: "potty-sit",
+        choices: [props.potty, props.apple, props.bowl],
+        correct: ["potty"],
+        hint: 11,
+      },
+      {
+        clip: "potty-flush",
+        choices: [props.water, props.spoon, props.toast],
+        correct: ["water"],
+        hint: 11,
+      },
+      {
         clip: "wash-hands",
-        choices: [props.soap, props.spoon, props.water],
+        choices: [props.soap, props.spoon, props.apple],
         correct: ["soap"],
-        hint: 10,
+        hint: 14,
       },
       {
         clip: "potty-dry",
-        choices: [props.pants, props.bowl, props.towel],
+        choices: [props.towel, props.pants, props.apple],
         correct: ["towel"],
-        hint: 12,
+        hint: 14,
       },
     ],
   },

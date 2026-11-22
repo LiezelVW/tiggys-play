@@ -1,76 +1,54 @@
-import { subscribeCharacterDialogue } from "./characterDialogue";
 import * as Phaser from "phaser";
-import { tiggyRig, rigAction, type TiggyState } from "./tiggyRig";
-import { mountTiggyRig, type TiggyRenderer } from "./tiggyRiveRuntime";
-/** Original author artwork; stays honestly static until a validated .riv is supplied. */
+import { subscribeCharacterDialogue } from "./characterDialogue";
+import { TiggyAnimator } from "./TiggyAnimator";
+import { characterAction, type TiggyState } from "./tiggyActions";
+/** Same original-path puppet and keyframes as the home character, rendered inside Phaser. */
 export class TiggySprite {
+  private animator: TiggyAnimator;
   private sprite: Phaser.GameObjects.Image;
-  private renderer?: TiggyRenderer;
-  private state: TiggyState = "wave";
-  static preload(scene: Phaser.Scene) {
-    scene.load.svg("tiggy-original", tiggyRig.neutral, {
-      width: 320,
-      height: 320,
-    });
+  static preload(_scene: Phaser.Scene) {
+    /* Original vector paths are compiled locally; no missing export. */
   }
-  constructor(
-    private scene: Phaser.Scene,
-    x: number,
-    y: number,
-  ) {
+  constructor(scene: Phaser.Scene, x: number, y: number) {
+    const canvas = document.createElement("canvas");
+    canvas.width = canvas.height = 420;
+    this.animator = new TiggyAnimator(canvas);
+    const key = `tiggy-vector-${Phaser.Utils.String.UUID()}`,
+      texture = scene.textures.addCanvas(key, canvas)!;
     this.sprite = scene.add
-      .image(x, y, "tiggy-original")
-      .setDisplaySize(210, 210)
+      .image(x, y, key)
+      .setDisplaySize(240, 240)
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => this.play("wave"));
+    const update = (_time: number, delta: number) => {
+      this.animator.update(delta / 1000);
+      texture.refresh();
+      scene.game.canvas.dataset.tiggyAction = this.animator.action;
+      scene.game.canvas.dataset.tiggyFrame = canvas.dataset.frame;
+    };
     const unsubscribe = subscribeCharacterDialogue((speaker, speaking) => {
-      if (speaker !== "tiggy") return;
-      if (speaking) this.play("talk");
-      else if (!speaking && this.state === "talk") this.play("idle");
+      if (speaker === "tiggy") this.animator.setSpeaking(speaking);
     });
-    scene.events.once(Phaser.Scenes.Events.SHUTDOWN, unsubscribe);
-    if (!tiggyRig.src) return;
-    const abort = new AbortController();
-    const canvas = document.createElement("canvas");
-    canvas.width = canvas.height = 320;
-    const key = `tiggy-rive-${Phaser.Utils.String.UUID()}`;
-    let texture: Phaser.Textures.CanvasTexture | null = null;
-    const update = () => texture?.refresh();
-    const pause = () => this.renderer?.pause();
-    const resume = () => this.renderer?.resume();
+    scene.events.on(Phaser.Scenes.Events.UPDATE, update);
     scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
-      abort.abort();
-      this.renderer?.dispose();
-      scene.events.off(Phaser.Scenes.Events.POST_UPDATE, update);
-      scene.events.off(Phaser.Scenes.Events.PAUSE, pause);
-      scene.events.off(Phaser.Scenes.Events.RESUME, resume);
+      unsubscribe();
+      scene.events.off(Phaser.Scenes.Events.UPDATE, update);
       if (scene.textures.exists(key)) scene.textures.remove(key);
     });
-    void mountTiggyRig(canvas, abort.signal)
-      .then((renderer) => {
-        if (!renderer || abort.signal.aborted) {
-          renderer?.dispose();
-          return;
-        }
-        this.renderer = renderer;
-        texture = scene.textures.addCanvas(key, canvas);
-        if (!texture) {
-          renderer.dispose();
-          return;
-        }
-        this.sprite.setTexture(key);
-        scene.events.on(Phaser.Scenes.Events.POST_UPDATE, update);
-        scene.events.on(Phaser.Scenes.Events.PAUSE, pause);
-        scene.events.on(Phaser.Scenes.Events.RESUME, resume);
-        renderer.trigger(rigAction(this.state));
-        if (scene.scene.isPaused()) renderer.pause();
-      })
-      .catch((error) =>
-        console.warn("Original Tiggy artwork retained:", error.message),
-      );
+    this.play("wave");
   }
   play(state: TiggyState) {
-    this.state = state;
-    this.renderer?.trigger(rigAction(state));
+    this.animator.play(characterAction(state));
+  }
+  moveTo(x: number, y: number, duration = 1000, arrival: TiggyState = "happy") {
+    this.play("walk");
+    const scene = this.sprite.scene;
+    scene.tweens.add({
+      targets: this.sprite,
+      x,
+      y,
+      duration,
+      onComplete: () => this.play(arrival),
+    });
   }
 }

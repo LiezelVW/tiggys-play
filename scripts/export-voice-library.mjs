@@ -10,6 +10,11 @@ const benny = [
   "breakfast-spoon",
   "breakfast-bowl",
   "breakfast-water",
+  "breakfast-scoop",
+  "breakfast-feed",
+  "breakfast-wipe",
+  "breakfast-done",
+  "breakfast-your-turn",
   "try-again",
   "well-done",
   "you-did-it",
@@ -24,8 +29,11 @@ const approved = Object.fromEntries(
     ),
   ].map((m) => [m[1] || m[2], m[3]]),
 );
-if (Object.keys(approved).length !== 15)
-  throw Error("Expected 15 approved Tiggy clips.");
+if (
+  !Object.keys(approved).length ||
+  Object.keys(approved).some((id) => !pairs.some((p) => p.id === id))
+)
+  throw Error("Approved voice clips must reference known phrase IDs.");
 const phrases = pairs.map((p) => ({
   ...p,
   requiredFor: ["tiggy", ...(benny.includes(p.id) ? ["benny"] : [])],
@@ -58,5 +66,5 @@ await writeFile(
     "\n",
 );
 console.log(
-  `${phrases.length} Tiggy scripts, ${benny.length} Benny scripts. 15 approved Tiggy clips bundled; 56 Tiggy and 10 Benny clips missing.`,
+  `${phrases.length} Tiggy scripts, ${benny.length} Benny scripts. ${Object.keys(approved).length} approved Tiggy clips bundled; ${phrases.length - Object.keys(approved).length} Tiggy and ${benny.length} Benny clips missing.`,
 );

@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 import { activities, activityIds } from "../src/game/activities";
 import { approvedVoiceUrl } from "../src/game/approvedVoice";
 import { activate } from "./input";
@@ -32,6 +32,7 @@ for (const id of activityIds) {
         page.getByRole("button", { name: "Dialogue shown in speech bubble" }),
       ).toBeDisabled();
     }
+    await activate(page.getByText("Use keyboard or simple matching controls"));
     const first = activities[id].steps[0];
     const incorrect = first.choices.find((c) => !first.correct.includes(c.id));
     if (incorrect) {
@@ -58,6 +59,10 @@ for (const id of activityIds) {
           }),
         );
       }
+      if (id === "breakfast" && i === 2)
+        await activate(
+          page.getByRole("button", { name: "Continue playing", exact: true }),
+        );
     }
     await expect(page.getByRole("dialog")).toContainText("You did it!");
     expect(
@@ -108,6 +113,7 @@ test("routine can be left without completion, and parent gate pauses the activit
     page.getByRole("button", { name: "Open Ferris Wheel", exact: true }),
   );
   await expect(page.locator('.game-canvas[data-ready="true"]')).toBeVisible();
+  await activate(page.getByText("Use keyboard or simple matching controls"));
   await activate(page.getByRole("button", { name: "Grown-ups" }));
   await expect(
     page.getByRole("button", { name: "Choose red cabin" }),

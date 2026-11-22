@@ -1,21 +1,29 @@
 {
-  "version": 5,
+  "version": 6,
   "identity": "Thiago is Tiggy, the human main character",
   "references": {
     "cartoons": "User-supplied approved character and game-world references in docs/art",
     "photograph": "Kept outside checkout. Not included in public assets or Git."
   },
   "character": {
-    "source": "User-authored Illustrator neutral layered SVG, unchanged paths",
+    "source": "User-authored Illustrator vectors; neutral geometry and original thinking/laughing facial paths",
     "asset": "/assets/tiggy/original/tiggy_neutral_layered.svg",
-    "renderer": "Static original artwork until authored Rive export is supplied",
-    "riveStatus": "Pending editor bones, constraints, facial controls, eight animations and TiggyController. Integration adapter prepared, not verified against a finished rig.",
-    "sourceArchive": "Tiggy_Rive_Layered_SVGs.zip",
-    "rigPreparation": "docs/art/tiggy-rive-source/tiggy_neutral_rig-prep.svg",
-    "supersededAtlases": [
-      "/assets/tiggy/tiggy-actions-flat.png",
-      "/assets/tiggy/tiggy-actions.png"
-    ]
+    "renderer": "Shared original-path Canvas2D joint animation in React and Phaser",
+    "compiledLayers": "src/game/tiggyLayers.json",
+    "actions": [
+      "Idle",
+      "Wave",
+      "Walk",
+      "Talk",
+      "Clap",
+      "Celebrate",
+      "Thinking",
+      "Help",
+      "Happy",
+      "Sit"
+    ],
+    "animation": "Independent head, shoulder/elbow/wrist, hip/knee/ankle transforms. Original shirt is partitioned by masks into sleeves and torso; original facial expression paths are reused. No new character artwork generated.",
+    "riveRequired": false
   },
   "worlds": {
     "adventure": "/assets/world/adventure-world-flat.webp",
@@ -76,5 +84,16 @@
     ],
     "provenance": "Original generated flat 2D sprite art. Four Benny expression/action drawings; not a complete skeletal animation rig.",
     "ferris": "Procedural 2D wheel, moving spokes, upright interactive cabins and count display."
+  },
+  "branding": {
+    "source": "User-supplied TIGGYS KIDS LOGO.svg",
+    "logo": "/assets/branding/tiggys-play-logo.svg",
+    "icon": "/assets/branding/tiggys-play-icon.svg",
+    "processing": "Original outlined shapes and colours retained; nonvisual Adobe metadata omitted, icon cropped from the same head artwork."
+  },
+  "music": {
+    "source": "Original procedural instrumental motifs in src/game/soundscape.ts",
+    "runtime": "Web Audio after a real gesture; separate voice/music/effects levels; dialogue ducking",
+    "externalMusic": false
   }
 }

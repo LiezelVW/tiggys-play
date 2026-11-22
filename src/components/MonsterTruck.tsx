@@ -140,6 +140,17 @@ export default function MonsterTruck({
       <div className="truck-controls">
         {status.phase === "choose" ? (
           <>
+            <button
+              className="pill"
+              aria-label="Count the trucks"
+              onClick={() => {
+                setCaption("One, two, three trucks!");
+                setClip("count-three");
+                speak("One, two, three!", "count-three");
+              }}
+            >
+              1 · 2 · 3
+            </button>
             <span
               className="target-dot"
               style={{

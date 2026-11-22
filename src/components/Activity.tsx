@@ -7,6 +7,7 @@ import type { ActivityScene, ActivityStatus } from "../game/ActivityScene";
 import { promptText } from "../game/voicePrompts";
 import { chime, narrate, speak, stopAudio } from "../game/audio";
 import { useVoiceAvailable } from "./useVoice";
+import { speak as speakLine } from "../game/audio";
 import { useDialogFocus } from "./useDialogFocus";
 export default function Activity({
   id,
@@ -36,7 +37,8 @@ export default function Activity({
     [loaded, setLoaded] = useState(false),
     [error, setError] = useState(false),
     [replay, setReplay] = useState(0);
-  const hasVoice = useVoiceAvailable(clip, game.character);
+  const [speaker, setSpeaker] = useState<"tiggy" | "benny">(game.character);
+  const hasVoice = useVoiceAvailable(clip, speaker);
   useDialogFocus(state.finished);
   useEffect(() => {
     let disposed = false;
@@ -45,6 +47,19 @@ export default function Activity({
     Promise.all([import("phaser"), import("../game/ActivityScene")])
       .then(([Phaser, { ActivityScene }]) => {
         if (disposed || !host.current) return;
+        let visits = 0;
+        try {
+          visits = Math.max(
+            0,
+            Math.min(
+              3,
+              Number(
+                JSON.parse(localStorage.getItem("tiggy-progress") || "{}")
+                  .activities?.[id],
+              ) || 0,
+            ),
+          );
+        } catch {}
         const level = new ActivityScene(
           id,
           (s) => {
@@ -52,12 +67,14 @@ export default function Activity({
             setState(s);
             if (s.finished) done.current();
           },
-          (text, key) => {
+          (text, key, actor = activities[id].character) => {
+            setSpeaker(actor);
             setCaption(text);
             setClip(key);
-            narrate(text, key, activities[id].character);
+            narrate(text, key, actor);
           },
           () => chime(),
+          visits,
         );
         scene.current = level;
         const phone = window.innerWidth <= 600;
@@ -106,6 +123,7 @@ export default function Activity({
       className="game-page activity-page"
       aria-label={game.name}
       data-step={state.step}
+      data-busy={state.busy}
       data-activity={id}
     >
       <div className="game-top">
@@ -125,7 +143,7 @@ export default function Activity({
               : "Dialogue shown in speech bubble"
           }
           disabled={!hasVoice}
-          onClick={() => speak(caption, clip, game.character)}
+          onClick={() => speak(caption, clip, speaker)}
         >
           <Volume2 />
         </button>
@@ -159,55 +177,115 @@ export default function Activity({
           </button>
         </div>
       )}
-      <div className="activity-choices" aria-label="Choose an object">
-        {step.choices.map((choice) => (
+      <p className="drag-instruction">
+        Drag a picture to its glowing space. You can also tap a picture, then
+        its space.
+      </p>
+      {state.waiting && (
+        <section
+          className="routine-pause"
+          aria-label="Your turn, at your own pace"
+        >
+          <p>Now your turn! Pretending is welcome. There is no need to eat.</p>
           <button
-            key={choice.id}
-            className={`activity-choice ${state.selected.includes(choice.id) ? "selected" : ""}`}
-            disabled={
-              !loaded ||
-              suspended ||
-              state.busy ||
-              state.finished ||
-              state.selected.includes(choice.id)
-            }
-            aria-pressed={state.selected.includes(choice.id)}
-            onClick={() => scene.current?.choose(choice.id)}
-            aria-label={`Choose ${choice.label.toLowerCase()}`}
+            className="primary"
+            onClick={() => scene.current?.continueRoutine()}
           >
-            {choice.frame !== undefined ? (
-              <span
-                className="activity-sprite"
-                aria-hidden="true"
-                style={{
-                  backgroundPosition: `${(choice.frame % 6) * 20}% ${(Math.floor(choice.frame / 6) * 100) / 3}%`,
-                }}
-              />
-            ) : (
-              <span
-                className="activity-colour"
-                style={{
-                  backgroundColor: `#${choice.colour!.toString(16).padStart(6, "0")}`,
-                }}
-                aria-hidden="true"
-              />
-            )}
-            <span>{choice.label}</span>
-            {state.selected.includes(choice.id) && <Check size={18} />}
+            Continue playing
           </button>
-        ))}
-      </div>
+          <button className="pill" onClick={onHome}>
+            All done for now
+          </button>
+        </section>
+      )}
+      <details className="accessible-play">
+        <summary>Use keyboard or simple matching controls</summary>
+        <div className="activity-choices" aria-label="Choose an object">
+          {step.choices.map((choice) => (
+            <button
+              key={choice.id}
+              className={`activity-choice ${state.selected.includes(choice.id) ? "selected" : ""}`}
+              disabled={
+                !loaded ||
+                suspended ||
+                state.busy ||
+                state.finished ||
+                state.selected.includes(choice.id)
+              }
+              aria-pressed={state.selected.includes(choice.id)}
+              onClick={() => scene.current?.choose(choice.id)}
+              aria-label={`Choose ${choice.label.toLowerCase()}`}
+            >
+              {choice.frame !== undefined ? (
+                <span
+                  className="activity-sprite"
+                  aria-hidden="true"
+                  style={{
+                    backgroundPosition: `${(choice.frame % 6) * 20}% ${(Math.floor(choice.frame / 6) * 100) / 3}%`,
+                  }}
+                />
+              ) : (
+                <span
+                  className="activity-colour"
+                  style={{
+                    backgroundColor: `#${choice.colour!.toString(16).padStart(6, "0")}`,
+                  }}
+                  aria-hidden="true"
+                />
+              )}
+              <span>{choice.label}</span>
+              {state.selected.includes(choice.id) && <Check size={18} />}
+            </button>
+          ))}
+        </div>
+      </details>
       <div className="activity-tools">
         <button className="pill" onClick={restart}>
           <RotateCcw size={18} />
           Start again
         </button>
-        {id === "potty" && (
+        {["potty", "breakfast"].includes(id) && (
           <button className="pill" onClick={onHome}>
             All done for now
           </button>
         )}
       </div>
+      {["breakfast", "potty"].includes(id) && (
+        <div className="communication-tools" aria-label="Things we can say">
+          <button
+            className="pill"
+            onClick={() => {
+              setSpeaker("tiggy");
+              setCaption("Help me, please! We can try together.");
+              setClip("help-please");
+              scene.current?.requestHelp();
+              speakLine("Help me, please!", "help-please");
+            }}
+          >
+            Help me, please
+          </button>
+          <button
+            className="pill"
+            onClick={() => {
+              speakLine("More, please!", "more-please");
+              scene.current?.more();
+            }}
+          >
+            More, please
+          </button>
+          <button
+            className="pill"
+            onClick={() => {
+              setSpeaker("tiggy");
+              setCaption("All done! We can stop whenever you like.");
+              setClip("all-done");
+              speakLine("All done!", "all-done");
+            }}
+          >
+            All done
+          </button>
+        </div>
+      )}
       {state.finished && (
         <div className="modal-backdrop">
           <section

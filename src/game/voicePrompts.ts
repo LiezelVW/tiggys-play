@@ -73,6 +73,22 @@ export const voicePrompts = [
   ["breakfast-water", "Water, please!"],
   ["potty-pants", "Find the clean underpants!"],
   ["potty-dry", "Dry your hands with the towel!"],
+  ["breakfast-scoop", "Dip the spoon into Benny’s bowl."],
+  ["breakfast-feed", "Bring the spoon to Benny’s mouth. We can pretend!"],
+  ["breakfast-wipe", "Let’s gently wipe Benny’s mouth with the cloth."],
+  ["breakfast-done", "All done! Shall we put our hands together?"],
+  [
+    "breakfast-your-turn",
+    "Now your turn! You can try, pretend, or finish whenever you like.",
+  ],
+  ["potty-ask", "I need the potty! What should I do? Let’s ask for help."],
+  ["potty-bathroom", "Let’s go to the bathroom together."],
+  ["potty-clothes", "Let’s move our clothes out of the way."],
+  [
+    "potty-sit",
+    "Sit comfortably. There is no hurry. We can stop whenever you like.",
+  ],
+  ["potty-flush", "All done? Let’s flush, then wash our hands."],
 ] as const;
 export type VoicePromptId = (typeof voicePrompts)[number][0];
 
@@ -112,6 +128,11 @@ export function requiredVoiceIds(character: "tiggy" | "benny") {
         "breakfast-spoon",
         "breakfast-bowl",
         "breakfast-water",
+        "breakfast-scoop",
+        "breakfast-feed",
+        "breakfast-wipe",
+        "breakfast-done",
+        "breakfast-your-turn",
         "try-again",
         ...encouragementIds,
       ];

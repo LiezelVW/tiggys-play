@@ -1,5 +1,5 @@
 import { activate } from "./input";
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 test("trucks: wrong colour retry, three ramp runs, replay and persistent progress", async ({
   page,
 }) => {
@@ -15,6 +15,12 @@ test("trucks: wrong colour retry, three ramp runs, replay and persistent progres
     "data-ready",
     "true",
   );
+  await activate(
+    page.getByRole("button", { name: "Count the trucks", exact: true }),
+  );
+  await expect(
+    page.getByText("One, two, three trucks!", { exact: true }),
+  ).toBeVisible();
   await activate(page.getByRole("button", { name: "Choose blue truck" }));
   await expect(
     page.getByText("Let’s find the red truck. Try another one!"),

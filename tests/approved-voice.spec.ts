@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 import { approvedVoice } from "../src/game/approvedVoice";
 import { activate } from "./input";
 

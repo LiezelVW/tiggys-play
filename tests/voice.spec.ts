@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 import { readFile } from "node:fs/promises";
 import { voicePrompts } from "../src/game/voicePrompts";
 import { activate } from "./input";

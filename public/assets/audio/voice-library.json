@@ -720,6 +720,111 @@
       "file": "potty-dry.mp3",
       "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
+    },
+    {
+      "id": "breakfast-scoop",
+      "text": "Dip the spoon into Benny’s bowl.",
+      "requiredFor": [
+        "tiggy",
+        "benny"
+      ],
+      "file": "breakfast-scoop.mp3",
+      "approvedTiggyAsset": null,
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "breakfast-feed",
+      "text": "Bring the spoon to Benny’s mouth. We can pretend!",
+      "requiredFor": [
+        "tiggy",
+        "benny"
+      ],
+      "file": "breakfast-feed.mp3",
+      "approvedTiggyAsset": null,
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "breakfast-wipe",
+      "text": "Let’s gently wipe Benny’s mouth with the cloth.",
+      "requiredFor": [
+        "tiggy",
+        "benny"
+      ],
+      "file": "breakfast-wipe.mp3",
+      "approvedTiggyAsset": null,
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "breakfast-done",
+      "text": "All done! Shall we put our hands together?",
+      "requiredFor": [
+        "tiggy",
+        "benny"
+      ],
+      "file": "breakfast-done.mp3",
+      "approvedTiggyAsset": null,
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "breakfast-your-turn",
+      "text": "Now your turn! You can try, pretend, or finish whenever you like.",
+      "requiredFor": [
+        "tiggy",
+        "benny"
+      ],
+      "file": "breakfast-your-turn.mp3",
+      "approvedTiggyAsset": null,
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "potty-ask",
+      "text": "I need the potty! What should I do? Let’s ask for help.",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "potty-ask.mp3",
+      "approvedTiggyAsset": null,
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "potty-bathroom",
+      "text": "Let’s go to the bathroom together.",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "potty-bathroom.mp3",
+      "approvedTiggyAsset": null,
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "potty-clothes",
+      "text": "Let’s move our clothes out of the way.",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "potty-clothes.mp3",
+      "approvedTiggyAsset": null,
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "potty-sit",
+      "text": "Sit comfortably. There is no hurry. We can stop whenever you like.",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "potty-sit.mp3",
+      "approvedTiggyAsset": null,
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "potty-flush",
+      "text": "All done? Let’s flush, then wash our hands.",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "potty-flush.mp3",
+      "approvedTiggyAsset": null,
+      "status": "missing-approved-performance"
     }
   ]
 }

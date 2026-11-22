@@ -1,5 +1,5 @@
 import { activate } from "./input";
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 test("complete all three rounds, persist progress, and replay", async ({
   page,
 }) => {

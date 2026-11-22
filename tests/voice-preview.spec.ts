@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 import { voicePrompts, requiredVoiceIds } from "../src/game/voicePrompts";
 import { activate } from "./input";
 function tone() {
@@ -240,7 +240,9 @@ test("a partial voice is activated only by approval; missing lines stay visual",
     });
   await expect(page.getByRole("status")).toContainText("audition only");
   await expect(
-    page.getByText("70 required lines missing.", { exact: false }),
+    page.getByText(`${voicePrompts.length - 1} required lines missing.`, {
+      exact: false,
+    }),
   ).toBeVisible();
   expect(
     await page.evaluate(() =>
