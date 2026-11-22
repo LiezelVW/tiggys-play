@@ -1,25 +1,38 @@
 # Verification evidence
 
-## Follow-up: logo, ramp contact and recording
+## Current scope
 
-Functional commit `67f9ef5`: the production build, TypeScript check and asset/private-photo guard pass. The browser matrix covers desktop Chromium (1440 × 1000), tablet Chromium (1024 × 1366), phone Chromium and phone WebKit. See the latest PR check for clean-install CI evidence; local result: **42 passed, 10 intentional skips** (duplicate geometry/lifecycle checks and the desktop-only touch exclusion), with no failures.
+Ten complete, focused activities are playable: Colour Garden, Monster Truck Mayhem, Little Builders, Tiggy’s Railway, Science Lab, Ready Set Go, Build & Solve, Ferris Wheel, Benny Bear’s Breakfast and Potty Time. Each new activity has three/four steps, illustrated choices, gentle retries, completion, replay, home controls and persisted local progress. This is not a claim that each world has multiple completed minigames.
 
-The truck shares one ramp outline between drawing and tyre-contact calculations. Geometry checks traverse both landscape and portrait courses and verify tyre contact, continuous height/rotation, ascent, descent and flat start/end poses. Browser tests complete all rounds, exercise fast repeated taps, jumping, replay, gentle wrong-colour recovery and reduced motion. Reduced motion preserves ramp contact while disabling jumping and ambient animation.
+The voice studio imports MP3/WAV dialogue or candidate JSON, previews without activation, requires a complete pack plus explicit approval, persists the choice per character, restores the prior recording source and supports deletion. It never changes pitch or speed. Tiggy and Benny do not borrow one another’s dialogue. Volume, mute, gesture unlock, preload/cache and natural automatic-dialogue pauses share one manager across games. Missing speech has visual bubbles and optional original chimes.
 
-Where MediaRecorder is available, recording tests use a generated oscillator stream in place of the microphone, with a guard against accidentally using real microphone input. They exercise the native MediaRecorder, preview, IndexedDB save, reload, actual media playback, export, deletion and restoration in all four macOS browser configurations. Linux WebKit omits MediaRecorder; there the same test verifies the error message and imports a generated WAV, then exercises persistence, playback, export, deletion and restoration. A separate lifecycle test verifies that leaving the parent recorder stops microphone tracks. Audio is stored as bytes with its MIME type to avoid Safari Blob persistence failures. No generated test recordings are committed or uploaded.
+**No approved new speech performances are bundled.** There are 71 missing Tiggy lines and 10 missing Benny lines. [Every filename and spoken phrase](audio/MISSING-ASSETS.csv) · [Import/approval workflow and provider investigation](audio/VOICE-SYSTEM.md).
 
-Both games retain progress, the parental gate, mute preferences and session-limit coverage. The rejected narration files and automatic system speech fallback are removed; spoken lines become available only after a grown-up records or imports them. Visual instructions and chimes remain available without voice recordings.
+## Checks
 
-## Actual rendered screenshots
+`npm run build`, the asset/private-photo guard and TypeScript pass. The local full matrix passed **86 tests with 10 intentional skips** (duplicate pure-geometry/lifecycle coverage and the desktop touch exclusion). Final visual refinements at functional commit `52686d5` then passed **16 targeted checks** across all four configurations, including signpost hit targets, Science Lab, Ferris Wheel and Breakfast. The final clean-install CI result is linked in PR #2. The Playwright matrix covers desktop Chromium, tablet Chromium, phone Chromium and phone WebKit. It verifies full activities, wrong-answer recovery, replay, persistence, parent controls, scene suspension, voluntary exit from Potty Time, session limits, reduced motion, ramp geometry, rapid tapping, art loading and overflow.
 
-| Viewport | World | Trucks | Driving | Garden | Parent recorder |
-| --- | --- | --- | --- | --- | --- |
-| Desktop | [World](screenshots/world-desktop.png) | [Trucks](screenshots/trucks-desktop.png) | [Driving](screenshots/driving-desktop.png) | [Garden](screenshots/garden-desktop.png) | [Recorder](screenshots/recorder-desktop.png) |
-| Tablet | [World](screenshots/world-tablet.png) | [Trucks](screenshots/trucks-tablet.png) | [Driving](screenshots/driving-tablet.png) | [Garden](screenshots/garden-tablet.png) | [Recorder](screenshots/recorder-tablet.png) |
-| Phone | [World](screenshots/world-mobile.png) | [Trucks](screenshots/trucks-mobile.png) | [Driving](screenshots/driving-mobile.png) | [Garden](screenshots/garden-mobile.png) | [Recorder](screenshots/recorder-mobile.png) |
+Voice tests use generated tones rather than anyone’s speech. They exercise native media playback, import without approval, incomplete-pack rejection, approval persistence, separate character selection, original playback rate, volume persistence, restore and invalid filenames. Recording tests use a synthetic microphone stream; Linux WebKit without MediaRecorder verifies the real WAV import fallback. No test tone is shipped as dialogue or committed as an audition candidate.
 
-These are actual screenshots of the production build, not mockups. They show the new outlined wordmark, rendered game assets, ramp traversal and parent recorder. The capture script checks for browser page errors. No private photograph or personal recording appears in the captures.
+## Rendered evidence
+
+The screenshot script captures the production build at desktop (1440 × 1000), tablet (1024 × 1366) and phone (390 × 844) sizes. The 42 captures include the home world, both original games, ramp traversal, eight added activities, recorder and voice studio. The script checks browser page errors. No private photograph or personal recording is shown.
+
+| Activity | Desktop | Tablet | Phone |
+| --- | --- | --- | --- |
+| World | [View](screenshots/world-desktop.png) | [View](screenshots/world-tablet.png) | [View](screenshots/world-mobile.png) |
+| Colour Garden | [View](screenshots/garden-desktop.png) | [View](screenshots/garden-tablet.png) | [View](screenshots/garden-mobile.png) |
+| Monster Truck Mayhem | [View](screenshots/driving-desktop.png) | [View](screenshots/driving-tablet.png) | [View](screenshots/driving-mobile.png) |
+| Little Builders | [View](screenshots/builders-desktop.png) | [View](screenshots/builders-tablet.png) | [View](screenshots/builders-mobile.png) |
+| Railway | [View](screenshots/railway-desktop.png) | [View](screenshots/railway-tablet.png) | [View](screenshots/railway-mobile.png) |
+| Science Lab | [View](screenshots/science-desktop.png) | [View](screenshots/science-tablet.png) | [View](screenshots/science-mobile.png) |
+| Ready Set Go | [View](screenshots/ready-desktop.png) | [View](screenshots/ready-tablet.png) | [View](screenshots/ready-mobile.png) |
+| Build & Solve | [View](screenshots/blocks-desktop.png) | [View](screenshots/blocks-tablet.png) | [View](screenshots/blocks-mobile.png) |
+| Ferris Wheel | [View](screenshots/ferris-desktop.png) | [View](screenshots/ferris-tablet.png) | [View](screenshots/ferris-mobile.png) |
+| Benny’s Breakfast | [View](screenshots/breakfast-desktop.png) | [View](screenshots/breakfast-tablet.png) | [View](screenshots/breakfast-mobile.png) |
+| Potty Time | [View](screenshots/potty-desktop.png) | [View](screenshots/potty-tablet.png) | [View](screenshots/potty-mobile.png) |
+| Voice studio | [View](screenshots/voice-studio-desktop.png) | [View](screenshots/voice-studio-tablet.png) | [View](screenshots/voice-studio-mobile.png) |
 
 ## Review limits
 
-PR #2 targets `main` and remains unmerged. Browser emulation does not replace physical-device acceptance on iPhone, Android and iPad. The reference-derived character animation frames remain subject to final art review. No Irish voice performance was generated: parents can record their own natural adult voice on their device, or import audio. Five additional worlds, cloud accounts and native packaging remain future work.
+PR #2 remains unmerged. The flatter original 2D pass is generated illustration refined from the existing approved design, not hand-drawn artwork by a professional animator or a copy of Lingokids. The new frames need final art/animation review, particularly small badge lettering and transition cleanup. Benny has four reaction drawings; this is not a full skeletal animation rig. Physical iPhone, Android and iPad acceptance remains separate from browser emulation. Cloud accounts, multiple activities per world, native packaging and a shared approved character voice pack remain future work.
