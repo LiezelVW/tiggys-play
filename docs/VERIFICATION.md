@@ -15,6 +15,7 @@ All ten focused activities remain playable. Ferris passengers, railway cars and 
 - After final speech/body-layer, loading-decoding and vehicle refinements: **36 targeted checks passed** across the same four browser configurations. Earlier final loading/traffic/truck refinements also passed 12 checks.
 - Final Ferris free-order placement regression: **eight checks passed**, including genuine mouse/touch wrong-cabin returns and Blue-before-Red completion.
 - Final voice gain, approval and recorder regression: **12 checks passed** across all four configurations. The mixer test measures decoded audio signal, verifies body gestures survive speaking, and checks separate persistent levels.
+- Hosted touch timing correction: the audio test now records the actual speaking/Wave overlap while the one-second clip plays; a hosted tap may return after playback has ended. All four corrected mixer checks pass locally.
 - Provider tooling: **eight mocked contract/privacy checks pass**. No live synthesis request or API key is required for the running app.
 
 The intentional skips are duplicate pure-geometry/lifecycle checks and the desktop-only exclusion for touch-specific input. Browser emulation is not a claim of physical-device acceptance.

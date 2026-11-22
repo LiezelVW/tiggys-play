@@ -20,7 +20,18 @@ test("original music ducks during approved speech; independent audio levels pers
           (max, value) => Math.max(max, Math.abs(value - 128)),
           0,
         );
-        const win = window as unknown as { voicePeak?: number };
+        const win = window as unknown as {
+          voicePeak?: number;
+          spokeWhileWaving?: boolean;
+        };
+        const character = document.querySelector<HTMLCanvasElement>(
+          ".tiggy-character canvas",
+        );
+        if (
+          character?.dataset.speaking === "true" &&
+          character.dataset.action === "Wave"
+        )
+          win.spokeWhileWaving = true;
         win.voicePeak = Math.max(win.voicePeak || 0, peak);
         if (performance.now() - started < 8000) requestAnimationFrame(collect);
       };
@@ -35,14 +46,17 @@ test("original music ducks during approved speech; independent audio levels pers
   });
   await page.goto("/");
   await activate(page.getByRole("button", { name: "Say hello to Tiggy" }));
-  await expect(page.locator(".tiggy-character canvas")).toHaveAttribute(
-    "data-speaking",
-    "true",
-  );
-  await expect(page.locator(".tiggy-character canvas")).toHaveAttribute(
-    "data-action",
-    "Wave",
-  );
+  // A hosted touch tap can return after this one-second clip has ended.
+  // Observe the real rendered overlap during playback, rather than afterward.
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () =>
+          (window as unknown as { spokeWhileWaving?: boolean })
+            .spokeWhileWaving === true,
+      ),
+    )
+    .toBe(true);
   await expect
     .poll(() =>
       page.evaluate(
