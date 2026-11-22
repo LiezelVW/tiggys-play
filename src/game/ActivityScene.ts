@@ -17,6 +17,7 @@ export class ActivityScene extends Phaser.Scene {
   private finished = false;
   private waiting = false;
   private chosen: string[] = [];
+  private ferrisMatched = new Set<string>();
   private layer!: Phaser.GameObjects.Container;
   private boy!: TiggySprite;
   private bear?: Phaser.GameObjects.Sprite;
@@ -110,7 +111,8 @@ export class ActivityScene extends Phaser.Scene {
       step: this.step,
       finished: this.finished,
       busy: this.busy,
-      selected: [...this.chosen],
+      selected:
+        this.id === "ferris" ? [...this.ferrisMatched] : [...this.chosen],
       waiting: this.waiting,
     });
     this.game.canvas.dataset.activityStep = String(this.step);
@@ -156,6 +158,14 @@ export class ActivityScene extends Phaser.Scene {
     const w = this.scale.width,
       step = activities[this.id].steps[this.step];
     if (this.id === "ferris") {
+      const next =
+        ["red", "blue", "yellow"].find((id) => !this.ferrisMatched.has(id)) ||
+        "red";
+      const cue = step.choices.find((c) => c.id === next)!;
+      this.layer.add(this.add.circle(75, 85, 34, 0xffffff));
+      this.layer.add(
+        this.add.circle(75, 85, 25, cue.colour!).setStrokeStyle(3, 0x143657),
+      );
       this.cabins.forEach((c, i) =>
         this.targets.push({
           x: c.x,
@@ -293,9 +303,15 @@ export class ActivityScene extends Phaser.Scene {
       });
       this.input.setDraggable(card);
       this.layer.add(card);
-      this.sources.push(card);
+      if (this.id === "ferris" && this.ferrisMatched.has(choice.id))
+        card.setVisible(false).disableInteractive();
+      else this.sources.push(card);
     });
-    this.say(promptText(step.clip), step.clip);
+    const instruction =
+      this.id === "ferris"
+        ? `ferris-${["red", "blue", "yellow"].find((id) => !this.ferrisMatched.has(id)) || "red"}`
+        : step.clip;
+    this.say(promptText(instruction), instruction);
     this.emit();
   }
   private returnHome(obj: Phaser.GameObjects.Container) {
@@ -326,8 +342,9 @@ export class ActivityScene extends Phaser.Scene {
       return;
     }
     if (
-      !step.correct.includes(choice.id) ||
-      (this.id === "ferris" && target.id !== choice.id)
+      this.id === "ferris"
+        ? target.id !== choice.id || this.ferrisMatched.has(choice.id)
+        : !step.correct.includes(choice.id)
     ) {
       this.boy.play("help");
       this.say("Let’s try again!", "try-again");
@@ -340,6 +357,7 @@ export class ActivityScene extends Phaser.Scene {
       return;
     }
     this.chosen.push(choice.id);
+    if (this.id === "ferris") this.ferrisMatched.add(choice.id);
     (obj.first as Phaser.GameObjects.Graphics).setAlpha(0);
     this.busy = true;
     obj.disableInteractive();

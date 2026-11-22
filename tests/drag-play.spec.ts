@@ -74,14 +74,18 @@ test("Ferris wheel: drag passengers into matching cabins and complete all three 
 }) => {
   const w = await open(page, "Ferris Wheel"),
     main = page.getByRole("main", { name: "Ferris Wheel", exact: true });
-  await drag(page, [w / 2 - 150, 455], [w / 2 - 125, 238]);
+  await drag(page, [w / 2 - 150, 455], [w / 2 + 62.5, 346.25]);
   await expect(main).toHaveAttribute("data-step", "0"); // wrong cabin returns the passenger, no penalty
+  await expect(main.locator(".speech-bubble")).toContainText(
+    "Let’s try again!",
+  );
   for (let step = 0; step < 3; step++) {
     await expect(main).toHaveAttribute("data-step", String(step));
-    const a = (step * Math.PI) / 3 + (step * Math.PI) / 3;
+    const colourIndex = [1, 0, 2][step]; // A matching blue passenger is welcome before red; no forced colour order.
+    const a = (step * Math.PI) / 3 + (colourIndex * Math.PI) / 3;
     await drag(
       page,
-      [w / 2 + (step - 1) * 150, 455],
+      [w / 2 + (colourIndex - 1) * 150, 455],
       [w / 2 + Math.cos(a) * 125, 238 + Math.sin(a) * 125],
     );
     if (step === 0)

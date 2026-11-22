@@ -35,7 +35,7 @@ for (const id of activityIds) {
     await activate(page.getByText("Use keyboard or simple matching controls"));
     const first = activities[id].steps[0];
     const incorrect = first.choices.find((c) => !first.correct.includes(c.id));
-    if (incorrect) {
+    if (incorrect && id !== "ferris") {
       await activate(
         page.getByRole("button", {
           name: `Choose ${incorrect.label.toLowerCase()}`,
