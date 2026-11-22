@@ -2,6 +2,12 @@
 let context: AudioContext | undefined,
   music: GainNode | undefined,
   effects: GainNode | undefined;
+let voice: GainNode | undefined;
+let voiceVolume = 0.7;
+const voiceSources = new WeakMap<
+  HTMLMediaElement,
+  MediaElementAudioSourceNode
+>();
 let musicVolume = 0.18,
   effectsVolume = 0.45,
   muted = false,
@@ -27,6 +33,11 @@ const motifs: Record<string, number[]> = {
 };
 function gain() {
   if (!context || !music || !effects) return;
+  voice?.gain.setTargetAtTime(
+    muted ? 0 : voiceVolume,
+    context.currentTime,
+    0.025,
+  );
   music.gain.setTargetAtTime(
     muted || paused ? 0 : musicVolume * (ducked ? 0.25 : 1),
     context.currentTime,
@@ -98,6 +109,11 @@ export function unlockAmbience() {
       context = new AudioContext();
       music = context.createGain();
       effects = context.createGain();
+      voice = context.createGain();
+      voice.gain.value = voiceVolume;
+      voice.connect(context.destination);
+      music.gain.value = 0;
+      effects.gain.value = effectsVolume;
       music.connect(context.destination);
       effects.connect(context.destination);
     }
@@ -114,6 +130,23 @@ export function setMusicTrack(value: string) {
   track = value;
   index = 0;
   if (context) next = context.currentTime + 0.1;
+}
+/** One reusable voice element routed through a real gain stage, including iOS Safari. */
+export function connectVoice(audio: HTMLMediaElement) {
+  if (!context || !voice) return false;
+  if (voiceSources.has(audio)) return true;
+  try {
+    const source = context.createMediaElementSource(audio);
+    source.connect(voice);
+    voiceSources.set(audio, source);
+    return true;
+  } catch {
+    return false;
+  }
+}
+export function setVoiceMixVolume(value: number) {
+  voiceVolume = Math.max(0, Math.min(1, value));
+  gain();
 }
 export function setMusicVolume(value: number) {
   musicVolume = Math.max(0, Math.min(1, value));

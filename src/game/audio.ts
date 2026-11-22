@@ -3,6 +3,8 @@ import {
   duckMusic,
   setSoundscapeMuted,
   gentleEffect,
+  connectVoice,
+  setVoiceMixVolume,
 } from "./soundscape";
 export { gentleEffect } from "./soundscape";
 import { characterDialogue } from "./characterDialogue";
@@ -33,7 +35,8 @@ export function setMuted(value: boolean) {
 }
 export function setVolume(value: number) {
   volume = Number.isFinite(value) ? Math.max(0, Math.min(1, value)) : 0.7;
-  if (current) current.volume = volume;
+  setVoiceMixVolume(volume);
+  if (current) current.volume = connectVoice(current) ? 1 : volume;
 }
 /** Called synchronously in a real touch/key gesture. Keep this single media element for iOS. */
 export function unlockAudio() {
@@ -43,7 +46,7 @@ export function unlockAudio() {
   if (playing) return;
   const request = revision;
   current.src = SILENCE;
-  current.volume = volume;
+  current.volume = connectVoice(current) ? 1 : volume;
   void current
     .play()
     .then(() => {
@@ -106,7 +109,7 @@ export function playVoiceSource(
   if (muted || volume === 0) return;
   const request = revision;
   current ??= new Audio();
-  current.volume = volume;
+  current.volume = connectVoice(current) ? 1 : volume;
   current.playbackRate = 1;
   current.src = src;
   playing = true;

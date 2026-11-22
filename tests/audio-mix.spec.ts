@@ -6,6 +6,27 @@ test("original music ducks during approved speech; independent audio levels pers
   await page.addInitScript(() => {
     const win = window as unknown as { gains: number[] };
     win.gains = [];
+    const sourceFactory = AudioContext.prototype.createMediaElementSource;
+    AudioContext.prototype.createMediaElementSource = function (element) {
+      const source = sourceFactory.call(this, element),
+        meter = this.createAnalyser();
+      source.connect(meter);
+      (window as unknown as { voiceMeter: AnalyserNode }).voiceMeter = meter;
+      const started = performance.now();
+      const collect = () => {
+        const samples = new Uint8Array(meter.fftSize);
+        meter.getByteTimeDomainData(samples);
+        const peak = samples.reduce(
+          (max, value) => Math.max(max, Math.abs(value - 128)),
+          0,
+        );
+        const win = window as unknown as { voicePeak?: number };
+        win.voicePeak = Math.max(win.voicePeak || 0, peak);
+        if (performance.now() - started < 8000) requestAnimationFrame(collect);
+      };
+      requestAnimationFrame(collect);
+      return source;
+    };
     const original = AudioParam.prototype.setTargetAtTime;
     AudioParam.prototype.setTargetAtTime = function (value, start, constant) {
       win.gains.push(value);
@@ -22,6 +43,14 @@ test("original music ducks during approved speech; independent audio levels pers
     "data-action",
     "Wave",
   );
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () =>
+          ((window as unknown as { voicePeak?: number }).voicePeak || 0) > 2,
+      ),
+    )
+    .toBe(true);
   await expect
     .poll(() =>
       page.evaluate(() =>

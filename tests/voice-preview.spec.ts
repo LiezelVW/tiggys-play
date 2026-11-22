@@ -39,6 +39,12 @@ test("audition is separate from approval, complete packs persist, character voic
       plays: { src: string; rate: number; volume: number }[];
     };
     win.plays = [];
+    (window as unknown as { gains: number[] }).gains = [];
+    const target = AudioParam.prototype.setTargetAtTime;
+    AudioParam.prototype.setTargetAtTime = function (value, start, constant) {
+      (window as unknown as { gains: number[] }).gains.push(value);
+      return target.call(this, value, start, constant);
+    };
     const original = HTMLMediaElement.prototype.play;
     HTMLMediaElement.prototype.play = function () {
       win.plays.push({
@@ -175,13 +181,13 @@ test("audition is separate from approval, complete packs persist, character voic
   expect(await page.evaluate(() => localStorage.getItem("tiggy-volume"))).toBe(
     "0.35",
   );
-  const playedVolume = await page.evaluate(
-    () =>
-      (window as unknown as { plays: { src: string; volume: number }[] }).plays
-        .filter((p) => p.src.startsWith("blob:"))
-        .at(-1)?.volume,
-  );
-  expect(playedVolume).toBeCloseTo(0.35, 2);
+  expect(
+    await page.evaluate(() =>
+      (window as unknown as { gains: number[] }).gains.some(
+        (value) => Math.abs(value - 0.35) < 0.001,
+      ),
+    ),
+  ).toBe(true);
   const rates = await page.evaluate(() =>
     (window as unknown as { plays: { rate: number; src: string }[] }).plays
       .filter((p) => p.src.startsWith("blob:"))

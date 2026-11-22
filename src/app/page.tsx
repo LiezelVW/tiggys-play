@@ -31,6 +31,7 @@ import {
   unlockAudio,
   preloadVoice,
   speak,
+  stopAudio,
 } from "../game/audio";
 type Progress = {
   completed: number;
@@ -154,8 +155,11 @@ export default function Page() {
     setMusicTrack(game || "world");
   }, [game]);
   useEffect(() => {
-    const sync = () =>
-      pauseSoundscape(parent || paused || !!notice || document.hidden);
+    const sync = () => {
+      const suspended = parent || paused || !!notice || document.hidden;
+      if (suspended) stopAudio();
+      pauseSoundscape(suspended);
+    };
     sync();
     document.addEventListener("visibilitychange", sync);
     return () => document.removeEventListener("visibilitychange", sync);
