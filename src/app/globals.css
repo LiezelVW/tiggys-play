@@ -1466,3 +1466,23 @@ footer button {
   border-color: #087f80;
   background: #d7ede4;
 }
+
+.play-dock .dock-picture {
+  flex: 0 0 58px;
+  width: 58px;
+  height: 58px;
+  border-radius: 14px;
+  padding: 0;
+  background-color: transparent;
+}
+.play-dock svg.dock-picture {
+  padding: 5px;
+  color: #087f80;
+}
+@media (max-width: 600px) {
+  .play-dock .dock-picture {
+    flex-basis: 48px;
+    width: 48px;
+    height: 48px;
+  }
+}

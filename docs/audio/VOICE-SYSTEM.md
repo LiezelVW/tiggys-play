@@ -38,3 +38,7 @@ The ten activities call the same manager. Colour Garden and Monster Truck Mayhem
 - OpenAI: TTS supports delivery instructions and built-in voice choices; its documentation does not establish a guaranteed toddler character voice. No API key is configured. No adult stock voice was substituted. [TTS guide](https://developers.openai.com/api/docs/guides/text-to-speech).
 
 A voice performer or permitted fictional-character synthesis workflow can produce the same MP3/WAV scripts without changing the games. When a provider is used later, generate files outside the browser using server-side credentials; never add a `NEXT_PUBLIC_` provider key or expose a paid generation endpoint to children. This build calls no speech provider at runtime and needs no voice secrets.
+
+## Performance brief for prerecorded dialogue
+
+Tiggy: an original cheerful young cartoon boy, curious and warm, with clear consonants and short natural phrases. Preserve a gentle Irish-English character where the performer can deliver it naturally. Avoid adult narration, exaggerated baby speech, squeakiness and artificial pitch shifting. Benny: a separate friendly, rounded bear character performance, not the same voice renamed. Deliver one clean MP3/WAV per exact script, without background music or spoken stage directions; let the app provide the response pauses. Preview real performances for intelligibility and emotional fit before approving a pack. No recording or likeness of Thiago is needed.

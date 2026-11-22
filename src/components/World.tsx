@@ -6,12 +6,25 @@ import {
   Play,
   Volume2,
   Sparkles,
+  FerrisWheel,
+  FlaskConical,
+  CarFront,
 } from "lucide-react";
 import { useVoiceAvailable } from "./useVoice";
 import { activities, activityIds, type ActivityId } from "../game/activities";
 import Tiggy from "./Tiggy";
 import { speak, chime } from "../game/audio";
 export type GameId = "garden" | "trucks" | ActivityId;
+const activityThumbnails: Record<ActivityId, number> = {
+  builders: 19,
+  railway: 21,
+  science: 23,
+  ready: 19,
+  blocks: 17,
+  ferris: 0,
+  breakfast: 0,
+  potty: 11,
+};
 const areas = [
   { name: "Monster Truck Mayhem", x: 16, y: 31, game: "trucks" },
   { name: "Little Builders", x: 51, y: 29, game: "builders" },
@@ -187,7 +200,21 @@ export default function World({
             aria-label={`Open ${activities[id].name}`}
             onClick={() => onPlay(id)}
           >
-            <Play fill="currentColor" />
+            {id === "science" ? (
+              <FlaskConical className="dock-picture" aria-hidden="true" />
+            ) : id === "ready" ? (
+              <CarFront className="dock-picture" aria-hidden="true" />
+            ) : id === "ferris" ? (
+              <FerrisWheel className="dock-picture" aria-hidden="true" />
+            ) : (
+              <span
+                className="activity-sprite dock-picture"
+                aria-hidden="true"
+                style={{
+                  backgroundPosition: `${(activityThumbnails[id] % 6) * 20}% ${(Math.floor(activityThumbnails[id] / 6) * 100) / 3}%`,
+                }}
+              />
+            )}
             <span>
               {activities[id].name}
               <small>{activities[id].subtitle}</small>
