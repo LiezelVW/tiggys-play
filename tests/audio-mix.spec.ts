@@ -10,8 +10,18 @@ test("original music ducks during approved speech; independent audio levels pers
     };
     win.gains = [];
     win.mediaEvents = [];
+    const monitored = new WeakSet<HTMLMediaElement>();
     const nativePlay = HTMLMediaElement.prototype.play;
     HTMLMediaElement.prototype.play = function () {
+      if (!monitored.has(this)) {
+        monitored.add(this);
+        for (const event of ["playing", "ended", "pause", "error", "abort"])
+          this.addEventListener(event, () => {
+            win.mediaEvents.push(
+              `${event}: ${this.currentSrc} ended=${this.ended} error=${this.error?.message || "none"}`,
+            );
+          });
+      }
       const src = this.src;
       win.mediaEvents.push(`play ${src}`);
       return nativePlay.call(this).then(
@@ -78,6 +88,7 @@ test("original music ducks during approved speech; independent audio levels pers
           overlap: !!win.spokeWhileWaving,
           peak: win.voicePeak,
           events: win.mediaEvents,
+          gains: (window as unknown as { gains: number[] }).gains,
         };
       }),
     )

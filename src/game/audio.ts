@@ -114,7 +114,7 @@ export function playVoiceSource(
   current.src = src;
   playing = true;
   current.onended = () => {
-    if (request !== revision) return;
+    if (request !== revision || !current?.ended) return;
     playing = false;
     endDialogue();
     responseUntil = Date.now() + 1200;
@@ -127,16 +127,22 @@ export function playVoiceSource(
     queued = undefined;
     onError?.();
   };
-  current.onerror = failed;
+  current.onerror = () => {
+    if (current?.error) failed();
+  };
+  current.onplaying = () => {
+    // A queued event from the unlock source must not change a later line.
+    if (request !== revision || current?.currentSrc !== current?.src) return;
+    duckMusic(true);
+    if (character) {
+      speakingCharacter = character;
+      characterDialogue(character, true);
+    }
+  };
   void current
     .play()
     .then(() => {
       unlocked = true;
-      if (request === revision) duckMusic(true);
-      if (request === revision && character) {
-        speakingCharacter = character;
-        characterDialogue(character, true);
-      }
     })
     .catch(failed);
 }
@@ -182,6 +188,7 @@ export function stopAudio() {
   if (current) {
     current.onerror = null;
     current.onended = null;
+    current.onplaying = null;
   }
   if ("speechSynthesis" in window) speechSynthesis.cancel();
 }
