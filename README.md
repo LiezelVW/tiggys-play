@@ -97,3 +97,7 @@ All 29 requested speech-development phrases are scripted, alongside game dialogu
 ## Flat 2D direction
 
 The active map, garden, arena, character frames and object atlas use a cleaner, flatter 2D pass with simpler contours and less texture/shading. Existing runtime vehicle geometry and touch targets remain aligned. Benny has four original expression/action frames. Ferris Wheel is drawn and animated in Phaser; its cabins stay upright as the wheel turns. Superseded textured files are retained for provenance, not used by the main experience. This remains original art, not Lingokids assets. Final character/badge cleanup and professional animator review are still required before a production-quality art sign-off.
+
+## ElevenLabs preparation
+
+The requested ElevenLabs provider has a local, credential-private workflow for text-only fictional voice auditions, selecting a returned candidate and rendering prerecorded dialogue. It does not upload family recordings/photos, expose a browser key, substitute a stock adult narrator or activate a voice automatically. Configure access privately and confirm permitted project use first. See [ElevenLabs setup and commands](docs/audio/ELEVENLABS.md). Run `npm run test:voice-provider` for the mocked API contract checks; no live provider generation has been verified yet.

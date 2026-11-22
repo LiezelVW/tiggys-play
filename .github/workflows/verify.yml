@@ -16,6 +16,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium webkit
+      - run: npm run test:voice-provider
       - run: npm run build
       - run: npm test
       - uses: actions/upload-artifact@v4
