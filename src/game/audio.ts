@@ -1,3 +1,4 @@
+import { characterDialogue } from "./characterDialogue";
 import { resolvedVoiceUrl, type Character } from "./voiceCandidates";
 let muted = false,
   volume = 0.7;
@@ -5,6 +6,11 @@ let current: HTMLAudioElement | null = null;
 let ctx: AudioContext | null = null;
 let effectsGain: GainNode | null = null;
 let currentKey = "";
+let speakingCharacter: Character | undefined;
+function endDialogue() {
+  if (speakingCharacter) characterDialogue(speakingCharacter, false);
+  speakingCharacter = undefined;
+}
 let revision = 0,
   unlocked = false,
   playing = false,
@@ -115,7 +121,11 @@ function flushQueued() {
     Math.max(0, responseUntil - Date.now()),
   );
 }
-export function playVoiceSource(src: string, onError?: () => void) {
+export function playVoiceSource(
+  src: string,
+  onError?: () => void,
+  character?: Character,
+) {
   stopAudio();
   if (muted || volume === 0) return;
   const request = revision;
@@ -127,12 +137,14 @@ export function playVoiceSource(src: string, onError?: () => void) {
   current.onended = () => {
     if (request !== revision) return;
     playing = false;
+    endDialogue();
     responseUntil = Date.now() + 1200;
     flushQueued();
   };
   const failed = () => {
     if (request !== revision) return;
     playing = false;
+    endDialogue();
     queued = undefined;
     onError?.();
   };
@@ -141,6 +153,10 @@ export function playVoiceSource(src: string, onError?: () => void) {
     .play()
     .then(() => {
       unlocked = true;
+      if (request === revision && character) {
+        speakingCharacter = character;
+        characterDialogue(character, true);
+      }
     })
     .catch(failed);
 }
@@ -154,7 +170,12 @@ export function speak(
     stopAudio();
     return;
   }
-  playVoiceSource(src);
+  const praise = ["well-done", "you-did-it", "yay", "good-job", "amazing"];
+  playVoiceSource(
+    src,
+    undefined,
+    clip && praise.includes(clip) ? undefined : character,
+  );
   currentKey = `${character}:${clip}`;
 }
 /** Automatic dialogue leaves room to answer; replay taps always play immediately. */
@@ -174,6 +195,7 @@ export function narrate(
   } else speak(text, clip, character);
 }
 export function stopAudio() {
+  endDialogue();
   currentKey = "";
   revision++;
   playing = false;

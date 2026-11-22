@@ -369,6 +369,7 @@ export default function Page() {
                     : "Voice preview & approval"}
                 </button>
                 {showStudio && <VoicePreview muted={muted || volume === 0} />}
+                <a className="pill" href="/character-lab">Character rig review</a>
                 {recordedVoices === 0 && !hasTiggyVoice && (
                   <p className="small-print">
                     Dialogue audio is unavailable until you approve a voice pack

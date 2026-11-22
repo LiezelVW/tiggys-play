@@ -169,7 +169,7 @@ export class GardenScene extends Phaser.Scene {
   private place(obj: Phaser.GameObjects.Container, name: Colour) {
     if (this.busy || !obj.active) return;
     if (!matches(obj.getData("colour"), name)) {
-      this.boy.play("idle");
+      this.boy.play("help");
       this.say("Let’s try another basket. You can do it!", "retry");
       this.reset(obj);
       return;

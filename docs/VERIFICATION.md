@@ -46,3 +46,17 @@ Available praise now cycles through the approved clips that exist instead of fal
 ## Approved uploaded cartoon voice — 22 November 2026
 
 Following explicit user approval, 15 trimmed dialogue WAV files are now bundled as Tiggy’s default on a fresh device. The full source recording, automatic transcript and unrelated private recordings remain excluded. A production build, TypeScript, asset guard and eight provider contract checks pass. Sixteen targeted browser checks pass across desktop/tablet/phone Chromium and phone WebKit: fresh-device greeting and celebration playback, native decoding of all 15 bundled cuts, candidate approval/reload isolation, and personal recording persistence/export/restore. Physical iPhone listening acceptance remains separate from WebKit emulation. No live synthesis call was needed.
+
+## Original SVG and Rive preparation — 22 November 2026
+
+Current character rendering supersedes the earlier generated-atlas screenshots and animation description. The original Illustrator neutral SVG now renders in React and every Phaser activity. It remains static: **bones, constraints, facial controls, the eight Rive animations and the exported TiggyController are not authored or verified**. The editor URL remained on its loading screen, and no Rive authoring connector is available.
+
+The neutral path audit found 48 paths and ten source groups, including the mouth and thigh in misleading groups and a continuous shirt/sleeve silhouette. The preparation script names 29 subgroups without changing any original path attributes, transforms or drawing order. A Chromium screenshot comparison of the original and preparation SVG returned byte-identical PNGs. Four original expression SVGs are preserved unchanged; only the neutral source is used by the application.
+
+The parent-only local export review checks the declared artboard/state machine/eight triggers, rejects corrupt exports, keeps the original static artwork on failure and never publishes imported files. This is a runtime contract check, not certification of a skeletal rig. The optional React/Phaser adapter, lifecycle handling, actual-dialogue notifications and gameplay action mappings are prepared but cannot be visually accepted against a finished rig without the real export.
+
+`npm install` (including exact Canvas runtime 2.54.0), production build, TypeScript and asset guard pass. Provider contracts: eight pass. New rendered evidence is in `original-tiggy-world-{desktop,tablet,mobile}.png`, `original-tiggy-garden-{desktop,tablet,mobile}.png` and `rig-review-{desktop,tablet,mobile}.png`. Original source and documented remaining editor work: [Rive handoff](art/tiggy-rive-source/RIGGING-HANDOFF.md).
+
+An initial local full run was interrupted by temporary-disk exhaustion; only this task's disposable local ASR environment/model cache was removed, preserving all original audio and artwork. The rerun disables trace recording locally to avoid exhausting disk; screenshots still record failures. Two older audio assertions were updated to reflect the newly approved bundled clips (Potty instruction available, Garden celebration replay available while muted).
+
+Final local full matrix: **106 passed, 10 intentional skips** across desktop/tablet/phone Chromium and phone WebKit (`npm test -- --trace=off`). All ten activities, approved audio, local recordings, parent gates/progress/session limits and the twelve new original-character/rig-review checks passed. No successful finished-rig animation test is claimed.

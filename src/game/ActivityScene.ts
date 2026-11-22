@@ -82,6 +82,7 @@ export class ActivityScene extends Phaser.Scene {
       }
     }
     this.boy = new TiggySprite(this, w - 90, 150);
+    this.boy.play("wave");
     this.layer = this.add.container(0, 0);
     if (this.id === "breakfast") {
       g.fillStyle(0xe7b879).fillEllipse(w / 2, 350, 350, 75);
@@ -292,7 +293,7 @@ export class ActivityScene extends Phaser.Scene {
     if (!step.choices.some((c) => c.id === id)) return;
     if (!step.correct.includes(id)) {
       this.say("Let’s try again!", "try-again");
-      this.boy.play("idle");
+      this.boy.play("thinking");
       this.emit();
       return;
     }

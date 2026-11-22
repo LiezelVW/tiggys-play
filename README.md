@@ -47,7 +47,7 @@ The map is a real responsive, pannable scene with visible signpost controls and 
 
 Approved cartoon references were supplied in `tiggys-play-character-assets.zip`. Only the two cartoon references were retained in `docs/art`. **Thiago’s photograph was extracted outside the checkout and has never been copied into the repository or public assets.** `.gitignore` and the asset check also reject private-photo filenames.
 
-The approved smooth-haired design is used in a 24-frame transparent atlas. Shared state definitions drive both the home React sprite and Phaser characters: idle, blink, wave, walk, jump, celebrate and talking. These are real frame changes rather than a static SVG moved with CSS. The reference-derived animation frames are new production candidates and should receive art review before a public release; they are not a claim that a professional animator has signed off every frame.
+The latest user-authored Illustrator artwork supersedes the earlier generated frame atlas. The unchanged neutral SVG is now used in both the home screen and Phaser. It is static until an authored and reviewed Rive export is supplied. The adapter defines all eight requested action triggers but no finished skeletal animation is claimed. See the Rive section below for the layer audit, remaining sleeve/facial separation and export review.
 
 The world, arena, garden and truck art are original generated illustrations; truck wheels are articulated vector graphics over a raster chassis. Paint variants preserve the windscreen and outline. Art provenance, frame layout and remaining work are in [the asset manifest](public/assets/manifest.json). The rejected geometric character files and obsolete marketing/home CSS were removed. The missing `/assets/tiggy/adventure-world.png` dependency was eliminated in favour of a tracked WebP world image.
 
@@ -101,3 +101,11 @@ The active map, garden, arena, character frames and object atlas use a cleaner, 
 ## ElevenLabs preparation
 
 The requested ElevenLabs provider has a local, credential-private workflow for text-only fictional voice auditions, selecting a returned candidate and rendering prerecorded dialogue. It does not upload family recordings/photos, expose a browser key, substitute a stock adult narrator or activate a voice automatically. Configure access privately and confirm permitted project use first. See [ElevenLabs setup and commands](docs/audio/ELEVENLABS.md). Run `npm run test:voice-provider` for the mocked API contract checks; no live provider generation has been verified yet.
+
+## Original Illustrator artwork and Rive integration
+
+The character now uses the user-supplied `tiggy_neutral_layered.svg`, unchanged. The generated Tiggy frame atlas is no longer loaded. This is a **static original illustration until an actual authored Rive export is supplied**. A fully rigged character has not been delivered or verified.
+
+The source archive, 29 non-destructively named subgroups, per-path audit, proposed bone/pivot hierarchy, facial requirements and eight-animation/state-machine contract are in [the Rive handoff](docs/art/tiggy-rive-source/RIGGING-HANDOFF.md). `npm run prepare:rig` recreates the grouping and checks path/order preservation.
+
+Open **Grown-ups → Character rig review** to test a local `.riv` export on this device. The review checks the `Tiggy` artboard, `TiggyController` and eight named triggers; it does not certify bone/constraint quality or activate the file. No file is uploaded. Both React and Phaser adapters are prepared, with audio/game event triggers, reduced-motion static artwork, lifecycle cleanup, loading failure fallback and self-hosted pinned WASM. Enable gameplay only after following the export acceptance steps in the handoff.

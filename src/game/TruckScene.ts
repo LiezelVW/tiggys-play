@@ -166,6 +166,7 @@ export class TruckScene extends Phaser.Scene {
     if (this.phase !== "choose") return;
     const target = colours[this.round].name;
     if (colour !== target) {
+      this.boy.play("thinking");
       this.say(
         `Let’s find the ${target} truck. Try another one!`,
         `truck-try-${target}`,

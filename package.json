@@ -9,10 +9,12 @@
     "typecheck": "tsc --noEmit",
     "test": "playwright test",
     "check:assets": "node scripts/verify-assets.mjs",
-    "prebuild": "node scripts/export-voice-library.mjs",
-    "test:voice-provider": "node --test scripts/elevenlabs-client.test.mjs"
+    "prebuild": "node scripts/export-voice-library.mjs && node scripts/prepare-rive-runtime.mjs",
+    "test:voice-provider": "node --test scripts/elevenlabs-client.test.mjs",
+    "prepare:rig": "python3 scripts/prepare-rive-source.py"
   },
   "dependencies": {
+    "@rive-app/canvas": "2.54.0",
     "lucide-react": "^0.468.0",
     "motion": "^12.0.0",
     "next": "^16.0.0",
