@@ -12,9 +12,9 @@ The full Tiggy script library contains 71 lines, including all 29 requested enco
 
 ## Exact missing recordings
 
-**71 Tiggy recordings and 10 Benny recordings are missing.** [MISSING-ASSETS.csv](MISSING-ASSETS.csv) lists every filename and exact spoken phrase. These are missing performances, not completed audio assets. The same machine-readable script library is at `public/assets/audio/voice-library.json`.
+**56 Tiggy recordings and 10 Benny recordings are missing.** [MISSING-ASSETS.csv](MISSING-ASSETS.csv) lists every filename and exact spoken phrase. These are missing performances, not completed audio assets. The same machine-readable script library is at `public/assets/audio/voice-library.json`.
 
-No synthetic tone fixtures used in automated tests are shipped as dialogue. There are no bundled audition clips presented as approved character voices.
+No synthetic tone fixtures used in automated tests are shipped as dialogue. The 15 bundled Tiggy clips were explicitly approved by the user on 22 November 2026.
 
 Run `node scripts/export-voice-library.mjs` after editing `src/game/voicePrompts.ts`. To package a directory of prerecorded files without synthesis or network access:
 
@@ -46,3 +46,11 @@ Tiggy: an original cheerful young cartoon boy, curious and warm, with clear cons
 ## Progressive voice packs
 
 A partial candidate can be approved explicitly. Only its own available recordings are used; absent lines stay as speech bubbles, including while stored voice selection is loading. An older personal voice never fills holes in a newly approved character pack. The original recordings remain available to restore. Approved packs stay read-only until their selection is restored/revoked, so adding or replacing recordings requires review again. Source uploads, automatic transcripts and proposed clip cuts remain private review artifacts unless the user authorizes publication; auditioning does not establish that the cuts or apparent age are artistically approved.
+
+## Approved bundled performance — 22 November 2026
+
+The user explicitly approved the uploaded cartoon voice after reviewing the proposed 15-clip import. Only the 15 trimmed WAV dialogue clips are shipped in `public/assets/audio/tiggy-approved-v1`; the original full recording, local automatic transcript and other personal recordings remain outside Git. No synthesis provider provenance or voice ID is inferred. Clips retain original pitch and speed.
+
+Fresh devices use this approved voice. Tapping Tiggy plays “Let’s play!” when the full greeting is unavailable. Relevant dialogue and varied available praise use the same shared resolver. Missing lines remain visual. Benny does not borrow Tiggy’s recordings. Parent-approved local candidate packs take precedence; existing personal recording collections also remain available as their own speaker, without filling gaps from the bundled voice. Restoring the previous voice returns to those personal recordings, or the approved bundled default on a fresh device. The studio includes a direct approved-voice audition.
+
+Audio files, sizes and SHA-256 hashes are listed in `APPROVED-VOICE.json`. This approval covers the supplied performance, not generation of the remaining lines.

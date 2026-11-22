@@ -17,11 +17,23 @@ const benny = [
   "good-job",
   "amazing",
 ];
+const approved = Object.fromEntries(
+  [
+    ...(await readFile("src/game/approvedVoice.ts", "utf8")).matchAll(
+      /(?:"([^"]+)"|([\w-]+)):\s*"(\/assets\/audio\/[^"\n]+)"/g,
+    ),
+  ].map((m) => [m[1] || m[2], m[3]]),
+);
+if (Object.keys(approved).length !== 15)
+  throw Error("Expected 15 approved Tiggy clips.");
 const phrases = pairs.map((p) => ({
   ...p,
   requiredFor: ["tiggy", ...(benny.includes(p.id) ? ["benny"] : [])],
   file: `${p.id}.mp3`,
-  status: "missing-approved-performance",
+  approvedTiggyAsset: approved[p.id] || null,
+  status: approved[p.id]
+    ? "approved-tiggy-performance"
+    : "missing-approved-performance",
 }));
 await mkdir("docs/audio", { recursive: true });
 await mkdir("public/assets/audio", { recursive: true });
@@ -34,15 +46,17 @@ await writeFile(
   "Character,Filename,Exact spoken text,Status\n" +
     phrases
       .flatMap((p) =>
-        p.requiredFor.map((c) =>
-          [c, p.file, p.text, p.status]
-            .map((s) => '"' + s.replaceAll('"', '""') + '"')
-            .join(","),
-        ),
+        p.requiredFor
+          .filter((c) => c !== "tiggy" || !approved[p.id])
+          .map((c) =>
+            [c, p.file, p.text, "missing-approved-performance"]
+              .map((s) => '"' + s.replaceAll('"', '""') + '"')
+              .join(","),
+          ),
       )
       .join("\n") +
     "\n",
 );
 console.log(
-  `${phrases.length} Tiggy scripts, ${benny.length} Benny scripts. No approved speech files bundled.`,
+  `${phrases.length} Tiggy scripts, ${benny.length} Benny scripts. 15 approved Tiggy clips bundled; 56 Tiggy and 10 Benny clips missing.`,
 );

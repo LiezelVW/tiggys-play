@@ -6,7 +6,7 @@ Ten complete, focused activities are playable: Colour Garden, Monster Truck Mayh
 
 The voice studio imports MP3/WAV dialogue or candidate JSON, previews without activation, supports partial packs with explicit approval, persists the choice per character, restores the prior recording source and supports deletion. It never changes pitch or speed. Tiggy and Benny do not borrow one another’s dialogue. Volume, mute, gesture unlock, preload/cache and natural automatic-dialogue pauses share one manager across games. Missing speech has visual bubbles and optional original chimes.
 
-**No approved new speech performances are bundled.** There are 71 missing Tiggy lines and 10 missing Benny lines. [Every filename and spoken phrase](audio/MISSING-ASSETS.csv) · [Import/approval workflow and provider investigation](audio/VOICE-SYSTEM.md).
+**15 user-approved cartoon Tiggy performances are bundled.** There are 56 missing Tiggy lines and 10 missing Benny lines. [Every filename and spoken phrase](audio/MISSING-ASSETS.csv) · [Import/approval workflow and provider investigation](audio/VOICE-SYSTEM.md).
 
 ## Checks
 
@@ -42,3 +42,7 @@ PR #2 remains unmerged. The flatter original 2D pass is generated illustration r
 The partial approval and stored-speaker loading changes pass a production build and 17 local voice/recording browser checks, with three intentional lifecycle duplicates skipped. The regression seeds an older personal instruction, approves a different partial character voice, reloads, and verifies that the missing instruction stays visual while available praise can play. Private uploaded audio and proposed cuts are not included in Git or the rendered public evidence. The latest full CI status is available in PR #2.
 
 Available praise now cycles through the approved clips that exist instead of falling silent when a preferred praise line is missing. The final voice-studio regression pass completed 12 checks across all four browser configurations. No uploaded recording, automatic transcript or proposed cut was committed.
+
+## Approved uploaded cartoon voice — 22 November 2026
+
+Following explicit user approval, 15 trimmed dialogue WAV files are now bundled as Tiggy’s default on a fresh device. The full source recording, automatic transcript and unrelated private recordings remain excluded. A production build, TypeScript, asset guard and eight provider contract checks pass. Sixteen targeted browser checks pass across desktop/tablet/phone Chromium and phone WebKit: fresh-device greeting and celebration playback, native decoding of all 15 bundled cuts, candidate approval/reload isolation, and personal recording persistence/export/restore. Physical iPhone listening acceptance remains separate from WebKit emulation. No live synthesis call was needed.

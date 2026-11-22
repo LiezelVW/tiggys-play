@@ -5,7 +5,9 @@ import { useVoiceAvailable } from "./useVoice";
 import { speak, chime } from "../game/audio";
 /** Real frame changes from a shared transparent sprite atlas; no CSS-translated stand-in. */
 export default function Tiggy() {
-  const hasNarration = useVoiceAvailable("tiggy-hello");
+  const hasHello = useVoiceAvailable("tiggy-hello");
+  const hasPlay = useVoiceAvailable("lets-play");
+  const hasNarration = hasHello || hasPlay;
   const [state, setState] = useState<TiggyState>("wave");
   const [frame, setFrame] = useState(4);
   useEffect(() => {
@@ -47,7 +49,9 @@ export default function Tiggy() {
           chime();
           return;
         }
-        speak("Hello! I’m Tiggy. Ready for an adventure?", "tiggy-hello");
+        if (hasHello)
+          speak("Hello! I’m Tiggy. Ready for an adventure?", "tiggy-hello");
+        else speak("Let’s play!", "lets-play");
       }}
     >
       <span

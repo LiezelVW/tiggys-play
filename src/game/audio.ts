@@ -48,7 +48,14 @@ export function unlockAudio() {
 }
 /** Preload only the frequently used lines; complete packs are already cached in IndexedDB/memory. */
 export function preloadVoice() {
-  const sources = ["tiggy-hello", "intro", "truck-red", "red", "blue", "yellow"]
+  const sources = [
+    "lets-play",
+    "well-done",
+    "you-did-it",
+    "yay",
+    "try-again",
+    "all-done",
+  ]
     .map((id) => resolvedVoiceUrl(id))
     .filter((v): v is string => !!v);
   for (const [src, a] of preloaded)

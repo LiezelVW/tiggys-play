@@ -52,7 +52,7 @@ test("audition is separate from approval, complete packs persist, character voic
   await page.goto("/");
   await studio(page);
   await expect(
-    page.getByText("No childlike generated candidate is bundled yet.", {
+    page.getByText("The approved cartoon voice includes 15 Tiggy phrases.", {
       exact: false,
     }),
   ).toBeVisible();

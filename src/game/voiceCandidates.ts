@@ -1,5 +1,6 @@
 import { voicePrompts } from "./voicePrompts";
-import { voiceUrl } from "./recordings";
+import { approvedVoiceUrl } from "./approvedVoice";
+import { voiceCount, voiceUrl } from "./recordings";
 export type Character = "tiggy" | "benny";
 type CandidateClip = { id: string; bytes: ArrayBuffer; type: string };
 export type Candidate = {
@@ -44,7 +45,9 @@ export function resolvedVoiceUrl(clip: string, character: Character = "tiggy") {
   return selected
     ? candidateUrl(selected, clip)
     : character === "tiggy"
-      ? voiceUrl(clip)
+      ? voiceCount() > 0
+        ? voiceUrl(clip)
+        : approvedVoiceUrl(clip)
       : undefined;
 }
 function database(): Promise<IDBDatabase> {

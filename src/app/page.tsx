@@ -33,7 +33,7 @@ type Progress = {
 };
 export default function Page() {
   const recordedVoices = useVoiceCount();
-  const hasTiggyVoice = useVoiceAvailable("tiggy-hello");
+  const hasTiggyVoice = useVoiceAvailable("lets-play");
   const [showStudio, setShowStudio] = useState(false);
   const [volume, updateVolume] = useState(0.7);
   const [showRecorder, setShowRecorder] = useState(false);

@@ -92,7 +92,7 @@ The header now uses an outlined SVG wordmark and matching T/play monogram. There
 
 Open **Grown-ups → Voice preview & approval**. Import MP3/WAV clips by phrase filename, or audition candidate packs. Import and preview do not change the selected gameplay voice. Only explicit approval activates the available clips on this device. Partial packs are supported; missing dialogue stays visual and does not borrow an older speaker. Tiggy and Benny are separate speakers; no missing line borrows another character’s voice. Previous local recordings are preserved. Volume and mute are available in Grown-ups.
 
-All 29 requested speech-development phrases are scripted, alongside game dialogue. **71 Tiggy performances and 10 Benny performances are still missing.** No replacement adult narration or pitch-shifted audition is bundled. Every game works with visual speech bubbles and optional sound effects while voice assets are missing. [Exact asset checklist](docs/audio/MISSING-ASSETS.csv) · [Voice workflow and provider investigation](docs/audio/VOICE-SYSTEM.md).
+All 29 requested speech-development phrases are scripted, alongside game dialogue. **56 Tiggy performances and 10 Benny performances are still missing.** The user-approved cartoon recording supplies 15 bundled Tiggy phrases at original pitch and speed. Every game works with visual speech bubbles and optional sound effects while voice assets are missing. [Exact asset checklist](docs/audio/MISSING-ASSETS.csv) · [Voice workflow and provider investigation](docs/audio/VOICE-SYSTEM.md).
 
 ## Flat 2D direction
 

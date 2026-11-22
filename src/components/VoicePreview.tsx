@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { useVoiceCount } from "./useVoice";
+import { approvedVoiceUrl } from "../game/approvedVoice";
 import { Play, RotateCcw, Check, Trash2 } from "lucide-react";
 import {
   activeCandidate,
@@ -91,10 +92,18 @@ export default function VoicePreview({ muted }: { muted: boolean }) {
         voice. Missing dialogue stays visual.
       </p>
       <p className="voice-note">
-        No childlike generated candidate is bundled yet. Add original
+        The approved cartoon voice includes 15 Tiggy phrases. Add original
         prerecorded MP3 or WAV dialogue below. Missing lines use speech bubbles
         and optional chimes.
       </p>
+      <button
+        type="button"
+        className="secondary"
+        disabled={muted}
+        onClick={() => playVoiceSource(approvedVoiceUrl("lets-play")!)}
+      >
+        <Play size={18} /> Hear approved Tiggy voice
+      </button>
       <label>
         Character
         <select
@@ -119,7 +128,9 @@ export default function VoicePreview({ muted }: { muted: boolean }) {
           {packs.find((c) => c.id === approved)?.name ||
             (character === "tiggy" && originalClipCount > 0
               ? "Existing on-device recordings"
-              : "Speech bubbles only")}
+              : character === "tiggy"
+                ? "Approved cartoon voice · 15 phrases"
+                : "Speech bubbles only")}
         </strong>
       </p>
       <label>

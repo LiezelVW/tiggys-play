@@ -8,6 +8,7 @@
         "tiggy"
       ],
       "file": "tiggy-hello.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -17,6 +18,7 @@
         "tiggy"
       ],
       "file": "world-welcome.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -26,6 +28,7 @@
         "tiggy"
       ],
       "file": "intro.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -35,6 +38,7 @@
         "tiggy"
       ],
       "file": "red.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -44,6 +48,7 @@
         "tiggy"
       ],
       "file": "blue.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -53,6 +58,7 @@
         "tiggy"
       ],
       "file": "yellow.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -62,6 +68,7 @@
         "tiggy"
       ],
       "file": "retry.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -71,6 +78,7 @@
         "tiggy"
       ],
       "file": "match.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -80,6 +88,7 @@
         "tiggy"
       ],
       "file": "complete.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -89,6 +98,7 @@
         "tiggy"
       ],
       "file": "truck-red.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -98,6 +108,7 @@
         "tiggy"
       ],
       "file": "truck-blue.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -107,6 +118,7 @@
         "tiggy"
       ],
       "file": "truck-yellow.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -116,6 +128,7 @@
         "tiggy"
       ],
       "file": "truck-try-red.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -125,6 +138,7 @@
         "tiggy"
       ],
       "file": "truck-try-blue.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -134,6 +148,7 @@
         "tiggy"
       ],
       "file": "truck-try-yellow.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -143,6 +158,7 @@
         "tiggy"
       ],
       "file": "truck-drive.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -152,6 +168,7 @@
         "tiggy"
       ],
       "file": "truck-next.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -161,6 +178,7 @@
         "tiggy"
       ],
       "file": "truck-complete.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -171,7 +189,8 @@
         "benny"
       ],
       "file": "well-done.mp3",
-      "status": "missing-approved-performance"
+      "approvedTiggyAsset": "/assets/audio/tiggy-approved-v1/well-done.wav",
+      "status": "approved-tiggy-performance"
     },
     {
       "id": "you-did-it",
@@ -181,7 +200,8 @@
         "benny"
       ],
       "file": "you-did-it.mp3",
-      "status": "missing-approved-performance"
+      "approvedTiggyAsset": "/assets/audio/tiggy-approved-v1/you-did-it.wav",
+      "status": "approved-tiggy-performance"
     },
     {
       "id": "yay",
@@ -191,7 +211,8 @@
         "benny"
       ],
       "file": "yay.mp3",
-      "status": "missing-approved-performance"
+      "approvedTiggyAsset": "/assets/audio/tiggy-approved-v1/yay.wav",
+      "status": "approved-tiggy-performance"
     },
     {
       "id": "good-job",
@@ -201,6 +222,7 @@
         "benny"
       ],
       "file": "good-job.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -211,7 +233,8 @@
         "benny"
       ],
       "file": "try-again.mp3",
-      "status": "missing-approved-performance"
+      "approvedTiggyAsset": "/assets/audio/tiggy-approved-v1/try-again.wav",
+      "status": "approved-tiggy-performance"
     },
     {
       "id": "amazing",
@@ -221,6 +244,7 @@
         "benny"
       ],
       "file": "amazing.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -230,7 +254,8 @@
         "tiggy"
       ],
       "file": "help-please.mp3",
-      "status": "missing-approved-performance"
+      "approvedTiggyAsset": "/assets/audio/tiggy-approved-v1/help-please.wav",
+      "status": "approved-tiggy-performance"
     },
     {
       "id": "thank-you",
@@ -239,7 +264,8 @@
         "tiggy"
       ],
       "file": "thank-you.mp3",
-      "status": "missing-approved-performance"
+      "approvedTiggyAsset": "/assets/audio/tiggy-approved-v1/thank-you.wav",
+      "status": "approved-tiggy-performance"
     },
     {
       "id": "my-turn",
@@ -248,7 +274,8 @@
         "tiggy"
       ],
       "file": "my-turn.mp3",
-      "status": "missing-approved-performance"
+      "approvedTiggyAsset": "/assets/audio/tiggy-approved-v1/my-turn.wav",
+      "status": "approved-tiggy-performance"
     },
     {
       "id": "your-turn",
@@ -257,7 +284,8 @@
         "tiggy"
       ],
       "file": "your-turn.mp3",
-      "status": "missing-approved-performance"
+      "approvedTiggyAsset": "/assets/audio/tiggy-approved-v1/your-turn.wav",
+      "status": "approved-tiggy-performance"
     },
     {
       "id": "more-please",
@@ -266,7 +294,8 @@
         "tiggy"
       ],
       "file": "more-please.mp3",
-      "status": "missing-approved-performance"
+      "approvedTiggyAsset": "/assets/audio/tiggy-approved-v1/more-please.wav",
+      "status": "approved-tiggy-performance"
     },
     {
       "id": "all-done",
@@ -275,7 +304,8 @@
         "tiggy"
       ],
       "file": "all-done.mp3",
-      "status": "missing-approved-performance"
+      "approvedTiggyAsset": "/assets/audio/tiggy-approved-v1/all-done.wav",
+      "status": "approved-tiggy-performance"
     },
     {
       "id": "come-here",
@@ -284,6 +314,7 @@
         "tiggy"
       ],
       "file": "come-here.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -293,7 +324,8 @@
         "tiggy"
       ],
       "file": "lets-play.mp3",
-      "status": "missing-approved-performance"
+      "approvedTiggyAsset": "/assets/audio/tiggy-approved-v1/lets-play.wav",
+      "status": "approved-tiggy-performance"
     },
     {
       "id": "whats-this",
@@ -302,6 +334,7 @@
         "tiggy"
       ],
       "file": "whats-this.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -311,6 +344,7 @@
         "tiggy"
       ],
       "file": "where-go.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -320,6 +354,7 @@
         "tiggy"
       ],
       "file": "find-red.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -329,7 +364,8 @@
         "tiggy"
       ],
       "file": "count-three.mp3",
-      "status": "missing-approved-performance"
+      "approvedTiggyAsset": "/assets/audio/tiggy-approved-v1/count-three.wav",
+      "status": "approved-tiggy-performance"
     },
     {
       "id": "stop",
@@ -338,6 +374,7 @@
         "tiggy"
       ],
       "file": "stop.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -347,7 +384,8 @@
         "tiggy"
       ],
       "file": "go.mp3",
-      "status": "missing-approved-performance"
+      "approvedTiggyAsset": "/assets/audio/tiggy-approved-v1/go.wav",
+      "status": "approved-tiggy-performance"
     },
     {
       "id": "up",
@@ -356,6 +394,7 @@
         "tiggy"
       ],
       "file": "up.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -365,6 +404,7 @@
         "tiggy"
       ],
       "file": "down.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -374,6 +414,7 @@
         "tiggy"
       ],
       "file": "spoon-please.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -383,6 +424,7 @@
         "tiggy"
       ],
       "file": "i-can-try.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -392,7 +434,8 @@
         "tiggy"
       ],
       "file": "yummy.mp3",
-      "status": "missing-approved-performance"
+      "approvedTiggyAsset": "/assets/audio/tiggy-approved-v1/yummy.wav",
+      "status": "approved-tiggy-performance"
     },
     {
       "id": "hungry",
@@ -401,6 +444,7 @@
         "tiggy"
       ],
       "file": "hungry.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -410,7 +454,8 @@
         "tiggy"
       ],
       "file": "potty.mp3",
-      "status": "missing-approved-performance"
+      "approvedTiggyAsset": "/assets/audio/tiggy-approved-v1/potty.wav",
+      "status": "approved-tiggy-performance"
     },
     {
       "id": "wash-hands",
@@ -419,6 +464,7 @@
         "tiggy"
       ],
       "file": "wash-hands.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -428,6 +474,7 @@
         "tiggy"
       ],
       "file": "i-did-it.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -437,6 +484,7 @@
         "tiggy"
       ],
       "file": "builders-circle.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -446,6 +494,7 @@
         "tiggy"
       ],
       "file": "builders-square.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -455,6 +504,7 @@
         "tiggy"
       ],
       "file": "builders-triangle.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -464,6 +514,7 @@
         "tiggy"
       ],
       "file": "railway-engine.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -473,6 +524,7 @@
         "tiggy"
       ],
       "file": "railway-carriage.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -482,6 +534,7 @@
         "tiggy"
       ],
       "file": "railway-another.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -491,6 +544,7 @@
         "tiggy"
       ],
       "file": "mix-orange.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -500,6 +554,7 @@
         "tiggy"
       ],
       "file": "mix-green.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -509,6 +564,7 @@
         "tiggy"
       ],
       "file": "mix-purple.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -518,6 +574,7 @@
         "tiggy"
       ],
       "file": "traffic-red.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -527,6 +584,7 @@
         "tiggy"
       ],
       "file": "traffic-yellow.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -536,6 +594,7 @@
         "tiggy"
       ],
       "file": "traffic-green.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -545,6 +604,7 @@
         "tiggy"
       ],
       "file": "pattern-circle.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -554,6 +614,7 @@
         "tiggy"
       ],
       "file": "pattern-triangle.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -563,6 +624,7 @@
         "tiggy"
       ],
       "file": "pattern-square.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -572,6 +634,7 @@
         "tiggy"
       ],
       "file": "ferris-red.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -581,6 +644,7 @@
         "tiggy"
       ],
       "file": "ferris-blue.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -590,6 +654,7 @@
         "tiggy"
       ],
       "file": "ferris-yellow.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -600,6 +665,7 @@
         "benny"
       ],
       "file": "breakfast-wash.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -610,6 +676,7 @@
         "benny"
       ],
       "file": "breakfast-spoon.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -620,6 +687,7 @@
         "benny"
       ],
       "file": "breakfast-bowl.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -630,6 +698,7 @@
         "benny"
       ],
       "file": "breakfast-water.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -639,6 +708,7 @@
         "tiggy"
       ],
       "file": "potty-pants.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     },
     {
@@ -648,6 +718,7 @@
         "tiggy"
       ],
       "file": "potty-dry.mp3",
+      "approvedTiggyAsset": null,
       "status": "missing-approved-performance"
     }
   ]
