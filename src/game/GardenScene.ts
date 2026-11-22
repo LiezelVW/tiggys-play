@@ -19,6 +19,7 @@ export class GardenScene extends Phaser.Scene {
     private report: (score: number, round: number, finished: boolean) => void,
     private say: (text: string, clip: string) => void,
     private effect: (success: boolean) => void,
+    private matching: (busy: boolean) => void = () => {},
   ) {
     super("garden");
   }
@@ -106,6 +107,10 @@ export class GardenScene extends Phaser.Scene {
     );
     this.loadRound();
   }
+  private setBusy(value: boolean) {
+    this.busy = value;
+    this.matching(value);
+  }
   private loadRound() {
     this.objects.forEach((o) => o.destroy());
     this.objects = [];
@@ -143,7 +148,7 @@ export class GardenScene extends Phaser.Scene {
       });
       this.objects.push(obj);
     });
-    this.busy = false;
+    this.setBusy(false);
     this.selected = null;
     this.report(this.score, this.round + 1, false);
     this.say("Let’s match the flowers to their colour baskets.", "intro");
@@ -169,7 +174,7 @@ export class GardenScene extends Phaser.Scene {
       this.reset(obj);
       return;
     }
-    this.busy = true;
+    this.setBusy(true);
     obj.disableInteractive();
     this.selected = null;
     const basket = this.baskets.find((b) => b.getData("colour") === name)!;
@@ -197,7 +202,7 @@ export class GardenScene extends Phaser.Scene {
         if (this.score % 3 === 0) {
           this.round++;
           this.time.delayedCall(900, () => this.loadRound());
-        } else this.busy = false;
+        } else this.setBusy(false);
       },
     });
   }

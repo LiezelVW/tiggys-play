@@ -11,11 +11,13 @@ test("complete all three rounds, persist progress, and replay", async ({
   );
   await activate(page.getByText("Use keyboard or simple matching controls"));
   for (let r = 0; r < 3; r++) {
-    for (const c of ["red", "blue", "yellow"]) {
+    for (const [index, c] of ["red", "blue", "yellow"].entries()) {
       await activate(
         page.getByRole("button", { name: `Match ${c}`, exact: true }),
       );
-      await page.waitForTimeout(550);
+      await expect(
+        page.getByText(`${r * 3 + index + 1} / 9 flowers`, { exact: true }),
+      ).toBeVisible();
     }
     if (r < 2)
       await expect(page.getByText(`Round ${r + 2} of 3`)).toBeVisible();

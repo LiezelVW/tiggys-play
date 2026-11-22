@@ -22,6 +22,7 @@ export default function Garden({
   const [loaded, setLoaded] = useState(false);
   const [round, setRound] = useState(1);
   const [finished, setFinished] = useState(false);
+  const [matching, setMatching] = useState(false);
   const [clip, setClip] = useState("intro");
   const hasNarration = useVoiceAvailable(clip);
   const [caption, setCaption] = useState(
@@ -54,6 +55,7 @@ export default function Garden({
             narrate(text, clip);
           },
           chime,
+          setMatching,
         );
         scene.current = level;
         const phone = window.innerWidth <= 600;
@@ -146,6 +148,7 @@ export default function Garden({
           <button
             className="pill"
             key={c.name}
+            disabled={!loaded || matching || suspended || finished}
             onClick={() => scene.current?.accessibleMatch(c.name)}
           >
             Match {c.label.toLowerCase()}
@@ -169,6 +172,7 @@ export default function Garden({
               className="primary"
               onClick={() => {
                 setLoaded(false);
+                setMatching(false);
                 setScore(0);
                 setFinished(false);
                 setReplay((x) => x + 1);
