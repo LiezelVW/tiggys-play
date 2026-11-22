@@ -1,0 +1,98 @@
+{
+  "approvedOn": "2026-11-22",
+  "character": "tiggy",
+  "source": "User-supplied cartoon performance, explicitly approved in project conversation",
+  "processing": "Dialogue trimming and PCM WAV conversion only; original pitch and speed",
+  "clips": [
+    {
+      "id": "all-done",
+      "asset": "/assets/audio/tiggy-approved-v1/all-done.wav",
+      "bytes": 68840,
+      "sha256": "e186098642e870a061a224a2265dbdefde5bed5fa235232d0ebb42bc5dc2b6a5"
+    },
+    {
+      "id": "count-three",
+      "asset": "/assets/audio/tiggy-approved-v1/count-three.wav",
+      "bytes": 146456,
+      "sha256": "5e1a9d64c7560ae5a5a3b8a2a20c59c52be27df863fc762b2642e7c26328b29b"
+    },
+    {
+      "id": "go",
+      "asset": "/assets/audio/tiggy-approved-v1/go.wav",
+      "bytes": 74132,
+      "sha256": "c4663e7fb0fff785ed3badc904413884a29fcbd138dd6ebe400283103e95d31c"
+    },
+    {
+      "id": "help-please",
+      "asset": "/assets/audio/tiggy-approved-v1/help-please.wav",
+      "bytes": 107648,
+      "sha256": "f28b79d56770aac75aa2f818c024e6a570adf337591dbf56f44890a49422fddb"
+    },
+    {
+      "id": "lets-play",
+      "asset": "/assets/audio/tiggy-approved-v1/lets-play.wav",
+      "bytes": 90008,
+      "sha256": "1ea4c662fbd519375d583d15ef7ee7620310407b6b1cf28798ce3b4c4bfb36cf"
+    },
+    {
+      "id": "more-please",
+      "asset": "/assets/audio/tiggy-approved-v1/more-please.wav",
+      "bytes": 86480,
+      "sha256": "03416d8edcb267f3a42c9daff68808b669efd74661db512b8d4172bb9defe710"
+    },
+    {
+      "id": "my-turn",
+      "asset": "/assets/audio/tiggy-approved-v1/my-turn.wav",
+      "bytes": 75896,
+      "sha256": "4c3342aca0e3e43d6cf799437ed10db3013062160642c98805f3a1e06bb49773"
+    },
+    {
+      "id": "potty",
+      "asset": "/assets/audio/tiggy-approved-v1/potty.wav",
+      "bytes": 105884,
+      "sha256": "5126e07f3906ef14533a1106f1377592a0b8f7a2399ca94a43589f81b7f44e28"
+    },
+    {
+      "id": "thank-you",
+      "asset": "/assets/audio/tiggy-approved-v1/thank-you.wav",
+      "bytes": 88244,
+      "sha256": "43eca15f66247d7276896218aa9fa7300e912e218ab8e47dd5f57a6ce5a383a5"
+    },
+    {
+      "id": "try-again",
+      "asset": "/assets/audio/tiggy-approved-v1/try-again.wav",
+      "bytes": 118232,
+      "sha256": "4822cd7c44db9544b863d08956ea0f57716cd23c7ae6f54b097b1fa566bc144e"
+    },
+    {
+      "id": "well-done",
+      "asset": "/assets/audio/tiggy-approved-v1/well-done.wav",
+      "bytes": 91772,
+      "sha256": "dcf2265729ea764f53daa3f2909014316902de3b945999265ea7a3a214669803"
+    },
+    {
+      "id": "yay",
+      "asset": "/assets/audio/tiggy-approved-v1/yay.wav",
+      "bytes": 97064,
+      "sha256": "3f31e5aab958bcf514ec1e42624ba324eb8c12a1eb11da2e9462c7b365889d7f"
+    },
+    {
+      "id": "you-did-it",
+      "asset": "/assets/audio/tiggy-approved-v1/you-did-it.wav",
+      "bytes": 93536,
+      "sha256": "2145d398f7a3e57a32aa830865abd99db7a8fa01dbe2bf44a922d25dc024072a"
+    },
+    {
+      "id": "your-turn",
+      "asset": "/assets/audio/tiggy-approved-v1/your-turn.wav",
+      "bytes": 74132,
+      "sha256": "50a7ac428153bda5bc83e62248df6c5949e4241727b181b6c1811ef5226efd4d"
+    },
+    {
+      "id": "yummy",
+      "asset": "/assets/audio/tiggy-approved-v1/yummy.wav",
+      "bytes": 33560,
+      "sha256": "ce10ffc433f83df64551bb8a4c6fb8edcc633df483c3bfec399f529803e1ce1b"
+    }
+  ]
+}

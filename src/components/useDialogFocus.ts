@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 /** Keep keyboard focus inside the active modal and restore it on close. */
-export function useDialogFocus(open: boolean) {
+export function useDialogFocus(open: boolean, identity = "dialog") {
   useEffect(() => {
     if (!open) return;
     const previous = document.activeElement as HTMLElement | null;
@@ -31,5 +31,5 @@ export function useDialogFocus(open: boolean) {
       document.removeEventListener("keydown", trap);
       previous?.focus();
     };
-  }, [open]);
+  }, [open, identity]);
 }

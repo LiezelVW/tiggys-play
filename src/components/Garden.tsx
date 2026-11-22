@@ -1,23 +1,30 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Volume2, RotateCcw, Home, Flower2 } from "lucide-react";
-import { speak, chime, stopAudio } from "../game/audio";
+import { useVoiceAvailable } from "./useVoice";
+import { speak, narrate, chime, stopAudio } from "../game/audio";
 import { useDialogFocus } from "./useDialogFocus";
 import { colours, type Colour } from "../game/rules";
 export default function Garden({
   onHome,
   onComplete,
+  suspended,
 }: {
   onHome: () => void;
   onComplete: () => void;
+  suspended: boolean;
 }) {
+  const runtime = useRef<import("phaser").Game | null>(null);
   const host = useRef<HTMLDivElement>(null);
   const scene = useRef<{ accessibleMatch: (c: Colour) => void } | null>(null);
   const [score, setScore] = useState(0);
+  const [portrait, setPortrait] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [round, setRound] = useState(1);
   const [finished, setFinished] = useState(false);
+  const [matching, setMatching] = useState(false);
   const [clip, setClip] = useState("intro");
+  const hasNarration = useVoiceAvailable(clip);
   const [caption, setCaption] = useState(
     "Let’s match the flowers to their colour baskets.",
   );
@@ -28,7 +35,9 @@ export default function Garden({
   useDialogFocus(finished);
   useEffect(() => {
     let disposed = false;
-    let game: { destroy: (remove: boolean) => void } | undefined;
+    const resize = new ResizeObserver(() => runtime.current?.scale.refresh());
+    if (host.current) resize.observe(host.current);
+
     Promise.all([import("phaser"), import("../game/GardenScene")])
       .then(([Phaser, { GardenScene }]) => {
         if (disposed || !host.current) return;
@@ -43,16 +52,19 @@ export default function Garden({
           (text, clip) => {
             setCaption(text);
             setClip(clip);
-            speak(text, clip);
+            narrate(text, clip);
           },
           chime,
+          setMatching,
         );
         scene.current = level;
-        game = new Phaser.Game({
-          type: Phaser.AUTO,
+        const phone = window.innerWidth <= 600;
+        setPortrait(phone);
+        runtime.current = new Phaser.Game({
+          type: Phaser.CANVAS,
           parent: host.current,
-          width: 1000,
-          height: 600,
+          width: phone ? 600 : 1000,
+          height: phone ? 650 : 600,
           backgroundColor: "#e9f3e7",
           scene: level,
           scale: {
@@ -66,11 +78,20 @@ export default function Garden({
       .catch(() => setError(true));
     return () => {
       disposed = true;
+      resize.disconnect();
       scene.current = null;
-      game?.destroy(true);
+      runtime.current?.destroy(true);
+      runtime.current = null;
       stopAudio();
     };
   }, [replay]);
+  useEffect(() => {
+    if (!loaded) return;
+    if (suspended) {
+      runtime.current?.scene.pause("garden");
+      stopAudio();
+    } else runtime.current?.scene.resume("garden");
+  }, [loaded, suspended]);
   return (
     <main className="game-page">
       <div className="game-top">
@@ -80,7 +101,12 @@ export default function Garden({
         <span className="eyebrow">COLOUR GARDEN</span>
         <button
           className="icon-button"
-          aria-label="Replay instruction"
+          aria-label={
+            hasNarration
+              ? "Replay instruction"
+              : "Spoken instructions awaiting voice approval"
+          }
+          disabled={!hasNarration}
           onClick={() => speak(caption, clip)}
         >
           <Volume2 />
@@ -95,12 +121,13 @@ export default function Garden({
           Round {round} of 3 <span>{score} / 9 flowers</span>
         </div>
       </div>
-      <div className="instruction" aria-live="polite">
+      <div className="instruction speech-bubble" aria-live="polite">
         <Volume2 size={22} />
         {caption}
       </div>
       <div
-        className="game-canvas"
+        className={`game-canvas ${portrait ? "portrait-canvas" : ""}`}
+        data-layout={portrait ? "portrait" : "landscape"}
         data-ready={loaded}
         ref={host}
         aria-label="Drag a flower to its matching colour basket, or tap a flower then a basket."
@@ -121,6 +148,7 @@ export default function Garden({
           <button
             className="pill"
             key={c.name}
+            disabled={!loaded || matching || suspended || finished}
             onClick={() => scene.current?.accessibleMatch(c.name)}
           >
             Match {c.label.toLowerCase()}
@@ -144,7 +172,8 @@ export default function Garden({
               className="primary"
               onClick={() => {
                 setLoaded(false);
-                  setScore(0);
+                setMatching(false);
+                setScore(0);
                 setFinished(false);
                 setReplay((x) => x + 1);
               }}

@@ -1,21 +1,99 @@
 {
-  "version": 1,
-  "status": "temporary-foundation-assets",
-  "missingReferences": ["Tiggy’s Café approved logo", "Thiago approved cartoon reference"],
-  "characters": {
-    "thiago": {
-      "identity": "Human toddler. Thiago and Tiggy are the same person.",
-      "homeSource": "src/components/Thiago.tsx",
-      "gameRigSource": "src/game/Character.ts",
-      "approvedLikeness": false,
-      "implementedStates": ["idle breathing", "blinking", "waving", "thinking", "celebrating"],
-      "replacementRequired": ["approved model sheet", "consistent final human rig", "walking", "running", "jumping", "pointing", "talking", "laughing", "dancing", "sitting", "object reactions"]
-    },
-    "companions": {"status":"not implemented", "planned":["Milo the Monkey","Lulu the Bunny","Ollie the Elephant","Pip the Penguin"]}
+  "version": 6,
+  "identity": "Thiago is Tiggy, the human main character",
+  "references": {
+    "cartoons": "User-supplied approved character and game-world references in docs/art",
+    "photograph": "Kept outside checkout. Not included in public assets or Git."
   },
-  "backgrounds": {"colourGarden":"Original temporary Phaser vector landscape in GardenScene.ts"},
-  "objects": {"flowersAndBaskets":"Original procedural Phaser graphics in GardenScene.ts"},
-  "interface": {"wordmark":"Provisional text wordmark; Café reference missing", "icons":"lucide-react ISC licensed"},
-  "audio": {"source":"Temporary macOS Samantha generated narration", "format":"PCM WAV", "files":["intro.wav","red.wav","blue.wav","yellow.wav","retry.wav","match.wav","complete.wav","welcome.wav"],"replacement":"Approved licensed voice performances; final music and ambience"},
-  "privatePhotos": "None included. Never store reference photographs in public assets."
+  "character": {
+    "source": "User-authored Illustrator vectors; neutral geometry and original thinking/laughing facial paths",
+    "asset": "/assets/tiggy/original/tiggy_neutral_layered.svg",
+    "renderer": "Shared original-path Canvas2D joint animation in React and Phaser",
+    "compiledLayers": "src/game/tiggyLayers.json",
+    "actions": [
+      "Idle",
+      "Wave",
+      "Walk",
+      "Talk",
+      "Clap",
+      "Celebrate",
+      "Thinking",
+      "Help",
+      "Happy",
+      "Sit"
+    ],
+    "animation": "Independent head, shoulder/elbow/wrist, hip/knee/ankle transforms. Original shirt is partitioned by masks into sleeves and torso; original facial expression paths are reused. No new character artwork generated.",
+    "riveRequired": false
+  },
+  "worlds": {
+    "adventure": "/assets/world/adventure-world-flat.webp",
+    "arena": "/assets/world/truck-arena-flat.webp",
+    "garden": "/assets/world/colour-garden-flat.webp",
+    "provenance": "Original generated raster illustrations, not Lingokids assets.",
+    "direction": "Flatter original 2D pass; simplified shapes, consistent dark outlines and reduced texture."
+  },
+  "vehicles": {
+    "bodies": [
+      "/assets/vehicles/truck-red.png",
+      "/assets/vehicles/truck-blue.png",
+      "/assets/vehicles/truck-yellow.png"
+    ],
+    "provenance": "Original generated chassis; paint-only palette swaps; separately articulated procedural treaded wheels.",
+    "track": "Runtime-rendered ramp and circular tyre contacts share src/game/truckTrack.ts; no separate sine path."
+  },
+  "audio": {
+    "source": "Approved prerecorded character candidates or pre-existing device recordings. No new adult or pitch-shifted voice bundled.",
+    "format": "MP3/WAV import, candidate JSON packs, browser-native recorder",
+    "storage": "Device-only IndexedDB bytes; candidate approval persisted separately from imports",
+    "previousNarration": "Rejected system voice assets and automatic browser speech fallback removed",
+    "soundEffects": "Original quiet Web Audio chimes",
+    "missing": {
+      "tiggy": 71,
+      "benny": 10
+    },
+    "scripts": "/assets/audio/voice-library.json"
+  },
+  "interface": {
+    "icons": "lucide-react, ISC licence",
+    "wordmark": "Outlined Outfit wordmark with custom T/play monogram; OFL licence and font source in docs/art/brand-font"
+  },
+  "playable": [
+    "Colour Garden",
+    "Monster Truck Mayhem",
+    "Little Builders",
+    "Tiggy\u2019s Railway",
+    "Science Lab",
+    "Ready, Set, Go!",
+    "Build & Solve",
+    "Ferris Wheel",
+    "Benny Bear\u2019s Breakfast",
+    "Potty Time"
+  ],
+  "unavailable": [],
+  "activities": {
+    "atlas": "/assets/activities/benny-and-objects-flat.webp",
+    "columns": 6,
+    "rows": 4,
+    "frameWidth": 256,
+    "frameHeight": 256,
+    "bennyFrames": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "provenance": "Original generated flat 2D sprite art. Four Benny expression/action drawings; not a complete skeletal animation rig.",
+    "ferris": "Procedural 2D wheel, moving spokes, upright interactive cabins and count display."
+  },
+  "branding": {
+    "source": "User-supplied TIGGYS KIDS LOGO.svg",
+    "logo": "/assets/branding/tiggys-play-logo.svg",
+    "icon": "/assets/branding/tiggys-play-icon.svg",
+    "processing": "Original outlined shapes and colours retained; nonvisual Adobe metadata omitted, icon cropped from the same head artwork."
+  },
+  "music": {
+    "source": "Original procedural instrumental motifs in src/game/soundscape.ts",
+    "runtime": "Web Audio after a real gesture; separate voice/music/effects levels; dialogue ducking",
+    "externalMusic": false
+  }
 }

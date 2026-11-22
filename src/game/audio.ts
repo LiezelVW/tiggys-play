@@ -1,58 +1,194 @@
-let muted = false;
+import {
+  unlockAmbience,
+  duckMusic,
+  setSoundscapeMuted,
+  gentleEffect,
+  connectVoice,
+  setVoiceMixVolume,
+} from "./soundscape";
+export { gentleEffect } from "./soundscape";
+import { characterDialogue } from "./characterDialogue";
+import { resolvedVoiceUrl, type Character } from "./voiceCandidates";
+let muted = false,
+  volume = 0.7;
 let current: HTMLAudioElement | null = null;
-let ctx: AudioContext | null = null;
+let currentKey = "";
+let speakingCharacter: Character | undefined;
+function endDialogue() {
+  duckMusic(false);
+  if (speakingCharacter) characterDialogue(speakingCharacter, false);
+  speakingCharacter = undefined;
+}
+let revision = 0,
+  unlocked = false,
+  playing = false,
+  responseUntil = 0;
+let pending: ReturnType<typeof setTimeout> | undefined;
+let queued: (() => void) | undefined;
+const preloaded = new Map<string, HTMLAudioElement>();
+const SILENCE =
+  "data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQIAAAAAAA==";
 export function setMuted(value: boolean) {
+  setSoundscapeMuted(value);
   muted = value;
-  if (value) {
-    current?.pause();
-    if ("speechSynthesis" in window) speechSynthesis.cancel();
-  }
+  if (value) stopAudio();
+}
+export function setVolume(value: number) {
+  volume = Number.isFinite(value) ? Math.max(0, Math.min(1, value)) : 0.7;
+  setVoiceMixVolume(volume);
+  if (current) current.volume = connectVoice(current) ? 1 : volume;
+}
+/** Called synchronously in a real touch/key gesture. Keep this single media element for iOS. */
+export function unlockAudio() {
+  unlockAmbience();
+  if (unlocked) return;
+  current ??= new Audio();
+  if (playing) return;
+  const request = revision;
+  current.src = SILENCE;
+  current.volume = connectVoice(current) ? 1 : volume;
+  void current
+    .play()
+    .then(() => {
+      unlocked = true;
+      if (request === revision) current?.pause();
+    })
+    .catch(() => {
+      /* A later real gesture can retry. */
+    });
+}
+/** Preload only the frequently used lines; complete packs are already cached in IndexedDB/memory. */
+export function preloadVoice() {
+  const sources = [
+    "lets-play",
+    "well-done",
+    "you-did-it",
+    "yay",
+    "try-again",
+    "all-done",
+  ]
+    .map((id) => resolvedVoiceUrl(id))
+    .filter((v): v is string => !!v);
+  for (const [src, a] of preloaded)
+    if (!sources.includes(src)) {
+      a.removeAttribute("src");
+      a.load();
+      preloaded.delete(src);
+    }
+  for (const src of sources)
+    if (!preloaded.has(src)) {
+      const a = new Audio();
+      a.preload = "auto";
+      a.src = src;
+      a.load();
+      preloaded.set(src, a);
+    }
 }
 export function chime(success = true) {
-  if (muted) return;
-  try {
-    ctx ??= new AudioContext();
-    void ctx.resume();
-    [0, 0.13, 0.26].forEach((t, i) => {
-      const o = ctx!.createOscillator(),
-        g = ctx!.createGain();
-      o.connect(g);
-      g.connect(ctx!.destination);
-      o.type = "sine";
-      o.frequency.value = (success ? [523, 659, 784] : [330, 294, 262])[i];
-      g.gain.setValueAtTime(0.08, ctx!.currentTime + t);
-      g.gain.exponentialRampToValueAtTime(0.001, ctx!.currentTime + t + 0.25);
-      o.start(ctx!.currentTime + t);
-      o.stop(ctx!.currentTime + t + 0.26);
-    });
-  } catch {
-    /* Audio is optional. */
-  }
+  if (!muted && success) gentleEffect("success");
 }
-export function speak(text: string, clip?: string) {
-  if (muted) return;
-  current?.pause();
-  if ("speechSynthesis" in window) speechSynthesis.cancel();
-  const fallback = () => {
-    try {
-      if ("speechSynthesis" in window) {
-        const s = new SpeechSynthesisUtterance(text);
-        s.rate = 0.82;
-        s.pitch = 1.12;
-        s.lang = "en-GB";
-        speechSynthesis.speak(s);
-      }
-    } catch {
-      /* Captions remain available. */
+
+function flushQueued() {
+  if (!queued) return;
+  const next = queued;
+  queued = undefined;
+  pending = setTimeout(
+    () => {
+      pending = undefined;
+      next();
+    },
+    Math.max(0, responseUntil - Date.now()),
+  );
+}
+export function playVoiceSource(
+  src: string,
+  onError?: () => void,
+  character?: Character,
+) {
+  stopAudio();
+  if (muted || volume === 0) return;
+  const request = revision;
+  current ??= new Audio();
+  current.volume = connectVoice(current) ? 1 : volume;
+  current.playbackRate = 1;
+  current.src = src;
+  playing = true;
+  current.onended = () => {
+    if (request !== revision || !current?.ended) return;
+    playing = false;
+    endDialogue();
+    responseUntil = Date.now() + 1200;
+    flushQueued();
+  };
+  const failed = () => {
+    if (request !== revision) return;
+    playing = false;
+    endDialogue();
+    queued = undefined;
+    onError?.();
+  };
+  current.onerror = () => {
+    if (current?.error) failed();
+  };
+  current.onplaying = () => {
+    // A queued event from the unlock source must not change a later line.
+    if (request !== revision || current?.currentSrc !== current?.src) return;
+    duckMusic(true);
+    if (character) {
+      speakingCharacter = character;
+      characterDialogue(character, true);
     }
   };
-  if (clip) {
-    current = new Audio(`/assets/audio/${clip}.wav`);
-    current.onerror = fallback;
-    void current.play().catch(fallback);
-  } else fallback();
+  void current
+    .play()
+    .then(() => {
+      unlocked = true;
+    })
+    .catch(failed);
+}
+export function speak(
+  _text: string,
+  clip?: string,
+  character: Character = "tiggy",
+) {
+  const src = clip ? resolvedVoiceUrl(clip, character) : undefined;
+  if (!src) {
+    stopAudio();
+    return;
+  }
+  playVoiceSource(src, undefined, character);
+  currentKey = `${character}:${clip}`;
+}
+/** Automatic dialogue leaves room to answer; replay taps always play immediately. */
+export function narrate(
+  text: string,
+  clip: string,
+  character: Character = "tiggy",
+) {
+  if (muted || !resolvedVoiceUrl(clip, character)) return;
+  if (playing && currentKey === `${character}:${clip}`) return;
+  if (playing || responseUntil > Date.now()) {
+    queued = () => speak(text, clip, character);
+    if (!playing) {
+      if (pending) clearTimeout(pending);
+      flushQueued();
+    }
+  } else speak(text, clip, character);
 }
 export function stopAudio() {
+  endDialogue();
+  currentKey = "";
+  revision++;
+  playing = false;
+  responseUntil = 0;
+  queued = undefined;
+  if (pending) clearTimeout(pending);
+  pending = undefined;
   current?.pause();
+  if (current) {
+    current.onerror = null;
+    current.onended = null;
+    current.onplaying = null;
+  }
   if ("speechSynthesis" in window) speechSynthesis.cancel();
 }

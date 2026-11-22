@@ -4,10 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack --hostname 0.0.0.0",
-    "build": "next build --webpack",
+    "build": "npm run check:assets && next build --webpack",
     "start": "next start --hostname 0.0.0.0",
     "typecheck": "tsc --noEmit",
-    "test": "playwright test"
+    "test": "playwright test",
+    "check:assets": "node scripts/verify-assets.mjs",
+    "prebuild": "node scripts/export-voice-library.mjs",
+    "test:voice-provider": "node --test scripts/elevenlabs-client.test.mjs",
+    "prepare:rig": "python3 scripts/prepare-rive-source.py",
+    "prepare:character": "python3 scripts/export-character-layers.py"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",

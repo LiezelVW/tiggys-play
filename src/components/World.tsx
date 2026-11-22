@@ -1,0 +1,243 @@
+"use client";
+import { useEffect, useRef, useState } from "react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Play,
+  Volume2,
+  Sparkles,
+  FerrisWheel,
+  FlaskConical,
+  CarFront,
+} from "lucide-react";
+import { useVoiceAvailable } from "./useVoice";
+import { activities, activityIds, type ActivityId } from "../game/activities";
+import WorldAmbience from "./WorldAmbience";
+import Tiggy from "./Tiggy";
+import { speak, chime } from "../game/audio";
+export type GameId = "garden" | "trucks" | ActivityId;
+const activityThumbnails: Record<ActivityId, number> = {
+  builders: 19,
+  railway: 21,
+  science: 23,
+  ready: 19,
+  blocks: 17,
+  ferris: 0,
+  breakfast: 0,
+  potty: 11,
+};
+const areas = [
+  { name: "Ferris Wheel", x: 68, y: 21, game: "ferris" },
+  { name: "Benny Bear’s Breakfast", x: 45, y: 76, game: "breakfast" },
+  { name: "Potty Time", x: 88, y: 84, game: "potty" },
+  { name: "Monster Truck Mayhem", x: 16, y: 31, game: "trucks" },
+  { name: "Little Builders", x: 51, y: 29, game: "builders" },
+  { name: "Tiggy’s Railway", x: 84, y: 31, game: "railway" },
+  { name: "Colour Garden", x: 14, y: 59, game: "garden" },
+  { name: "Science Lab", x: 49, y: 60, game: "science" },
+  { name: "Build & Solve", x: 78, y: 55, game: "blocks" },
+  { name: "Ready, Set, Go!", x: 89, y: 68, game: "ready" },
+] as const;
+export default function World({
+  onPlay,
+  ready,
+  paused = false,
+}: {
+  onPlay: (game: GameId) => void;
+  ready: boolean;
+  paused?: boolean;
+}) {
+  const hasNarration = useVoiceAvailable("world-welcome");
+  const hasPlayVoice = useVoiceAvailable("lets-play");
+  const view = useRef<HTMLDivElement>(null);
+  const artwork = useRef<HTMLImageElement>(null);
+  const [loaded, setLoaded] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const [spark, setSpark] = useState(false);
+  useEffect(() => {
+    if (artwork.current?.complete) {
+      if (artwork.current.naturalWidth > 0) setLoaded(true);
+      else setFailed(true);
+    }
+  }, []);
+  function pan(dir: number) {
+    view.current?.scrollBy({
+      left: dir * view.current.clientWidth * 0.75,
+      behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "instant"
+        : "smooth",
+    });
+  }
+  return (
+    <main
+      className="world-home"
+      data-paused={paused}
+      aria-label="Tiggy’s adventure playground"
+    >
+      <div
+        className="world-camera"
+        ref={view}
+        tabIndex={0}
+        aria-label="Adventure map. Swipe sideways or use the explore buttons to see the whole world."
+      >
+        <div className="world-landscape">
+          <img
+            className="world-background"
+            ref={artwork}
+            src="/assets/world/adventure-world-flat.webp"
+            alt="An illustrated adventure playground with a truck arena, diggers, railway, flower garden, science lab and race track"
+            onLoad={() => setLoaded(true)}
+            onError={() => setFailed(true)}
+            draggable={false}
+          />
+          {!loaded && !failed && (
+            <p className="world-loading" role="status">
+              Opening your adventure…
+            </p>
+          )}
+          {failed && (
+            <div className="world-loading" role="alert">
+              The world illustration couldn’t load. You can still play using the
+              buttons below.
+            </div>
+          )}
+          <button
+            className="sun-touch"
+            aria-label="Play a sunshine sound"
+            onClick={() => {
+              chime();
+              setSpark(true);
+              setTimeout(() => setSpark(false), 900);
+            }}
+          >
+            {spark && <Sparkles size={42} />}
+          </button>
+          {areas.map((area) => (
+            <div
+              className={`map-place ${"game" in area ? "available" : "unavailable"}`}
+              key={area.name}
+              style={{ left: `${area.x}%`, top: `${area.y}%` }}
+            >
+              <button
+                disabled={!ready}
+                onClick={() => onPlay(area.game)}
+                aria-label={`Play ${area.name}`}
+              >
+                <span className="map-play">
+                  <Play size={19} fill="currentColor" />
+                </span>
+                <span>
+                  {area.name}
+                  <small>LET’S PLAY</small>
+                </span>
+              </button>
+            </div>
+          ))}
+          <WorldAmbience />
+          <Tiggy paused={paused} />
+          <div className="world-truck" aria-hidden="true">
+            <img
+              src="/assets/vehicles/truck-red.png"
+              alt=""
+              draggable={false}
+            />
+            <i className="world-wheel rear" />
+            <i className="world-wheel front" />
+          </div>
+          <button
+            className="world-welcome"
+            disabled={!ready}
+            onClick={() =>
+              hasNarration
+                ? speak(
+                    "Welcome to Tiggy’s Play! Tap the truck to drive, or pick flowers in Colour Garden.",
+                    "world-welcome",
+                  )
+                : hasPlayVoice
+                  ? speak("Let’s play!", "lets-play")
+                  : chime()
+            }
+          >
+            <Volume2 size={22} />
+            <span>
+              Let’s explore!
+              <small>
+                {hasNarration
+                  ? "Tap to hear Tiggy’s welcome"
+                  : "Pick an adventure to play"}
+              </small>
+            </span>
+          </button>
+        </div>
+      </div>
+      <div className="explore-controls">
+        <button
+          className="round-button"
+          aria-label="Explore left"
+          onClick={() => pan(-1)}
+        >
+          <ChevronLeft />
+        </button>
+        <span>Swipe to explore your world</span>
+        <button
+          className="round-button"
+          aria-label="Explore right"
+          onClick={() => pan(1)}
+        >
+          <ChevronRight />
+        </button>
+      </div>
+      <nav className="play-dock" aria-label="Playable adventures">
+        <button
+          className="dock-truck"
+          disabled={!ready}
+          onClick={() => onPlay("trucks")}
+        >
+          <Play fill="currentColor" />
+          <span>
+            Monster Truck Mayhem<small>DRIVE · JUMP · DISCOVER COLOURS</small>
+          </span>
+        </button>
+        <button
+          className="dock-garden"
+          disabled={!ready}
+          onClick={() => onPlay("garden")}
+        >
+          <Play fill="currentColor" />
+          <span>
+            Colour Garden<small>MATCH · PLANT · GROW</small>
+          </span>
+        </button>
+        {activityIds.map((id) => (
+          <button
+            key={id}
+            className={`dock-activity dock-${id}`}
+            disabled={!ready}
+            aria-label={`Open ${activities[id].name}`}
+            onClick={() => onPlay(id)}
+          >
+            {id === "science" ? (
+              <FlaskConical className="dock-picture" aria-hidden="true" />
+            ) : id === "ready" ? (
+              <CarFront className="dock-picture" aria-hidden="true" />
+            ) : id === "ferris" ? (
+              <FerrisWheel className="dock-picture" aria-hidden="true" />
+            ) : (
+              <span
+                className="activity-sprite dock-picture"
+                aria-hidden="true"
+                style={{
+                  backgroundPosition: `${(activityThumbnails[id] % 6) * 20}% ${(Math.floor(activityThumbnails[id] / 6) * 100) / 3}%`,
+                }}
+              />
+            )}
+            <span>
+              {activities[id].name}
+              <small>{activities[id].subtitle}</small>
+            </span>
+          </button>
+        ))}
+      </nav>
+    </main>
+  );
+}

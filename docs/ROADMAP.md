@@ -1,18 +1,27 @@
 # Development status
 
-## Foundation and Colour Garden
+## This rebuild
 
-Implemented: isolated Next.js/TypeScript app; responsive home; provisional brand palette and wordmark; Phaser gameplay boundary; temporary human Thiago rig; three-round colour matching; drag and tap controls; keyboard equivalents; wrong-match retry; positive feedback; captions; bundled temporary narration and audio fallback; mute; completion and replay; parental gate; local progress and deletion; session limit.
+Implemented: tracked original illustrated map and environments; approved-design transparent Tiggy atlas with seven states; ten playable activities; articulated monster truck driving and ramp traversal; optional jumping; colour matching; touch and keyboard controls; narration, captions and mute; reduced motion; parental gate; migrated local progress; elapsed-time session gate and scene suspension; build-time asset checks.
 
-Reference-dependent work: approve Café-derived wordmark and Thiago design; replace temporary vectors and voices; finish production sprite/skeletal art. The reference-based branding and recognisable likeness cannot be completed without source references.
+## Additional activities
 
-## Next phases
+Little Builders, Railway, Science Lab, Ready Set Go, Build & Solve, Ferris Wheel, Benny Bear’s Breakfast and Potty Time now have three/four-step activities in a shared Phaser framework. Each supports retry, completion, replay, home, scene suspension and local progress. More activities within each world remain future work.
 
-3. Expand rig to all specified states, consistent dialogue registry, licensed voice performances, soundscape and approved companions.
-4. Build and verify each remaining game separately. Home’s future-world cards are informational, not playable prototypes.
-5. Parent authentication, child profile separation, Supabase schema/migrations, row-level security, progress adapter, consent and account deletion. No remote child data exists yet.
-6. Capacitor shell, safe-area and orientation checks, iOS/Android audio unlock, native permissions, offline assets, real-device testing, profiling.
+## Production follow-up
 
-## Reference handoff
+- Art-direction review and animator cleanup of the new reference-derived atlas, including smoother transitions where needed.
+- Record/approve the 71 missing Tiggy and 10 missing Benny performances and original music/ambience.
+- Real-device acceptance on iPhone Safari, Android Chrome and iPad beyond browser emulation.
+- Supabase parent authentication, child profiles, row-level security and deletion across devices.
+- Capacitor packaging and offline asset management.
 
-Provide the Tiggy’s Café brand source and approved cartoon design privately. Keep source photographs outside the repository and public assets. Approved cartoon exports may enter `public/assets/characters`; state mappings should bind to `Character.play` without changing game scoring. Supply front/side/three-quarter views, proportions, palette, outfit details, expression sheet and all requested animation states.
+No Supabase account, backend or child identity is needed for current play. Never place a child's photograph in public assets, commits or screenshots.
+
+## Follow-up: voice, truck and brand
+
+Added a parent-only local voice recorder with preview, save, delete, export and restore. Removed rejected system narration and browser TTS fallback. Replaced the sine-based truck path with tyre contact on a shared rendered ramp, queued tap input and a grounded shadow. Replaced the mixed-font wordmark with a licensed outlined SVG and matching icon.
+
+## Character voice workflow
+
+Audition-first imports, independent character selection, explicit approval, library scripts, volume, preload/cache, iOS gesture unlock and natural dialogue pauses are implemented. No approved childlike voice performance is available; the connected provider limitation does not block gameplay. MP3/WAV imports can be added without game-code changes. See docs/audio/MISSING-ASSETS.csv for every missing recording.
