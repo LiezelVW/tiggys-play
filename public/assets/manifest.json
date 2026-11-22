@@ -1,13 +1,13 @@
 {
-  "version": 3,
+  "version": 4,
   "identity": "Thiago is Tiggy, the human main character",
   "references": {
     "cartoons": "User-supplied approved character and game-world references in docs/art",
     "photograph": "Kept outside checkout. Not included in public assets or Git."
   },
   "character": {
-    "source": "Reference-derived generated transparent frames",
-    "atlas": "/assets/tiggy/tiggy-actions.png",
+    "source": "Flat 2D reference-derived frame redraw, four columns by six rows",
+    "atlas": "/assets/tiggy/tiggy-actions-flat.png",
     "width": 1280,
     "height": 1920,
     "frameWidth": 320,
@@ -16,21 +16,58 @@
     "rows": 6,
     "frameCount": 24,
     "states": {
-      "idle": [0],
-      "blink": [0, 1, 2, 3],
-      "wave": [4, 5, 6, 7, 6, 5, 4],
-      "celebrate": [8, 9, 10, 11],
-      "talk": [12, 13, 14, 13, 15],
-      "walk": [16, 17, 18, 19],
-      "jump": [20, 21, 22, 23]
+      "idle": [
+        0
+      ],
+      "blink": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "wave": [
+        4,
+        5,
+        6,
+        7,
+        6,
+        5,
+        4
+      ],
+      "celebrate": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "talk": [
+        12,
+        13,
+        14,
+        13,
+        15
+      ],
+      "walk": [
+        16,
+        17,
+        18,
+        19
+      ],
+      "jump": [
+        20,
+        21,
+        22,
+        23
+      ]
     },
-    "review": "New animation exports preserve the approved design; final art-direction review is still required."
+    "review": "Preserves core approved design. Final proportions, name badge lettering and animator cleanup remain art-review items."
   },
   "worlds": {
-    "adventure": "/assets/world/adventure-world.webp",
-    "arena": "/assets/world/truck-arena-clear.webp",
-    "garden": "/assets/world/colour-garden.webp",
-    "provenance": "Original generated raster illustrations, not Lingokids assets."
+    "adventure": "/assets/world/adventure-world-flat.webp",
+    "arena": "/assets/world/truck-arena-flat.webp",
+    "garden": "/assets/world/colour-garden-flat.webp",
+    "provenance": "Original generated raster illustrations, not Lingokids assets.",
+    "direction": "Flatter original 2D pass; simplified shapes, consistent dark outlines and reduced texture."
   },
   "vehicles": {
     "bodies": [
@@ -42,22 +79,47 @@
     "track": "Runtime-rendered ramp and circular tyre contacts share src/game/truckTrack.ts; no separate sine path."
   },
   "audio": {
-    "source": "Parent-supplied adult recordings, saved only on the user device",
-    "format": "Browser-native audio via MediaRecorder",
-    "storage": "Local IndexedDB; explicit export/restore; no upload",
+    "source": "Approved prerecorded character candidates or pre-existing device recordings. No new adult or pitch-shifted voice bundled.",
+    "format": "MP3/WAV import, candidate JSON packs, browser-native recorder",
+    "storage": "Device-only IndexedDB bytes; candidate approval persisted separately from imports",
     "previousNarration": "Rejected system voice assets and automatic browser speech fallback removed",
-    "soundEffects": "Original quiet Web Audio chimes"
+    "soundEffects": "Original quiet Web Audio chimes",
+    "missing": {
+      "tiggy": 71,
+      "benny": 10
+    },
+    "scripts": "/assets/audio/voice-library.json"
   },
   "interface": {
     "icons": "lucide-react, ISC licence",
     "wordmark": "Outlined Outfit wordmark with custom T/play monogram; OFL licence and font source in docs/art/brand-font"
   },
-  "playable": ["Colour Garden", "Monster Truck Mayhem"],
-  "unavailable": [
+  "playable": [
+    "Colour Garden",
+    "Monster Truck Mayhem",
     "Little Builders",
-    "Tiggy\u2019s Railway",
+    "Tiggy’s Railway",
     "Science Lab",
     "Ready, Set, Go!",
-    "Build & Solve"
-  ]
+    "Build & Solve",
+    "Ferris Wheel",
+    "Benny Bear’s Breakfast",
+    "Potty Time"
+  ],
+  "unavailable": [],
+  "activities": {
+    "atlas": "/assets/activities/benny-and-objects-flat.webp",
+    "columns": 6,
+    "rows": 4,
+    "frameWidth": 256,
+    "frameHeight": 256,
+    "bennyFrames": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "provenance": "Original generated flat 2D sprite art. Four Benny expression/action drawings; not a complete skeletal animation rig.",
+    "ferris": "Procedural 2D wheel, moving spokes, upright interactive cabins and count display."
+  }
 }

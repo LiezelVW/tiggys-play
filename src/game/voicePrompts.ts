@@ -20,5 +20,99 @@ export const voicePrompts = [
   ["truck-drive", "Tap the big wheel to drive. Let’s go over the ramp!"],
   ["truck-next", "Brilliant! Let’s find another colour."],
   ["truck-complete", "Amazing driving! You found all three colours!"],
+  ["well-done", "Well done!"],
+  ["you-did-it", "You did it!"],
+  ["yay", "Yay!"],
+  ["good-job", "Good job!"],
+  ["try-again", "Let’s try again!"],
+  ["amazing", "That’s amazing!"],
+  ["help-please", "Help me, please!"],
+  ["thank-you", "Thank you!"],
+  ["my-turn", "My turn!"],
+  ["your-turn", "Your turn!"],
+  ["more-please", "More, please!"],
+  ["all-done", "All done!"],
+  ["come-here", "Come here!"],
+  ["lets-play", "Let’s play!"],
+  ["whats-this", "What’s this?"],
+  ["where-go", "Where does it go?"],
+  ["find-red", "Can you find the red one?"],
+  ["count-three", "One, two, three!"],
+  ["stop", "Stop!"],
+  ["go", "Go!"],
+  ["up", "Up!"],
+  ["down", "Down!"],
+  ["spoon-please", "Spoon, please!"],
+  ["i-can-try", "I can try!"],
+  ["yummy", "Yummy!"],
+  ["hungry", "I’m hungry!"],
+  ["potty", "I need the potty!"],
+  ["wash-hands", "Wash my hands!"],
+  ["i-did-it", "I did it!"],
+  ["builders-circle", "Find the round block!"],
+  ["builders-square", "Find the square block!"],
+  ["builders-triangle", "Put the triangle on top!"],
+  ["railway-engine", "Find the red engine!"],
+  ["railway-carriage", "Add a blue carriage!"],
+  ["railway-another", "One more carriage, please!"],
+  ["mix-orange", "Mix red and yellow to make orange!"],
+  ["mix-green", "Mix yellow and blue to make green!"],
+  ["mix-purple", "Mix red and blue to make purple!"],
+  ["traffic-red", "Red means stop! Find the red light."],
+  ["traffic-yellow", "Yellow means wait! Find the yellow light."],
+  ["traffic-green", "Green means go! Find the green light."],
+  ["pattern-circle", "Circle, square, circle. What comes next?"],
+  ["pattern-triangle", "Triangle, circle, triangle. What comes next?"],
+  ["pattern-square", "Square, triangle, square. What comes next?"],
+  ["ferris-red", "Find the red cabin!"],
+  ["ferris-blue", "Find the blue cabin!"],
+  ["ferris-yellow", "Find the yellow cabin!"],
+  ["breakfast-wash", "Let’s wash our hands before breakfast!"],
+  ["breakfast-spoon", "Spoon, please!"],
+  ["breakfast-bowl", "Find my porridge, please!"],
+  ["breakfast-water", "Water, please!"],
+  ["potty-pants", "Find the clean underpants!"],
+  ["potty-dry", "Dry your hands with the towel!"],
 ] as const;
 export type VoicePromptId = (typeof voicePrompts)[number][0];
+
+export const voiceGroups = [
+  {
+    name: "Game instructions",
+    ids: voicePrompts.slice(0, 18).map((p) => p[0]),
+  },
+  { name: "Encouragement", ids: voicePrompts.slice(18, 24).map((p) => p[0]) },
+  { name: "Communication", ids: voicePrompts.slice(24, 32).map((p) => p[0]) },
+  { name: "Learning", ids: voicePrompts.slice(32, 40).map((p) => p[0]) },
+  {
+    name: "Self-feeding & potty learning",
+    ids: voicePrompts.slice(40, 47).map((p) => p[0]),
+  },
+  {
+    name: "More adventure instructions",
+    ids: voicePrompts.slice(47).map((p) => p[0]),
+  },
+];
+export function promptText(id: string) {
+  return voicePrompts.find((p) => p[0] === id)?.[1] || "";
+}
+export const encouragementIds = [
+  "well-done",
+  "you-did-it",
+  "yay",
+  "good-job",
+  "amazing",
+] as const;
+
+export function requiredVoiceIds(character: "tiggy" | "benny") {
+  return character === "tiggy"
+    ? voicePrompts.map((p) => p[0])
+    : [
+        "breakfast-wash",
+        "breakfast-spoon",
+        "breakfast-bowl",
+        "breakfast-water",
+        "try-again",
+        ...encouragementIds,
+      ];
+}

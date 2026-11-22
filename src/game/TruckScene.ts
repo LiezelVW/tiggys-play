@@ -1,3 +1,5 @@
+import { celebrationLine } from "./voiceCandidates";
+import { promptText } from "./voicePrompts";
 import * as Phaser from "phaser";
 import { TruckSprite } from "./TruckSprite";
 import { TiggySprite } from "./TiggySprite";
@@ -38,7 +40,7 @@ export class TruckScene extends Phaser.Scene {
   preload() {
     TruckSprite.preload(this);
     TiggySprite.preload(this);
-    this.load.image("truck-arena", "/assets/world/truck-arena-clear.webp");
+    this.load.image("truck-arena", "/assets/world/truck-arena-flat.webp");
   }
   create() {
     this.portrait = this.scale.width === 600;
@@ -287,7 +289,8 @@ export class TruckScene extends Phaser.Scene {
       });
       return;
     }
-    this.say("Brilliant! Let’s find another colour.", "truck-next");
+    const praise = celebrationLine(this.round, "truck-next");
+    this.say(promptText(praise), praise);
     this.round++;
     this.time.delayedCall(1500, () => this.chooseRound());
     this.emit();

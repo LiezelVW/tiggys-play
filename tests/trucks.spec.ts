@@ -54,7 +54,7 @@ test("trucks: wrong colour retry, three ramp runs, replay and persistent progres
   ).toBeVisible();
   expect(errors).toEqual([]);
 });
-test("world art loads, future areas honest, sound persists and no document overflow", async ({
+test("world art and available activities load, sound persists and no document overflow", async ({
   page,
 }) => {
   const missing: string[] = [];
@@ -82,10 +82,19 @@ test("world art loads, future areas honest, sound persists and no document overf
     "Ready, Set, Go!",
   ]) {
     await expect(
-      page.getByLabel(`${name}, coming soon`, { exact: true }),
-    ).toBeAttached();
-    await expect(
       page.getByRole("button", { name: `Play ${name}`, exact: true }),
+    ).toBeAttached();
+    // Signposts must remain reachable over the scaled art and character hitboxes.
+    if (test.info().project.use.hasTouch)
+      await page
+        .getByRole("button", { name: `Play ${name}`, exact: true })
+        .tap({ trial: true });
+    else
+      await page
+        .getByRole("button", { name: `Play ${name}`, exact: true })
+        .click({ trial: true });
+    await expect(
+      page.getByLabel(`${name}, coming soon`, { exact: true }),
     ).toHaveCount(0);
   }
   await activate(page.getByRole("button", { name: "Mute sound" }));

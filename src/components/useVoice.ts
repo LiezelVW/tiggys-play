@@ -1,15 +1,23 @@
 "use client";
 import { useSyncExternalStore } from "react";
+import { subscribeVoice, voiceCount, voiceRevision } from "../game/recordings";
 import {
-  subscribeVoice,
-  voiceAvailable,
-  voiceCount,
-  voiceRevision,
-} from "../game/recordings";
-export function useVoiceAvailable(id: string) {
+  subscribeCandidates,
+  resolvedVoiceUrl,
+  type Character,
+} from "../game/voiceCandidates";
+function subscribeAll(fn: () => void) {
+  const a = subscribeVoice(fn),
+    b = subscribeCandidates(fn);
+  return () => {
+    a();
+    b();
+  };
+}
+export function useVoiceAvailable(id: string, character: Character = "tiggy") {
   return useSyncExternalStore(
-    subscribeVoice,
-    () => voiceAvailable(id),
+    subscribeAll,
+    () => !!resolvedVoiceUrl(id, character),
     () => false,
   );
 }

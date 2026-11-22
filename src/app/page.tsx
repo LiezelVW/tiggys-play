@@ -5,14 +5,37 @@ import { Volume2, VolumeX, ShieldCheck, Sun, X, Check } from "lucide-react";
 import { useDialogFocus } from "../components/useDialogFocus";
 import { initialiseVoiceClips } from "../game/recordings";
 import { useVoiceCount } from "../components/useVoice";
+import VoicePreview from "../components/VoicePreview";
+import Activity from "../components/Activity";
+import { activityIds, type ActivityId } from "../game/activities";
+import {
+  initialiseCandidates,
+  subscribeCandidates,
+} from "../game/voiceCandidates";
+import { subscribeVoice } from "../game/recordings";
+import { useVoiceAvailable } from "../components/useVoice";
 import VoiceRecorder from "../components/VoiceRecorder";
 import World, { type GameId } from "../components/World";
 import MonsterTruck from "../components/MonsterTruck";
 import Garden from "../components/Garden";
-import { setMuted, speak } from "../game/audio";
-type Progress = { completed: number; minutes: number; trucks?: number };
+import {
+  setMuted,
+  setVolume,
+  unlockAudio,
+  preloadVoice,
+  speak,
+} from "../game/audio";
+type Progress = {
+  completed: number;
+  minutes: number;
+  trucks?: number;
+  activities?: Partial<Record<ActivityId, number>>;
+};
 export default function Page() {
   const recordedVoices = useVoiceCount();
+  const hasTiggyVoice = useVoiceAvailable("tiggy-hello");
+  const [showStudio, setShowStudio] = useState(false);
+  const [volume, updateVolume] = useState(0.7);
   const [showRecorder, setShowRecorder] = useState(false);
   const [ready, setReady] = useState(false);
   const [game, setGame] = useState<GameId | null>(null);
@@ -35,7 +58,13 @@ export default function Page() {
   );
   useEffect(() => {
     setReady(true);
-    void initialiseVoiceClips();
+    void Promise.all([initialiseVoiceClips(), initialiseCandidates()]).then(
+      preloadVoice,
+    );
+    const a = subscribeVoice(preloadVoice),
+      b = subscribeCandidates(preloadVoice);
+    document.addEventListener("pointerdown", unlockAudio, true);
+    document.addEventListener("keydown", unlockAudio, true);
     try {
       const p = localStorage.getItem("tiggy-progress");
       if (p) {
@@ -44,6 +73,15 @@ export default function Page() {
           setProgress({
             completed: saved.completed,
             minutes: 0,
+            activities: Object.fromEntries(
+              activityIds
+                .filter(
+                  (id) =>
+                    Number.isSafeInteger(saved.activities?.[id]) &&
+                    saved.activities[id] >= 0,
+                )
+                .map((id) => [id, saved.activities[id]]),
+            ),
             trucks:
               Number.isSafeInteger(saved.trucks) && saved.trucks >= 0
                 ? saved.trucks
@@ -53,11 +91,23 @@ export default function Page() {
       const m = localStorage.getItem("tiggy-muted") === "true";
       updateMuted(m);
       setMuted(m);
+      const savedVolume = localStorage.getItem("tiggy-volume");
+      const v = savedVolume === null ? 0.7 : Number(savedVolume);
+      if (Number.isFinite(v) && v >= 0 && v <= 1) {
+        updateVolume(v);
+        setVolume(v);
+      }
       const l = Number(localStorage.getItem("tiggy-limit"));
       if ([10, 15, 20, 30].includes(l)) setLimit(l);
     } catch {
       /* Storage unavailable: session-only play. */
     }
+    return () => {
+      a();
+      b();
+      document.removeEventListener("pointerdown", unlockAudio, true);
+      document.removeEventListener("keydown", unlockAudio, true);
+    };
   }, []);
   useEffect(() => {
     if (!ready || paused || parent) return;
@@ -86,6 +136,12 @@ export default function Page() {
         completed: p.completed + (id === "garden" ? 1 : 0),
         trucks: (p.trucks || 0) + (id === "trucks" ? 1 : 0),
         minutes: Math.ceil(session / 60),
+        activities: {
+          ...p.activities,
+          ...(id !== "garden" && id !== "trucks"
+            ? { [id]: (p.activities?.[id] || 0) + 1 }
+            : {}),
+        },
       };
       try {
         localStorage.setItem("tiggy-progress", JSON.stringify(value));
@@ -95,6 +151,7 @@ export default function Page() {
   }
   function start(id: GameId) {
     setGame(id);
+    if (id !== "garden" && id !== "trucks") return;
     speak(
       id === "garden"
         ? "Let’s match the flowers to their colour baskets."
@@ -154,6 +211,14 @@ export default function Page() {
           onComplete={() => completed("trucks")}
           suspended={parent || paused || !!notice}
         />
+      ) : game ? (
+        <Activity
+          key={game}
+          id={game}
+          onHome={() => setGame(null)}
+          onComplete={() => completed(game)}
+          suspended={parent || paused || !!notice}
+        />
       ) : (
         <World onPlay={start} ready={ready} />
       )}
@@ -163,7 +228,7 @@ export default function Page() {
         <button
           onClick={() => {
             setNotice(
-              "This app stores only completed garden and truck adventures, sound preferences and a time limit on this device. No account, advertising or analytics. Optional adult voice recordings stay on this device and can be deleted in Grown-ups. Delete local progress in Grown-ups.",
+              "This app stores only completed garden and truck adventures, sound preferences and a time limit on this device. No account, advertising or analytics. Voice candidates and optional recordings stay on this device and can be deleted in Grown-ups. Delete local progress in Grown-ups.",
             );
           }}
         >
@@ -246,6 +311,13 @@ export default function Page() {
                     <Check />
                     <small>{progress.trucks || 0} truck adventures</small>
                   </strong>
+                  <strong>
+                    {Object.values(progress.activities || {}).reduce(
+                      (a, b) => a + (b || 0),
+                      0,
+                    )}
+                    <small>other adventures</small>
+                  </strong>
                 </div>
                 <label>
                   Play session limit
@@ -270,10 +342,38 @@ export default function Page() {
                   {muted ? <VolumeX size={18} /> : <Volume2 size={18} />} Sound{" "}
                   {muted ? "off" : "on"}
                 </button>
-                {recordedVoices === 0 && (
+                <label className="volume-setting">
+                  Sound volume · {Math.round(volume * 100)}%
+                  <input
+                    aria-label="Sound volume"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={Math.round(volume * 100)}
+                    onChange={(e) => {
+                      const v = Number(e.target.value) / 100;
+                      updateVolume(v);
+                      setVolume(v);
+                      try {
+                        localStorage.setItem("tiggy-volume", String(v));
+                      } catch {}
+                    }}
+                  />
+                </label>
+                <button
+                  className="pill"
+                  onClick={() => setShowStudio((v) => !v)}
+                >
+                  {showStudio
+                    ? "Close voice studio"
+                    : "Voice preview & approval"}
+                </button>
+                {showStudio && <VoicePreview muted={muted || volume === 0} />}
+                {recordedVoices === 0 && !hasTiggyVoice && (
                   <p className="small-print">
-                    Spoken voice is off until you save your own recordings.
-                    Gentle sound effects and visual prompts remain available.
+                    Dialogue audio is unavailable until you approve a voice pack
+                    or save recordings. Speech bubbles and Gentle sound effects
+                    and visual prompts remain available.
                   </p>
                 )}
                 <button

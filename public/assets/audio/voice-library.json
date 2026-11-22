@@ -1,0 +1,654 @@
+{
+  "version": 1,
+  "phrases": [
+    {
+      "id": "tiggy-hello",
+      "text": "Hello! I’m Tiggy. Ready for an adventure?",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "tiggy-hello.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "world-welcome",
+      "text": "Welcome to Tiggy’s Play! Tap the truck to drive, or pick flowers in Colour Garden.",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "world-welcome.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "intro",
+      "text": "Let’s match the flowers to their colour baskets.",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "intro.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "red",
+      "text": "Put the red flower in the red basket.",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "red.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "blue",
+      "text": "Put the blue flower in the blue basket.",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "blue.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "yellow",
+      "text": "Put the yellow flower in the yellow basket.",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "yellow.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "retry",
+      "text": "Let’s try another basket. You can do it!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "retry.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "match",
+      "text": "Wonderful! You found a match.",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "match.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "complete",
+      "text": "You did it! What a beautiful garden!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "complete.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "truck-red",
+      "text": "Find the red truck!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "truck-red.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "truck-blue",
+      "text": "Find the blue truck!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "truck-blue.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "truck-yellow",
+      "text": "Find the yellow truck!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "truck-yellow.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "truck-try-red",
+      "text": "Let’s find the red truck. Try another one!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "truck-try-red.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "truck-try-blue",
+      "text": "Let’s find the blue truck. Try another one!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "truck-try-blue.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "truck-try-yellow",
+      "text": "Let’s find the yellow truck. Try another one!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "truck-try-yellow.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "truck-drive",
+      "text": "Tap the big wheel to drive. Let’s go over the ramp!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "truck-drive.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "truck-next",
+      "text": "Brilliant! Let’s find another colour.",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "truck-next.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "truck-complete",
+      "text": "Amazing driving! You found all three colours!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "truck-complete.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "well-done",
+      "text": "Well done!",
+      "requiredFor": [
+        "tiggy",
+        "benny"
+      ],
+      "file": "well-done.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "you-did-it",
+      "text": "You did it!",
+      "requiredFor": [
+        "tiggy",
+        "benny"
+      ],
+      "file": "you-did-it.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "yay",
+      "text": "Yay!",
+      "requiredFor": [
+        "tiggy",
+        "benny"
+      ],
+      "file": "yay.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "good-job",
+      "text": "Good job!",
+      "requiredFor": [
+        "tiggy",
+        "benny"
+      ],
+      "file": "good-job.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "try-again",
+      "text": "Let’s try again!",
+      "requiredFor": [
+        "tiggy",
+        "benny"
+      ],
+      "file": "try-again.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "amazing",
+      "text": "That’s amazing!",
+      "requiredFor": [
+        "tiggy",
+        "benny"
+      ],
+      "file": "amazing.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "help-please",
+      "text": "Help me, please!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "help-please.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "thank-you",
+      "text": "Thank you!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "thank-you.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "my-turn",
+      "text": "My turn!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "my-turn.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "your-turn",
+      "text": "Your turn!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "your-turn.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "more-please",
+      "text": "More, please!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "more-please.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "all-done",
+      "text": "All done!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "all-done.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "come-here",
+      "text": "Come here!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "come-here.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "lets-play",
+      "text": "Let’s play!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "lets-play.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "whats-this",
+      "text": "What’s this?",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "whats-this.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "where-go",
+      "text": "Where does it go?",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "where-go.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "find-red",
+      "text": "Can you find the red one?",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "find-red.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "count-three",
+      "text": "One, two, three!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "count-three.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "stop",
+      "text": "Stop!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "stop.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "go",
+      "text": "Go!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "go.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "up",
+      "text": "Up!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "up.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "down",
+      "text": "Down!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "down.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "spoon-please",
+      "text": "Spoon, please!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "spoon-please.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "i-can-try",
+      "text": "I can try!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "i-can-try.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "yummy",
+      "text": "Yummy!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "yummy.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "hungry",
+      "text": "I’m hungry!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "hungry.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "potty",
+      "text": "I need the potty!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "potty.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "wash-hands",
+      "text": "Wash my hands!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "wash-hands.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "i-did-it",
+      "text": "I did it!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "i-did-it.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "builders-circle",
+      "text": "Find the round block!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "builders-circle.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "builders-square",
+      "text": "Find the square block!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "builders-square.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "builders-triangle",
+      "text": "Put the triangle on top!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "builders-triangle.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "railway-engine",
+      "text": "Find the red engine!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "railway-engine.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "railway-carriage",
+      "text": "Add a blue carriage!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "railway-carriage.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "railway-another",
+      "text": "One more carriage, please!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "railway-another.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "mix-orange",
+      "text": "Mix red and yellow to make orange!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "mix-orange.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "mix-green",
+      "text": "Mix yellow and blue to make green!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "mix-green.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "mix-purple",
+      "text": "Mix red and blue to make purple!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "mix-purple.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "traffic-red",
+      "text": "Red means stop! Find the red light.",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "traffic-red.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "traffic-yellow",
+      "text": "Yellow means wait! Find the yellow light.",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "traffic-yellow.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "traffic-green",
+      "text": "Green means go! Find the green light.",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "traffic-green.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "pattern-circle",
+      "text": "Circle, square, circle. What comes next?",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "pattern-circle.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "pattern-triangle",
+      "text": "Triangle, circle, triangle. What comes next?",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "pattern-triangle.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "pattern-square",
+      "text": "Square, triangle, square. What comes next?",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "pattern-square.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "ferris-red",
+      "text": "Find the red cabin!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "ferris-red.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "ferris-blue",
+      "text": "Find the blue cabin!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "ferris-blue.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "ferris-yellow",
+      "text": "Find the yellow cabin!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "ferris-yellow.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "breakfast-wash",
+      "text": "Let’s wash our hands before breakfast!",
+      "requiredFor": [
+        "tiggy",
+        "benny"
+      ],
+      "file": "breakfast-wash.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "breakfast-spoon",
+      "text": "Spoon, please!",
+      "requiredFor": [
+        "tiggy",
+        "benny"
+      ],
+      "file": "breakfast-spoon.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "breakfast-bowl",
+      "text": "Find my porridge, please!",
+      "requiredFor": [
+        "tiggy",
+        "benny"
+      ],
+      "file": "breakfast-bowl.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "breakfast-water",
+      "text": "Water, please!",
+      "requiredFor": [
+        "tiggy",
+        "benny"
+      ],
+      "file": "breakfast-water.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "potty-pants",
+      "text": "Find the clean underpants!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "potty-pants.mp3",
+      "status": "missing-approved-performance"
+    },
+    {
+      "id": "potty-dry",
+      "text": "Dry your hands with the towel!",
+      "requiredFor": [
+        "tiggy"
+      ],
+      "file": "potty-dry.mp3",
+      "status": "missing-approved-performance"
+    }
+  ]
+}

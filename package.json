@@ -8,7 +8,8 @@
     "start": "next start --hostname 0.0.0.0",
     "typecheck": "tsc --noEmit",
     "test": "playwright test",
-    "check:assets": "node scripts/verify-assets.mjs"
+    "check:assets": "node scripts/verify-assets.mjs",
+    "prebuild": "node scripts/export-voice-library.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",

@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Volume2, RotateCcw, Home, Flower2 } from "lucide-react";
 import { useVoiceAvailable } from "./useVoice";
-import { speak, chime, stopAudio } from "../game/audio";
+import { speak, narrate, chime, stopAudio } from "../game/audio";
 import { useDialogFocus } from "./useDialogFocus";
 import { colours, type Colour } from "../game/rules";
 export default function Garden({
@@ -51,7 +51,7 @@ export default function Garden({
           (text, clip) => {
             setCaption(text);
             setClip(clip);
-            speak(text, clip);
+            narrate(text, clip);
           },
           chime,
         );
@@ -119,7 +119,7 @@ export default function Garden({
           Round {round} of 3 <span>{score} / 9 flowers</span>
         </div>
       </div>
-      <div className="instruction" aria-live="polite">
+      <div className="instruction speech-bubble" aria-live="polite">
         <Volume2 size={22} />
         {caption}
       </div>

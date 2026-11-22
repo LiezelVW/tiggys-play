@@ -28,9 +28,20 @@ Playwright starts the **production** build on port 3100. Build first. The browse
 - **Monster Truck Mayhem:** find each requested colour, tap a truck or use the colour controls, then tap the big wheel (or the arena) to drive over the ramp. Both wheels follow the same visible ramp outline used by the renderer. Chassis tilt comes from tyre contact, wheel rotation follows travel, and rapid taps queue movement. An optional jump button is also available. Three colours, gentle retries, celebrations, replay and home controls. No lost points or timers during the activity.
 - **Colour Garden:** nine flower matches across three rounds, using drag-and-drop or tap a flower then its basket. Keyboard matching buttons are also available. Gentle retries, speech, celebrations and replay are preserved.
 
+- **Little Builders:** choose a circle, square and triangle to construct a tower.
+- **Tiggy’s Railway:** sequence an engine and two carriages.
+- **Science Lab:** combine two paints to discover orange, green and purple.
+- **Ready, Set, Go!:** identify stop, wait and go traffic lights.
+- **Build & Solve:** finish three alternating shape patterns.
+- **Ferris Wheel:** choose the requested coloured cabins, rotate the wheel and count three rides.
+- **Benny Bear’s Breakfast:** practise washing, finding a spoon, choosing porridge and drinking water with Benny’s frame reactions.
+- **Potty Time:** practise recognising the potty, clean pants, soap and towel. No pressure or time challenge; an All done control allows leaving at any point.
+
+Each new adventure has three or four steps, illustrated choices, gentle retries, completion, replay, home navigation and persisted local progress. These are focused replayable activities, not a claim that every world contains multiple finished minigames.
+
 Phones use a taller logical playfield with larger flower and basket targets. Both landscape and portrait controls use Phaser’s own scaled coordinates.
 
-The map is a real responsive, pannable scene with visible signpost controls and a persistent two-game play dock. Swipe the map or use its explore controls on small screens. Unavailable worlds are labelled “Growing soon” and have no play buttons. The map's picture and controls live in the same coordinate container; no invisible page-level hit regions are used.
+The map is a real responsive, pannable scene with visible signpost controls and a horizontally scrollable activity dock. Swipe the map or use its explore controls on small screens. All ten listed adventures have an end-to-end activity. The map's picture and controls live in the same coordinate container; no invisible page-level hit regions are used.
 
 ## Character and artwork
 
@@ -42,13 +53,13 @@ The world, arena, garden and truck art are original generated illustrations; tru
 
 ## Parent controls and privacy
 
-The multiplication gate, local learning progress, mute preference, session limit and progress deletion are preserved. Existing `tiggy-progress.completed` garden counts migrate unchanged; truck completions use an additional `trucks` field. The limit counts elapsed time in the world and both games, pauses behind the parental gate and suspends the Phaser scene and narration. A browser reload starts a fresh session; this is not an OS-level time-control service.
+The multiplication gate, local learning progress, mute preference, session limit and progress deletion are preserved. Existing `tiggy-progress.completed` garden counts migrate unchanged; truck completions use an additional `trucks` field. The limit counts elapsed time in the world and every game, pauses behind the parental gate and suspends the Phaser scene and narration. A browser reload starts a fresh session; this is not an OS-level time-control service.
 
 No advertising, analytics or child identity is collected. Optional adult voice recording is available only behind the parental gate. The microphone starts only after pressing Record, stops on exit or after 15 seconds, and recordings are saved locally in IndexedDB only after review and Save. They can be deleted or exported/restored as a voice pack; no audio is uploaded. The rejected system narration and browser speech fallback have been removed. Captions and visual instructions always remain available. The media element is reused for Safari’s audio policy. Mute stops narration and sound effects. Reduced-motion preferences suppress ambient motion and character animation and jumping; the tyres still follow the same ramp geometry.
 
 ## Source structure
 
-- `src/components/World.tsx`: illustrated map, available signposts, unavailable landmarks, environmental interactions.
+- `src/components/World.tsx`: illustrated map, available signposts, activity shortcuts, environmental interactions.
 - `src/components/Tiggy.tsx`, `src/game/TiggySprite.ts`, `src/game/tiggyAnimations.ts`: shared character atlas and state system.
 - `src/components/MonsterTruck.tsx`, `src/game/TruckScene.ts`, `src/game/TruckSprite.ts`: React controls, Phaser game loop and articulated vehicles.
 - `src/components/Garden.tsx`, `src/game/GardenScene.ts`: existing colour game with improved illustrated setting and pause support.
@@ -61,11 +72,11 @@ Phaser is lazy-loaded in browser effects and destroyed on navigation. No browser
 
 ## Deployment and review
 
-This branch is intended for a pull request. **Do not merge or promote production before review.** In Vercel, use the repository root, Next.js framework preset, `npm ci` and `npm run build`; leave the output directory at the framework default. No environment variables are needed for these two games. A GitHub PR may create a preview through an existing Vercel integration; this change does not modify production settings.
+This branch is intended for a pull request. **Do not merge or promote production before review.** In Vercel, use the repository root, Next.js framework preset, `npm ci` and `npm run build`; leave the output directory at the framework default. No environment variables are needed for current play. A GitHub PR may create a preview through an existing Vercel integration; this change does not modify production settings.
 
 To refresh screenshots, run `npm run start -- --port 3100` in one terminal and `node scripts/capture-screenshots.mjs` in another.
 
-See [verification evidence](docs/VERIFICATION.md) for build/test results and screenshots. Parent accounts, Supabase progress across devices, the five unavailable worlds, native Capacitor builds, background music and a shared professionally recorded voice pack remain future work. Parents can record their own adult voice now; the app does not synthesize or clone it.
+See [verification evidence](docs/VERIFICATION.md) for build/test results and screenshots. Parent accounts, Supabase progress across devices, native Capacitor builds, background music and a shared professionally recorded voice pack remain future work. Parents can record their own adult voice now; the app does not synthesize or clone it. Character candidates are auditioned separately and never become active without explicit parent approval.
 
 ## Record your voice
 
@@ -76,3 +87,13 @@ The recorder uses MediaRecorder with a supported browser-native audio format. Au
 ## Logo
 
 The header now uses an outlined SVG wordmark and matching T/play monogram. There are no external font requests or italic/serif mismatch. Source lettering is Outfit under its bundled SIL OFL licence (`docs/art/brand-font`). To rebuild the SVGs, install Python `fonttools` in a development virtual environment and run `python scripts/build-logo.py`.
+
+## Character voice studio and missing audio
+
+Open **Grown-ups → Voice preview & approval**. Import MP3/WAV clips by phrase filename, or audition candidate packs. Import and preview do not change the selected gameplay voice. Only an explicit approval of a complete pack activates it on this device. Tiggy and Benny are separate speakers; no missing line borrows another character’s voice. Previous local recordings are preserved. Volume and mute are available in Grown-ups.
+
+All 29 requested speech-development phrases are scripted, alongside game dialogue. **71 Tiggy performances and 10 Benny performances are still missing.** No replacement adult narration or pitch-shifted audition is bundled. Every game works with visual speech bubbles and optional sound effects while voice assets are missing. [Exact asset checklist](docs/audio/MISSING-ASSETS.csv) · [Voice workflow and provider investigation](docs/audio/VOICE-SYSTEM.md).
+
+## Flat 2D direction
+
+The active map, garden, arena, character frames and object atlas use a cleaner, flatter 2D pass with simpler contours and less texture/shading. Existing runtime vehicle geometry and touch targets remain aligned. Benny has four original expression/action frames. Ferris Wheel is drawn and animated in Phaser; its cabins stay upright as the wheel turns. Superseded textured files are retained for provenance, not used by the main experience. This remains original art, not Lingokids assets. Final character/badge cleanup and professional animator review are still required before a production-quality art sign-off.

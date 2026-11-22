@@ -1,3 +1,5 @@
+import { celebrationLine } from "./voiceCandidates";
+import { promptText } from "./voicePrompts";
 import * as Phaser from "phaser";
 import { TiggySprite } from "./TiggySprite";
 import { colours, rounds, matches, type Colour } from "./rules";
@@ -22,7 +24,7 @@ export class GardenScene extends Phaser.Scene {
   }
   preload() {
     TiggySprite.preload(this);
-    this.load.image("garden-art", "/assets/world/colour-garden.webp");
+    this.load.image("garden-art", "/assets/world/colour-garden-flat.webp");
   }
   create() {
     this.portrait = this.scale.width === 600;
@@ -173,7 +175,8 @@ export class GardenScene extends Phaser.Scene {
     const basket = this.baskets.find((b) => b.getData("colour") === name)!;
     this.effect(true);
     this.boy.play("celebrate");
-    this.say("Wonderful! You found a match.", "match");
+    const praise = celebrationLine(this.score, "match");
+    this.say(promptText(praise), praise);
     this.tweens.add({
       targets: obj,
       x: basket.x,

@@ -1,7 +1,7 @@
 export type TiggyState =
   "idle" | "blink" | "wave" | "walk" | "jump" | "celebrate" | "talk";
 export const tiggyAsset = {
-  source: "/assets/tiggy/tiggy-actions.png",
+  source: "/assets/tiggy/tiggy-actions-flat.png",
   frameWidth: 320,
   frameHeight: 320,
   columns: 4,

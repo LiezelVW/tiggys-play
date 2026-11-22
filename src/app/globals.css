@@ -995,7 +995,7 @@ footer button {
 }
 .tiggy-character {
   position: absolute;
-  left: 30%;
+  left: 23%;
   bottom: 6%;
   width: 300px;
   height: 300px;
@@ -1037,7 +1037,7 @@ footer button {
 }
 @media (max-width: 900px) {
   .tiggy-character {
-    left: 28%;
+    left: 23%;
     bottom: 5%;
     width: 250px;
     height: 250px;
@@ -1210,4 +1210,259 @@ footer button {
   .brand-logo {
     width: 181px;
   }
+}
+
+/* Flat 2D activity surfaces: solid colour, clear silhouettes and consistent linework. */
+.voice-preview {
+  border-top: 2px solid #d3e0cf;
+  margin-top: 24px;
+  padding-top: 24px;
+}
+.voice-preview h3 {
+  font-size: 25px;
+  margin-bottom: 10px;
+}
+.voice-preview p {
+  line-height: 1.55;
+}
+.voice-preview label {
+  display: grid;
+  gap: 8px;
+  margin: 16px 0;
+}
+.voice-preview input:not([type="checkbox"]),
+.voice-preview select {
+  width: 100%;
+  min-height: 48px;
+  border: 2px solid #bed3c8;
+  border-radius: 16px;
+  padding: 12px;
+  background: #fffdf4;
+  color: #143657;
+}
+.voice-note {
+  background: #e7f2ed;
+  padding: 14px;
+  border-radius: 16px;
+}
+.voice-preview .voice-approval {
+  display: flex;
+  align-items: flex-start;
+  font-size: 14px;
+}
+
+.voice-preview details {
+  margin-top: 20px;
+}
+.voice-preview summary {
+  cursor: pointer;
+  min-height: 48px;
+  padding: 12px 0;
+}
+.voice-preview li {
+  line-height: 1.5;
+  margin: 10px 0;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.voice-preview code {
+  font-size: 12px;
+}
+.volume-setting {
+  display: grid;
+  gap: 12px;
+  margin: 18px 0;
+}
+.volume-setting input {
+  accent-color: #087f80;
+  width: 100%;
+  min-height: 44px;
+}
+.speech-bubble {
+  border: 3px solid #fff;
+  background: #fff8df;
+  border-radius: 24px 24px 24px 6px;
+  padding: 20px;
+  color: #143657;
+}
+.game-instruction.speech-bubble {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.activity-subtitle {
+  font-size: 14px;
+  margin: 7px 0 0;
+  text-align: center;
+}
+.activity-page .game-top {
+  align-items: center;
+}
+.activity-page .game-top h1 {
+  margin: 0;
+}
+.activity-canvas {
+  aspect-ratio: 1000 / 550;
+}
+.activity-canvas canvas {
+  display: block;
+}
+.activity-choices {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+.activity-choice {
+  background: #fff9e6;
+  border: 3px solid #fff;
+  border-bottom: 6px solid #d9d2ae;
+  border-radius: 24px;
+  width: 180px;
+  min-height: 155px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #143657;
+  font-size: 15px;
+}
+.activity-choice:active {
+  transform: translateY(3px);
+}
+.activity-choice.selected {
+  border-color: #087f80;
+  background: #def1e7;
+}
+.activity-sprite {
+  display: block;
+  width: 94px;
+  height: 94px;
+  background-image: url("/assets/activities/benny-and-objects-flat.webp");
+  background-size: 600% 400%;
+  background-repeat: no-repeat;
+}
+.activity-colour {
+  display: block;
+  width: 70px;
+  height: 70px;
+  border: 4px solid #143657;
+  border-radius: 50%;
+}
+.activity-tools {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+.routine-note {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 15px;
+}
+.play-dock {
+  flex-wrap: wrap;
+}
+.play-dock .dock-activity {
+  background: #fff8df;
+  border-bottom-color: #cfdecf;
+}
+.play-dock .dock-breakfast {
+  background: #fbe3bd;
+}
+.play-dock .dock-ferris {
+  background: #d5efee;
+}
+.play-dock .dock-potty {
+  background: #e7e3f4;
+}
+@media (max-width: 600px) {
+  .activity-canvas {
+    aspect-ratio: 600 / 550;
+  }
+  .activity-choices {
+    gap: 8px;
+  }
+  .activity-choice {
+    width: calc((100% - 16px) / 3);
+    min-height: 128px;
+    padding: 5px;
+    font-size: 12px;
+    border-radius: 18px;
+  }
+  .activity-sprite {
+    width: 76px;
+    height: 76px;
+  }
+  .activity-colour {
+    width: 55px;
+    height: 55px;
+  }
+  .activity-page .game-top {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .activity-page .game-top > div {
+    flex: 1 1 150px;
+  }
+  .activity-page .game-top h1 {
+    font-size: 22px;
+  }
+  .activity-subtitle {
+    font-size: 12px;
+  }
+  .speech-bubble {
+    padding: 16px;
+  }
+}
+.play-dock {
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+}
+.play-dock button {
+  flex: 0 0 245px;
+  scroll-snap-align: start;
+}
+@media (max-width: 600px) {
+  .play-dock button {
+    flex: 0 0 185px;
+  }
+}
+
+.game-instruction strong {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.voice-approval {
+  width: 100%;
+  min-height: 64px;
+  background: #e7f2ed;
+  border: 2px solid #bed3c8;
+  border-radius: 16px;
+  padding: 16px;
+  gap: 12px;
+  text-align: left;
+  margin: 18px 0;
+  color: #143657;
+  scroll-margin-block: 90px;
+}
+.approval-mark {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  border: 2px solid #087f80;
+  border-radius: 7px;
+}
+.voice-approval[aria-checked="true"] {
+  border-color: #087f80;
+  background: #d7ede4;
 }

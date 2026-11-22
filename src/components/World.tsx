@@ -4,22 +4,22 @@ import {
   ChevronLeft,
   ChevronRight,
   Play,
-  LockKeyhole,
   Volume2,
   Sparkles,
 } from "lucide-react";
 import { useVoiceAvailable } from "./useVoice";
+import { activities, activityIds, type ActivityId } from "../game/activities";
 import Tiggy from "./Tiggy";
 import { speak, chime } from "../game/audio";
-export type GameId = "garden" | "trucks";
+export type GameId = "garden" | "trucks" | ActivityId;
 const areas = [
   { name: "Monster Truck Mayhem", x: 16, y: 31, game: "trucks" },
-  { name: "Little Builders", x: 51, y: 29 },
-  { name: "Tiggy’s Railway", x: 84, y: 31 },
+  { name: "Little Builders", x: 51, y: 29, game: "builders" },
+  { name: "Tiggy’s Railway", x: 84, y: 31, game: "railway" },
   { name: "Colour Garden", x: 14, y: 59, game: "garden" },
-  { name: "Science Lab", x: 49, y: 60 },
-  { name: "Build & Solve", x: 78, y: 55 },
-  { name: "Ready, Set, Go!", x: 89, y: 68 },
+  { name: "Science Lab", x: 49, y: 60, game: "science" },
+  { name: "Build & Solve", x: 78, y: 55, game: "blocks" },
+  { name: "Ready, Set, Go!", x: 89, y: 68, game: "ready" },
 ] as const;
 export default function World({
   onPlay,
@@ -60,7 +60,7 @@ export default function World({
           <img
             className="world-background"
             ref={artwork}
-            src="/assets/world/adventure-world.webp"
+            src="/assets/world/adventure-world-flat.webp"
             alt="An illustrated adventure playground with a truck arena, diggers, railway, flower garden, science lab and race track"
             onLoad={() => setLoaded(true)}
             onError={() => setFailed(true)}
@@ -94,29 +94,19 @@ export default function World({
               key={area.name}
               style={{ left: `${area.x}%`, top: `${area.y}%` }}
             >
-              {"game" in area ? (
-                <button
-                  disabled={!ready}
-                  onClick={() => onPlay(area.game)}
-                  aria-label={`Play ${area.name}`}
-                >
-                  <span className="map-play">
-                    <Play size={19} fill="currentColor" />
-                  </span>
-                  <span>
-                    {area.name}
-                    <small>LET’S PLAY</small>
-                  </span>
-                </button>
-              ) : (
-                <div aria-label={`${area.name}, coming soon`}>
-                  <LockKeyhole size={15} />
-                  <span>
-                    {area.name}
-                    <small>GROWING SOON</small>
-                  </span>
-                </div>
-              )}
+              <button
+                disabled={!ready}
+                onClick={() => onPlay(area.game)}
+                aria-label={`Play ${area.name}`}
+              >
+                <span className="map-play">
+                  <Play size={19} fill="currentColor" />
+                </span>
+                <span>
+                  {area.name}
+                  <small>LET’S PLAY</small>
+                </span>
+              </button>
             </div>
           ))}
           <Tiggy />
@@ -189,6 +179,21 @@ export default function World({
             Colour Garden<small>MATCH · PLANT · GROW</small>
           </span>
         </button>
+        {activityIds.map((id) => (
+          <button
+            key={id}
+            className={`dock-activity dock-${id}`}
+            disabled={!ready}
+            aria-label={`Open ${activities[id].name}`}
+            onClick={() => onPlay(id)}
+          >
+            <Play fill="currentColor" />
+            <span>
+              {activities[id].name}
+              <small>{activities[id].subtitle}</small>
+            </span>
+          </button>
+        ))}
       </nav>
     </main>
   );

@@ -11,7 +11,7 @@ import {
 import type { TruckScene, TruckStatus } from "../game/TruckScene";
 import { colours } from "../game/rules";
 import { useVoiceAvailable } from "./useVoice";
-import { speak, chime, stopAudio } from "../game/audio";
+import { speak, narrate, chime, stopAudio } from "../game/audio";
 import { useDialogFocus } from "./useDialogFocus";
 export default function MonsterTruck({
   onHome,
@@ -61,7 +61,7 @@ export default function MonsterTruck({
           (text, id) => {
             setCaption(text);
             setClip(id);
-            speak(text, id);
+            narrate(text, id);
           },
           () => chime(),
         );
@@ -119,7 +119,7 @@ export default function MonsterTruck({
           <Volume2 />
         </button>
       </div>
-      <div className="instruction" aria-live="polite">
+      <div className="instruction speech-bubble" aria-live="polite">
         <Volume2 />
         <span>{caption}</span>
         <strong>{Math.min(status.round, 3)} / 3</strong>

@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
+import { voicePrompts } from "../src/game/voicePrompts";
 import { activate } from "./input";
 async function parent(page: import("@playwright/test").Page) {
   await activate(page.getByRole("button", { name: "Grown-ups" }));
@@ -105,13 +106,11 @@ test("parent records or imports, previews, persists, exports and restores a voic
         Math.round(Math.sin((i * 2 * Math.PI * 220) / 8000) * 2000),
         44 + i * 2,
       );
-    await page
-      .getByLabel("Or import an audio recording")
-      .setInputFiles({
-        name: "test-tone.wav",
-        mimeType: "audio/wav",
-        buffer: wav,
-      });
+    await page.getByLabel("Or import an audio recording").setInputFiles({
+      name: "test-tone.wav",
+      mimeType: "audio/wav",
+      buffer: wav,
+    });
   }
   await expect(
     page.getByRole("button", { name: "Use this recording" }),
@@ -135,7 +134,9 @@ test("parent records or imports, previews, persists, exports and restores a voic
     ),
   ).toBe(canRecord ? 1 : 0);
   await activate(page.getByRole("button", { name: "Use this recording" }));
-  await expect(page.getByText("1 of 18 lines saved")).toBeVisible();
+  await expect(
+    page.getByText(`1 of ${voicePrompts.length} lines saved`),
+  ).toBeVisible();
   await page.reload();
   await expect(page.getByRole("button", { name: "Grown-ups" })).toBeEnabled();
   await activate(page.getByRole("button", { name: "Say hello to Tiggy" }));
@@ -171,13 +172,17 @@ test("parent records or imports, previews, persists, exports and restores a voic
   await activate(
     page.getByRole("button", { name: "Delete all voice recordings" }),
   );
-  await expect(page.getByText("0 of 18 lines saved")).toBeVisible();
+  await expect(
+    page.getByText(`0 of ${voicePrompts.length} lines saved`),
+  ).toBeVisible();
   await page.getByLabel("Restore an exported voice pack").setInputFiles({
     name: "voice-pack.json",
     mimeType: "application/json",
     buffer: pack,
   });
-  await expect(page.getByText("1 of 18 lines saved")).toBeVisible();
+  await expect(
+    page.getByText(`1 of ${voicePrompts.length} lines saved`),
+  ).toBeVisible();
 });
 test("closing the parent recorder releases the microphone", async ({
   page,
