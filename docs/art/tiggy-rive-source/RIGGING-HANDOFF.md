@@ -1,3 +1,5 @@
+> Historical Rive handoff, superseded by the working direct vector animation implementation. The application no longer needs a `.riv` export: see `src/game/TiggyAnimator.ts`, the README and `docs/DELIVERY-CHECKLIST.md`. The original layer audit below remains useful source documentation.
+
 # Tiggy: original artwork and Rive handoff
 
 Status, 22 November 2026: source inspected and grouped; application adapters prepared. **No skeletal rig, constraints, facial controls, animated export or editor state machine has been authored or verified.** The linked editor stayed on “LOADING RIVE” in this environment and no connected Rive authoring tool is available. This repository contains no invented `.riv` file.
@@ -21,25 +23,25 @@ The neutral file has viewBox `1470 210 1160 2560` and ten top-level groups. `lay
 
 Coordinates below are in the original SVG viewBox units, not CSS pixels. They are starting estimates from path bounds; position them visually in the editor before weighting.
 
-| Bone/control | Parent | Suggested joint position (x, y) |
-|---|---|---|
-| root | artboard | 2080, 2640 |
-| pelvis | root | 2080, 2090 |
-| spine/chest | pelvis | 2080, 1700 |
-| neck | chest | 2080, 1380 |
-| head | neck | 2080, 1320 |
-| left upper arm | chest | 1790, 1410 |
-| left forearm | left upper arm | 1760, 1720 |
-| left hand | left forearm | 1750, 2010 |
-| right upper arm | chest | 2320, 1410 |
-| right forearm | right upper arm | 2390, 1700 |
-| right hand | right forearm | 2430, 1980 |
-| left thigh | pelvis | 1960, 2130 |
-| left shin | left thigh | 1950, 2280 |
-| left foot | left shin | 1950, 2500 |
-| right thigh | pelvis | 2200, 2130 |
-| right shin | right thigh | 2220, 2280 |
-| right foot | right shin | 2230, 2500 |
+| Bone/control    | Parent          | Suggested joint position (x, y) |
+| --------------- | --------------- | ------------------------------- |
+| root            | artboard        | 2080, 2640                      |
+| pelvis          | root            | 2080, 2090                      |
+| spine/chest     | pelvis          | 2080, 1700                      |
+| neck            | chest           | 2080, 1380                      |
+| head            | neck            | 2080, 1320                      |
+| left upper arm  | chest           | 1790, 1410                      |
+| left forearm    | left upper arm  | 1760, 1720                      |
+| left hand       | left forearm    | 1750, 2010                      |
+| right upper arm | chest           | 2320, 1410                      |
+| right forearm   | right upper arm | 2390, 1700                      |
+| right hand      | right forearm   | 2430, 1980                      |
+| left thigh      | pelvis          | 1960, 2130                      |
+| left shin       | left thigh      | 1950, 2280                      |
+| left foot       | left shin       | 1950, 2500                      |
+| right thigh     | pelvis          | 2200, 2130                      |
+| right shin      | right thigh     | 2220, 2280                      |
+| right foot      | right shin      | 2230, 2500                      |
 
 Use two-bone IK targets for hands and feet only where useful, with a consistent bend direction. Test elbows/knees from the neutral pose to avoid flipped solvers. Apply conservative shoulder/hip and elbow/knee rotation limits in local bone coordinates after establishing rest directions; do not blindly copy world-angle limits. Keep feet planted during weight-bearing phases. Keep the head/face together and preserve ear/head stacking. Separate sleeves before weighting their shoulder regions. Split shorts at the leg openings or use controlled deformation; do not stretch a shared silhouette across independently moving legs.
 

@@ -8,11 +8,11 @@ Open **Grown-ups → Voice preview & approval**. Choose Tiggy or Benny Bear, nam
 
 Select any phrase and press **Play candidate** or **Repeat audio**. Playback uses original pitch and 1× speed. Missing clips display the speech bubble and cannot be played. A partial pack can be explicitly approved after listening. The studio reports missing lines; they remain visual instead of borrowing another speaker. Importing alone never activates anything. Explicit approval applies only to this browser/device. It does not commit or publish audio for other children. An approved candidate is read-only. Restore the previous voice before deleting it. The existing parent recorder/export format remains supported independently.
 
-The full Tiggy script library contains 71 lines, including all 29 requested encouragement, communication, learning, self-feeding and potty phrases. Benny’s full script library contains his four breakfast instructions and six encouragement/retry lines (10 files). Benny never borrows Tiggy's voice or the parent's recordings. Other characters can be added as separate character keys when they have playable activities and their own approved performances.
+The full Tiggy script library contains 81 lines, including all 29 requested encouragement, communication, learning, self-feeding and potty phrases. Benny’s full script library contains nine feeding/routine instructions and six encouragement/retry lines (15 files). Benny never borrows Tiggy's voice or the parent's recordings. Other characters can be added as separate character keys when they have playable activities and their own approved performances.
 
 ## Exact missing recordings
 
-**56 Tiggy recordings and 10 Benny recordings are missing.** [MISSING-ASSETS.csv](MISSING-ASSETS.csv) lists every filename and exact spoken phrase. These are missing performances, not completed audio assets. The same machine-readable script library is at `public/assets/audio/voice-library.json`.
+**66 Tiggy recordings and 15 Benny recordings are missing.** [MISSING-ASSETS.csv](MISSING-ASSETS.csv) lists every filename and exact spoken phrase. These are missing performances, not completed audio assets. The same machine-readable script library is at `public/assets/audio/voice-library.json`.
 
 No synthetic tone fixtures used in automated tests are shipped as dialogue. The 15 bundled Tiggy clips were explicitly approved by the user on 22 November 2026.
 
@@ -54,3 +54,5 @@ The user explicitly approved the uploaded cartoon voice after reviewing the prop
 Fresh devices use this approved voice. Tapping Tiggy plays “Let’s play!” when the full greeting is unavailable. Relevant dialogue and varied available praise use the same shared resolver. Missing lines remain visual. Benny does not borrow Tiggy’s recordings. Parent-approved local candidate packs take precedence; existing personal recording collections also remain available as their own speaker, without filling gaps from the bundled voice. Restoring the previous voice returns to those personal recordings, or the approved bundled default on a fresh device. The studio includes a direct approved-voice audition.
 
 Audio files, sizes and SHA-256 hashes are listed in `APPROVED-VOICE.json`. This approval covers the supplied performance, not generation of the remaining lines.
+
+The expanded feeding and eight-step potty routine add ten scripted lines. Current library: 81 Tiggy scripts (15 approved clips bundled, 66 missing) and 15 distinct Benny recordings missing. During the feeding pause, Tiggy’s approved “Your turn!” is used; the longer “Now your turn! You can try, pretend…” performance is still missing and shown visually. There is no runtime synthesis call or adult-system fallback. Original instrumental music and procedural effects use the separate Web Audio mixer and are not voice performances.

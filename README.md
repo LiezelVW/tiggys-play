@@ -28,16 +28,16 @@ Playwright starts the **production** build on port 3100. Build first. The browse
 - **Monster Truck Mayhem:** find each requested colour, tap a truck or use the colour controls, then tap the big wheel (or the arena) to drive over the ramp. Both wheels follow the same visible ramp outline used by the renderer. Chassis tilt comes from tyre contact, wheel rotation follows travel, and rapid taps queue movement. An optional jump button is also available. Three colours, gentle retries, celebrations, replay and home controls. No lost points or timers during the activity.
 - **Colour Garden:** nine flower matches across three rounds, using drag-and-drop or tap a flower then its basket. Keyboard matching buttons are also available. Gentle retries, speech, celebrations and replay are preserved.
 
-- **Little Builders:** choose a circle, square and triangle to construct a tower.
-- **Tiggy’s Railway:** sequence an engine and two carriages.
-- **Science Lab:** combine two paints to discover orange, green and purple.
-- **Ready, Set, Go!:** identify stop, wait and go traffic lights.
-- **Build & Solve:** finish three alternating shape patterns.
-- **Ferris Wheel:** choose the requested coloured cabins, rotate the wheel and count three rides.
-- **Benny Bear’s Breakfast:** practise washing, finding a spoon, choosing porridge and drinking water with Benny’s frame reactions.
-- **Potty Time:** practise recognising the potty, clean pants, soap and towel. No pressure or time challenge; an All done control allows leaving at any point.
+- **Little Builders:** Drag shape blocks into matching slots to build a tower; repeated visits reduce visual scaffolding.
+- **Tiggy’s Railway:** Drag an engine and two carriages to coupling slots; the finished train departs with rotating wheels and a whistle.
+- **Science Lab:** Drag two paints into a vessel and discover three mixtures with animated bubbles.
+- **Ready, Set, Go!:** Drag traffic-light colours into the correct lamps, then watch the truck drive on green.
+- **Build & Solve:** Complete increasingly long shape patterns by dragging the missing block.
+- **Ferris Wheel:** Drag passengers to correctly coloured upright cabins. The wheel rotates and Tiggy claps with “Well done!”.
+- **Benny Bear’s Breakfast:** Scoop and feed a spoon, pause for a voluntary turn, wipe with a cloth and offer water. More/Help/All done are available; eating is never required.
+- **Potty Time:** Eight gentle pretend-play steps: recognise, ask, go to the bathroom, manage clothing, sit clothed, flush, wash and dry. Exit at any time.
 
-Each new adventure has three or four steps, illustrated choices, gentle retries, completion, replay, home navigation and persisted local progress. These are focused replayable activities, not a claim that every world contains multiple finished minigames.
+Each adventure has illustrated drag/tap interactions, gentle retries, completion, replay, home navigation and persisted local progress. Feeding has six stages and Potty Time has eight; most other activities have three. These are focused replayable activities, not a claim that every world contains multiple finished minigames.
 
 Phones use a taller logical playfield with larger flower and basket targets. Both landscape and portrait controls use Phaser’s own scaled coordinates.
 
@@ -47,7 +47,7 @@ The map is a real responsive, pannable scene with visible signpost controls and 
 
 Approved cartoon references were supplied in `tiggys-play-character-assets.zip`. Only the two cartoon references were retained in `docs/art`. **Thiago’s photograph was extracted outside the checkout and has never been copied into the repository or public assets.** `.gitignore` and the asset check also reject private-photo filenames.
 
-The latest user-authored Illustrator artwork supersedes the earlier generated frame atlas. The unchanged neutral SVG is now used in both the home screen and Phaser. It is static until an authored and reviewed Rive export is supplied. The adapter defines all eight requested action triggers but no finished skeletal animation is claimed. See the Rive section below for the layer audit, remaining sleeve/facial separation and export review.
+The user-authored Illustrator artwork supersedes the generated frame atlas. A working original-path vector puppet now runs in the home screen and Phaser games. See the direct-animation section below for its joint, expression and gameplay controls.
 
 The world, arena, garden and truck art are original generated illustrations; truck wheels are articulated vector graphics over a raster chassis. Paint variants preserve the windscreen and outline. Art provenance, frame layout and remaining work are in [the asset manifest](public/assets/manifest.json). The rejected geometric character files and obsolete marketing/home CSS were removed. The missing `/assets/tiggy/adventure-world.png` dependency was eliminated in favour of a tracked WebP world image.
 
@@ -86,13 +86,13 @@ The recorder uses MediaRecorder with a supported browser-native audio format. Au
 
 ## Logo
 
-The header now uses an outlined SVG wordmark and matching T/play monogram. There are no external font requests or italic/serif mismatch. Source lettering is Outfit under its bundled SIL OFL licence (`docs/art/brand-font`). To rebuild the SVGs, install Python `fonttools` in a development virtual environment and run `python scripts/build-logo.py`.
+The header and loading screen use the supplied outlined Tiggy’s Kids logo. The icon is a crop of the same character head. `python3 scripts/build-logo.py` preserves this supplied artwork; it does not recreate lettering or require fonts.
 
 ## Character voice studio and missing audio
 
 Open **Grown-ups → Voice preview & approval**. Import MP3/WAV clips by phrase filename, or audition candidate packs. Import and preview do not change the selected gameplay voice. Only explicit approval activates the available clips on this device. Partial packs are supported; missing dialogue stays visual and does not borrow an older speaker. Tiggy and Benny are separate speakers; no missing line borrows another character’s voice. Previous local recordings are preserved. Volume and mute are available in Grown-ups.
 
-All 29 requested speech-development phrases are scripted, alongside game dialogue. **56 Tiggy performances and 10 Benny performances are still missing.** The user-approved cartoon recording supplies 15 bundled Tiggy phrases at original pitch and speed. Every game works with visual speech bubbles and optional sound effects while voice assets are missing. [Exact asset checklist](docs/audio/MISSING-ASSETS.csv) · [Voice workflow and provider investigation](docs/audio/VOICE-SYSTEM.md).
+All 29 requested speech-development phrases are scripted, alongside game dialogue. **66 Tiggy performances and 15 Benny performances are still missing.** The user-approved cartoon recording supplies 15 bundled Tiggy phrases at original pitch and speed. Every game works with visual speech bubbles and optional sound effects while voice assets are missing. [Exact asset checklist](docs/audio/MISSING-ASSETS.csv) · [Voice workflow and provider investigation](docs/audio/VOICE-SYSTEM.md).
 
 ## Flat 2D direction
 
@@ -102,10 +102,22 @@ The active map, garden, arena, character frames and object atlas use a cleaner, 
 
 The requested ElevenLabs provider has a local, credential-private workflow for text-only fictional voice auditions, selecting a returned candidate and rendering prerecorded dialogue. It does not upload family recordings/photos, expose a browser key, substitute a stock adult narrator or activate a voice automatically. Configure access privately and confirm permitted project use first. See [ElevenLabs setup and commands](docs/audio/ELEVENLABS.md). Run `npm run test:voice-provider` for the mocked API contract checks; no live provider generation has been verified yet.
 
-## Original Illustrator artwork and Rive integration
+## Original vector character animation
 
-The character now uses the user-supplied `tiggy_neutral_layered.svg`, unchanged. The generated Tiggy frame atlas is no longer loaded. This is a **static original illustration until an actual authored Rive export is supplied**. A fully rigged character has not been delivered or verified.
+Tiggy is animated directly from the supplied SVG paths. **No `.riv` file or character-testing screen is required.** `TiggyAnimator` shares one original-path renderer between React and Phaser; it supports Idle/breathing/blinking, Wave, Walk, Talk, Clap, Celebrate, Thinking, Help, Happy and a seated potty pose. Head, arm, elbow, wrist, hip, knee and ankle transforms are independent; clapping uses two-link arm targeting. Sleeve masks divide the original shirt geometry without drawing replacement clothing. Thinking/laughing mouth and closed-eye shapes come from the supplied expression SVGs.
 
-The source archive, 29 non-destructively named subgroups, per-path audit, proposed bone/pivot hierarchy, facial requirements and eight-animation/state-machine contract are in [the Rive handoff](docs/art/tiggy-rive-source/RIGGING-HANDOFF.md). `npm run prepare:rig` recreates the grouping and checks path/order preservation.
+`npm run prepare:character` exports the original paths to `src/game/tiggyLayers.json`. Original source files and the earlier layer audit remain in `docs/art/tiggy-rive-source`. Rive-specific integration and its dependency were removed. `/character-lab` redirects to the game world. The unchanged source SVG remains as art provenance, not a static stand-in.
 
-Open **Grown-ups → Character rig review** to test a local `.riv` export on this device. The review checks the `Tiggy` artboard, `TiggyController` and eight named triggers; it does not certify bone/constraint quality or activate the file. No file is uploaded. Both React and Phaser adapters are prepared, with audio/game event triggers, reduced-motion static artwork, lifecycle cleanup, loading failure fallback and self-hosted pinned WASM. Enable gameplay only after following the export acceptance steps in the handoff.
+Tap Tiggy to wave, or drag him to walk. Game instructions, retries, correct matches, Ferris passengers and completed activities trigger the corresponding actions. Keyboard access on the character: arrows walk, W wave, T talk, C clap, J celebrate, Q think, H help, L happy, Escape idle. These operate the actual gameplay character, not a separate animation-demo interface. Reduced motion keeps him still.
+
+## Loading, supplied logo and music
+
+The supplied **Tiggy’s Kids** outlined SVG is the current wordmark. Its shapes/colours are retained, with nonvisual Adobe metadata omitted in the deployed file; the app icon crops the same character head. Run `python3 scripts/build-logo.py` to redeploy it from `docs/art/brand/TIGGYS-KIDS-LOGO-source.svg` without font substitution or redesign.
+
+The first-visit loading screen has this logo, a live animated Tiggy, real image-loading progress, retry handling and sound controls. **Let’s play** is the user gesture that starts original instrumental music and preloads seven adventure assets. The welcome appears once per browser tab/session. The app remains at `/`; there is no character-testing screen in the child journey.
+
+`src/game/soundscape.ts` contains original instrumental motifs for the world and all ten activities, plus procedural clap, success, whistle, connection, spoon, water and wipe effects. No commercial tracks, provider keys or external audio service are needed at runtime. Voice, music and effects have separate persisted volumes; dialogue ducks music to 25% of its selected level. Parent gates, session breaks and background tabs suspend the music. Master mute covers all channels.
+
+## Current gameplay and delivery checklist
+
+[Completed versus unfinished features](docs/DELIVERY-CHECKLIST.md) · [Test evidence](docs/VERIFICATION.md) · [Exact missing dialogue files](docs/audio/MISSING-ASSETS.csv).
