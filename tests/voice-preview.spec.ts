@@ -222,3 +222,90 @@ test("invalid dialogue filenames cannot create candidates", async ({
     page.getByLabel("Candidate to audition", { exact: true }).locator("option"),
   ).toHaveCount(1);
 });
+
+test("a partial voice is activated only by approval; missing lines stay visual", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await studio(page);
+  await page
+    .getByLabel("Candidate name", { exact: true })
+    .fill("Partial test tone, not speech");
+  await page
+    .getByLabel("Add MP3 or WAV dialogue", { exact: true })
+    .setInputFiles({
+      name: "well-done.wav",
+      mimeType: "audio/wav",
+      buffer: tone(),
+    });
+  await expect(page.getByRole("status")).toContainText("audition only");
+  await expect(
+    page.getByText("70 required lines missing.", { exact: false }),
+  ).toBeVisible();
+  expect(
+    await page.evaluate(() =>
+      localStorage.getItem("tiggy-approved-voice-tiggy"),
+    ),
+  ).toBeNull();
+  await activate(page.getByRole("checkbox"));
+  expect(
+    await page.evaluate(() =>
+      localStorage.getItem("tiggy-approved-voice-tiggy"),
+    ),
+  ).toBeNull();
+  await activate(
+    page.getByRole("button", { name: "Approve this voice for games" }),
+  );
+  await expect(page.getByRole("status")).toContainText(
+    "Approved on this device",
+  );
+  // A legacy recording must not fill a missing line in the newly approved speaker's pack.
+  await page.evaluate(
+    async (bytes) => {
+      await new Promise<void>((resolve, reject) => {
+        const req = indexedDB.open("tiggy-parent-voice", 1);
+        req.onupgradeneeded = () =>
+          req.result.createObjectStore("clips", { keyPath: "id" });
+        req.onerror = () => reject(req.error);
+        req.onsuccess = () => {
+          const db = req.result,
+            tx = db.transaction("clips", "readwrite");
+          tx.objectStore("clips").put({
+            id: "intro",
+            bytes: new Uint8Array(bytes).buffer,
+            type: "audio/wav",
+          });
+          tx.oncomplete = () => {
+            db.close();
+            resolve();
+          };
+          tx.onerror = () => {
+            db.close();
+            reject(tx.error);
+          };
+        };
+      });
+    },
+    [...tone()],
+  );
+  await page.reload();
+  await activate(
+    page.getByRole("button", { name: "Play Colour Garden", exact: true }),
+  );
+  await expect(page.locator('.game-canvas[data-ready="true"]')).toBeVisible();
+  await expect(
+    page.getByRole("button", {
+      name: "Spoken instructions awaiting voice approval",
+    }),
+  ).toBeDisabled();
+  await activate(page.getByText("Use keyboard or simple matching controls"));
+  await activate(page.getByRole("button", { name: "Match red", exact: true }));
+  await expect(page.locator(".instruction")).toContainText("Well done!");
+  await expect(
+    page.getByRole("button", { name: "Replay instruction", exact: true }),
+  ).toBeEnabled();
+  await expect(page.getByText("1 / 9 flowers", { exact: true })).toBeVisible();
+  await activate(page.getByRole("button", { name: "Match blue", exact: true }));
+  await expect(page.getByText("2 / 9 flowers", { exact: true })).toBeVisible();
+  await expect(page.locator(".instruction")).toContainText("Well done!");
+});

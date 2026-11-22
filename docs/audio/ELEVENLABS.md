@@ -44,7 +44,7 @@ node scripts/elevenlabs-voice.mjs render --voice SAVED_VOICE_ID --character tigg
 
 For Benny, choose `--character benny` with his own voice ID. The command renders the canonical 71 Tiggy or 10 Benny lines sequentially and saves MP3 files plus `candidate-pack.json`. The original speed is 1; there is no pitch manipulation, denoising, stretching or fallback speaker. The generation manifest binds files to the voice, model and exact script version, preventing accidental mixing when resuming a partially completed folder. Existing successful files are reused. On any error, generation stops without retry; `stopped.json` identifies the line. Check provider history before manually rerunning an uncertain request, because it may have consumed credits.
 
-Import the completed pack in **Grown-ups → Voice preview & approval**, listen again and explicitly approve it for this device. The generated pack is never automatically committed, published or selected. Existing recordings and the currently selected voice stay intact until the parent chooses a replacement. Games remain playable through speech bubbles and optional sound effects throughout.
+Import the generated pack in **Grown-ups → Voice preview & approval**, listen again and explicitly approve it for this device. The generated pack is never automatically committed, published or selected. Existing recordings and the currently selected voice stay intact until the parent chooses a replacement. Games remain playable through speech bubbles and optional sound effects throughout.
 
 ## Tests and limits
 
@@ -55,3 +55,5 @@ Primary API references: [Voice Design](https://elevenlabs.io/docs/api-reference/
 ## Information to give ElevenLabs when checking permitted use
 
 Describe a parent-operated private, non-commercial family app for ages 2–6, using fixed prerecorded educational phrases rather than a live child-facing chatbot. Request permission for an original fictional young cartoon voice, with no real child recordings, likeness conditioning or cloning. Ask which account/model terms and attribution requirements apply to that private use. This repository does not send that request on your behalf.
+
+Partial prerecorded packs can also be auditioned and explicitly approved before the full library is ready. Missing phrases remain visual. This does not require a live speech API or a browser API key.

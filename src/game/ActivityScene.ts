@@ -1,3 +1,4 @@
+import { celebrationLine } from "./voiceCandidates";
 import * as Phaser from "phaser";
 import { activities, type ActivityId, type Choice } from "./activities";
 import { encouragementIds, promptText } from "./voicePrompts";
@@ -322,7 +323,11 @@ export class ActivityScene extends Phaser.Scene {
           ease: "Sine.easeInOut",
         });
     }
-    const celebrate = encouragementIds[this.step % encouragementIds.length];
+    const celebrate = celebrationLine(
+      this.step,
+      encouragementIds[this.step % encouragementIds.length],
+      activities[this.id].character,
+    );
     this.say(promptText(celebrate), celebrate);
     if (this.id === "ferris") {
       this.rides?.setText(

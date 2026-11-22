@@ -8,7 +8,6 @@ import {
   approveCandidate,
   candidateRevision,
   candidateUrl,
-  completeCandidate,
   deleteCandidate,
   importCandidate,
   importDialogueFiles,
@@ -54,6 +53,10 @@ export default function VoicePreview({ muted }: { muted: boolean }) {
     try {
       const id = await task();
       setSelected(id);
+      if (!candidateUrl(id, line)) {
+        const first = allCandidates().find((c) => c.id === id)?.clips[0];
+        if (first) setLine(first.id);
+      }
       setConfirmed(false);
       setMessage(
         "Imported for audition only. Your gameplay voice has not changed.",
@@ -84,8 +87,8 @@ export default function VoicePreview({ muted }: { muted: boolean }) {
       <h3 id="preview-title">Tiggy’s voice studio</h3>
       <p>
         Audition first. Importing or listening never replaces your current
-        voice. Approve a complete, consistent character pack only when you are
-        happy with it.
+        voice. Approve the available clips only when you are happy with the
+        voice. Missing dialogue stays visual.
       </p>
       <p className="voice-note">
         No childlike generated candidate is bundled yet. Add original
@@ -250,30 +253,34 @@ export default function VoicePreview({ muted }: { muted: boolean }) {
             {requiredVoiceIds(candidate.character).length} required lines ·{" "}
             {candidate.provider}
           </p>
+          <p className="voice-note">
+            {
+              requiredVoiceIds(candidate.character).filter(
+                (id) => !candidate.clips.some((c) => c.id === id),
+              ).length
+            }{" "}
+            required lines missing. Those lines stay as speech bubbles; another
+            speaker’s recordings will not be substituted.
+          </p>
           <button
             type="button"
             role="checkbox"
             aria-checked={confirmed}
             className="voice-approval"
-            disabled={!completeCandidate(candidate) || busy}
+            disabled={busy}
             onClick={() => setConfirmed((v) => !v)}
           >
             <span className="approval-mark" aria-hidden="true">
               {confirmed && <Check size={20} />}
             </span>
             <span>
-              I have listened, approve this original character voice, and
-              confirm every clip uses the same speaker.
+              I have listened and approve these available clips in one
+              consistent character voice. Missing lines will use visual prompts.
             </span>
           </button>
           <button
             className="primary"
-            disabled={
-              !confirmed ||
-              !completeCandidate(candidate) ||
-              busy ||
-              approved === selected
-            }
+            disabled={!confirmed || busy || approved === selected}
             onClick={() => {
               try {
                 stopAudio();

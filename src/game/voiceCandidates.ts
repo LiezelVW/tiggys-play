@@ -1,4 +1,4 @@
-import { voicePrompts, requiredVoiceIds } from "./voicePrompts";
+import { voicePrompts } from "./voicePrompts";
 import { voiceUrl } from "./recordings";
 export type Character = "tiggy" | "benny";
 type CandidateClip = { id: string; bytes: ArrayBuffer; type: string };
@@ -16,6 +16,7 @@ const active: Partial<Record<Character, string>> = {};
 const listeners = new Set<() => void>();
 let revision = 0;
 let loading: Promise<void> | undefined;
+let hydrated = false;
 export const subscribeCandidates = (fn: () => void) => {
   listeners.add(fn);
   return () => {
@@ -37,6 +38,7 @@ export function candidateUrl(id: string, clip: string) {
   return urls.get(id)?.get(clip);
 }
 export function resolvedVoiceUrl(clip: string, character: Character = "tiggy") {
+  if (!hydrated) return undefined;
   const selected = active[character];
   // An approved character never borrows missing lines from another speaker.
   return selected
@@ -69,6 +71,13 @@ function cache(c: Candidate) {
 }
 export function initialiseCandidates() {
   loading ??= (async () => {
+    // Lock to the persisted speaker before asynchronous loading; never briefly play another voice.
+    for (const character of ["tiggy", "benny"] as const) {
+      try {
+        const id = localStorage.getItem(`tiggy-approved-voice-${character}`);
+        if (id) active[character] = id;
+      } catch {}
+    }
     const db = await database();
     try {
       const items = await new Promise<Candidate[]>((resolve, reject) => {
@@ -85,7 +94,7 @@ export function initialiseCandidates() {
         if (
           id &&
           candidates.get(id)?.character === character &&
-          completeCandidate(candidates.get(id)!)
+          candidates.get(id)!.clips.length > 0
         )
           active[character] = id;
       }
@@ -93,16 +102,17 @@ export function initialiseCandidates() {
     } finally {
       db.close();
     }
-  })().catch(() => {
-    /* Import reports unavailable storage; gameplay remains independent. */
-  });
+  })()
+    .catch(() => {
+      /* Import reports unavailable storage; gameplay remains independent. */
+    })
+    .finally(() => {
+      hydrated = true;
+      notify();
+    });
   return loading;
 }
-export function completeCandidate(c: Candidate) {
-  return requiredVoiceIds(c.character).every((id) =>
-    c.clips.some((clip) => clip.id === id),
-  );
-}
+
 /** Candidate files contain local audio only; no expiring URLs, keys or network requests. */
 export async function importCandidate(file: File) {
   await initialiseCandidates();
@@ -173,10 +183,8 @@ export async function importCandidate(file: File) {
 }
 export function approveCandidate(id: string) {
   const c = candidates.get(id);
-  if (!c || !completeCandidate(c))
-    throw Error(
-      "Record every library line in this same voice before approving it.",
-    );
+  if (!c || !c.clips.length)
+    throw Error("Import at least one dialogue recording before approving it.");
   localStorage.setItem(`tiggy-approved-voice-${c.character}`, id);
   active[c.character] = id;
   notify();
@@ -276,8 +284,12 @@ export async function importDialogueFiles(
   return c.id;
 }
 /** Preserve a parent's older partial recordings; vary dialogue once the new lines exist. */
-export function celebrationLine(index: number, fallback: string) {
+export function celebrationLine(
+  index: number,
+  fallback: string,
+  character: Character = "tiggy",
+) {
   const ids = ["well-done", "you-did-it", "yay", "good-job", "amazing"];
-  const id = ids[index % ids.length];
-  return resolvedVoiceUrl(id) ? id : fallback;
+  const available = ids.filter((id) => !!resolvedVoiceUrl(id, character));
+  return available.length ? available[index % available.length] : fallback;
 }
